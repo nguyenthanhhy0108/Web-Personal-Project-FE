@@ -1,3 +1,6 @@
+import Footer from "@/components/Footer";
+import NavBar from "@/components/NavBar";
+import { ThemeProvider } from "@/contexts/ThemeContext";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -25,11 +28,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
+      <ThemeProvider>
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white dark:bg-gray-900 text-white dark:text-black`}
+        >
+          <div className="flex flex-col justify-between gap-24">
+            <NavBar />
+            {children}
+            <Footer/>
+          </div>
+        </body>
+      </ThemeProvider>
     </html>
   );
 }
