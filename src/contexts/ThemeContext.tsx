@@ -4,33 +4,41 @@ import React, { createContext, useEffect, useState } from "react";
 
 interface ThemeValues {
   themeMode: string,
-  toggleThemeButton: () => void;
+  toggleThemeButton: () => void,
+  isChangeTheme: boolean,
 }
 
 export const ThemeContext = createContext<ThemeValues | undefined>(undefined);
 
 export const ThemeProvider = ({children} : {children:React.ReactNode}) => {
 
-  const currentTheme = localStorage.getItem("theme");
-
-  const [themeMode, setThemeMode] = useState<string>(currentTheme === null ? "light" : currentTheme);
+  const [themeMode, setThemeMode] = useState<string>("light");
+  const [isChangeTheme, setIsChangeTheme] = useState<boolean>(false);
+  const [isMounted, setIsMounted] = useState(false);
 
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
+    const currentTheme = localStorage.getItem("theme");
+
     if(currentTheme === null) {
-      setThemeMode("light");
+      setIsChangeTheme(true)
     } else {
+      setIsChangeTheme(true)
       setThemeMode(currentTheme)
     }
+
+    setIsMounted(true);
   }, []);
 
   useEffect(() => {
-    if (themeMode === "dark") {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
+    if (isMounted) {
+      if (themeMode === "dark") {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+      localStorage.setItem('theme', themeMode);
     }
-    localStorage.setItem('theme', themeMode);
   }, [themeMode]);
 
   const toggleThemeButton = () => {
@@ -40,6 +48,7 @@ export const ThemeProvider = ({children} : {children:React.ReactNode}) => {
   const themeValues = {
     themeMode,
     toggleThemeButton,
+    isChangeTheme
   }
 
   return (

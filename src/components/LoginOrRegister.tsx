@@ -7,7 +7,7 @@ import RegisterForm from "./RegisterForm";
 export default function LoginOrRegister() {
   const [desire, setDesire] = useState("login");
 
-  console.log(desire)
+  // console.log(desire)
 
   return (
     <div>

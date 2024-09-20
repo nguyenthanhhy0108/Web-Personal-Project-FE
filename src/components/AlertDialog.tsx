@@ -6,11 +6,19 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import * as React from 'react';
 
-export default function AlertDialog() {
+export default function AlertDialog({setIsAgree} : {setIsAgree: (status : boolean) => void}) {
+
+  const [isOpen, setIsOpen] = React.useState(true)
+
+  const clickAgreement = () => {
+    setIsOpen(false);
+    setIsAgree(true);
+  }
+
   return (
     <React.Fragment>
       <Dialog
-        open={true}
+        open={isOpen}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -24,8 +32,12 @@ export default function AlertDialog() {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button >Disagree</Button>
-          <Button autoFocus>
+          <Button 
+            onClick={() => { setIsOpen(false); setIsAgree(false) }}
+          >Disagree</Button>
+          <Button 
+            autoFocus
+            onClick={clickAgreement}>
             Agree
           </Button>
         </DialogActions>

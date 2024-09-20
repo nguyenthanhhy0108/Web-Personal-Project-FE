@@ -10,9 +10,12 @@ interface LoginFormProps {
   setDesire: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export default function LoginForm({ desire, setDesire } : LoginFormProps) {
+interface CookieDefinitionValues {
+  name: string,
+  value: string,
+}
 
-  console.log(desire)
+export default function LoginForm({ desire, setDesire } : LoginFormProps) {
 
   const router = useRouter();
   const [username, setUsername] = useState("");
@@ -23,6 +26,19 @@ export default function LoginForm({ desire, setDesire } : LoginFormProps) {
   const [submit, setSubmit] = useState(false);
   const [submitStatus, setSubmitStatus] = useState("");
   const [signUp, setSignUp] = useState(true);
+
+  const setCookie = ({name, value} : CookieDefinitionValues) => {
+    const days = 30;
+    let expires = "";
+    
+    if (days) {
+      const date = new Date();
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      expires = "; expires=" + date.toUTCString();
+    }
+  
+    document.cookie = `${name}=${value || ""}${expires}; path=/`;
+  };
 
   const changeUsername = (event:ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
@@ -58,34 +74,30 @@ export default function LoginForm({ desire, setDesire } : LoginFormProps) {
         },
         body: JSON.stringify(requestBody),
       });
-
-      if (!response.ok) {
-        // Handle HTTP errors
-        throw new Error('Network response was not ok');
-      }
-
-      console.log(message)
-
+  
       const data = await response.json();
-
-      if (data.code === 9000) {
-        setIsError(true);
-      }
-
-      setMessage(data.message);
-
+  
       if (data.code === 1000) {
+        if(remember == true) {
+          setCookie({
+            name: "token",
+            value: data.data});
+        }
         router.push('/');
       }
-    } catch (error) {
-      console.error('Fetch error:', error);
+  
+      if (data.code === 9000) {
+        setIsError(true);
+        setMessage(data.message)
+      }
+    } catch(error) {
       setIsError(true);
       setMessage('An unexpected error occurred! Please waiting a little bit');
-    } finally {
-      setUsername('');
-      setPassword('');
-      setSubmitStatus("");
     }
+
+    setUsername('');
+    setPassword('');
+    setSubmitStatus("");
   };
 
   if (submitStatus === 'waiting') {
@@ -148,12 +160,12 @@ export default function LoginForm({ desire, setDesire } : LoginFormProps) {
             </svg>
             <span className="ml-3 font-medium text-lg ">Sign in with Google</span>
           </button>
-          <button className="flex justify-center items-center dark:border-white bg-neutral-900 text-white py-3 border-neutral-900 border-2 active:scale-95 active:duration-75 transition-all rounded-xl hover:scale-[1.01] ease-in-out">
+          {/* <button className="flex justify-center items-center dark:border-white bg-neutral-900 text-white py-3 border-neutral-900 border-2 active:scale-95 active:duration-75 transition-all rounded-xl hover:scale-[1.01] ease-in-out">
             <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.798 8.205 11.387.6.113.82-.263.82-.583 0-.288-.012-1.243-.017-2.252-3.338.726-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.73.083-.73 1.205.086 1.84 1.237 1.84 1.237 1.07 1.834 2.805 1.304 3.49.997.108-.775.418-1.305.76-1.605-2.665-.303-5.466-1.335-5.466-5.933 0-1.31.467-2.38 1.235-3.22-.123-.304-.535-1.523.117-3.176 0 0 1.007-.323 3.3 1.23a11.5 11.5 0 0 1 3.003-.404 11.5 11.5 0 0 1 3.003.404c2.292-1.553 3.297-1.23 3.297-1.23.654 1.653.242 2.872.12 3.176.77.84 1.235 1.91 1.235 3.22 0 4.61-2.803 5.625-5.475 5.922.43.37.814 1.102.814 2.222 0 1.606-.015 2.9-.015 3.293 0 .324.218.7.824.58C20.565 21.795 24 17.297 24 12 24 5.37 18.63 0 12 0z"/>
             </svg>
             <span className="ml-3 font-medium text-lg">Sign in with GitHub</span>
-          </button>
+          </button> */}
           <div className="flex items-center">
             <div className="flex-grow border-t border-gray-500"></div>
             <span className="mx-4 text-gray-500">or</span>
