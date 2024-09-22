@@ -1,5 +1,7 @@
 "use client"
 
+import { setCookie } from '@/utils/Cookie';
+import { Checkbox } from '@mui/material';
 import Alert from '@mui/material/Alert';
 import { useRouter } from 'next/navigation';
 import React, { ChangeEvent, useState } from "react";
@@ -8,11 +10,6 @@ import Loading from './Loading';
 interface LoginFormProps {
   desire: string;
   setDesire: React.Dispatch<React.SetStateAction<string>>;
-}
-
-interface CookieDefinitionValues {
-  name: string,
-  value: string,
 }
 
 export default function LoginForm({ desire, setDesire } : LoginFormProps) {
@@ -27,18 +24,7 @@ export default function LoginForm({ desire, setDesire } : LoginFormProps) {
   const [submitStatus, setSubmitStatus] = useState("");
   const [signUp, setSignUp] = useState(true);
 
-  const setCookie = ({name, value} : CookieDefinitionValues) => {
-    const days = 30;
-    let expires = "";
-    
-    if (days) {
-      const date = new Date();
-      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-      expires = "; expires=" + date.toUTCString();
-    }
   
-    document.cookie = `${name}=${value || ""}${expires}; path=/`;
-  };
 
   const changeUsername = (event:ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
@@ -79,11 +65,12 @@ export default function LoginForm({ desire, setDesire } : LoginFormProps) {
   
       if (data.code === 1000) {
         if(remember == true) {
-          setCookie({
-            name: "token",
-            value: data.data});
+          setCookie<string>({
+            name: "access-token",
+            value: data.data,
+            time: 1});
         }
-        router.push('/');
+        router.push('/home');
       }
   
       if (data.code === 9000) {
@@ -137,12 +124,15 @@ export default function LoginForm({ desire, setDesire } : LoginFormProps) {
         </div>
         <div className="mt-6 flex justify-between items-center">
           <div>
-            <input 
-              type="checkbox"
+            <Checkbox
+              className='items-center dark:text-white'
               id="remember"
-              onClick={changeRemember}
+              checked={remember}
+              onChange={changeRemember}
             />
-            <label htmlFor="remember" className="ml-2 font-medium text-base hover:text-gray-700">Remember me</label>
+            <label htmlFor="remember" className="font-medium text-base items-center hover:text-gray-700">
+              Remember me
+            </label>
           </div>
           <button className="font-medium text-base text-violet-600 hover:text-violet-800">Forgot Password</button>
         </div>

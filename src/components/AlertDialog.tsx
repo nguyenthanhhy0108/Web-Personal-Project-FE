@@ -6,13 +6,19 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import * as React from 'react';
 
-export default function AlertDialog({setIsAgree} : {setIsAgree: (status : boolean) => void}) {
+interface AlertProps {
+  title: string,
+  content: string,
+  setIsAgree?: (status: boolean) => void;
+}
+
+export default function AlertDialog({ title, content, setIsAgree }: AlertProps) {
 
   const [isOpen, setIsOpen] = React.useState(true)
 
   const clickAgreement = () => {
     setIsOpen(false);
-    setIsAgree(true);
+    if(setIsAgree) setIsAgree(true);
   }
 
   return (
@@ -23,17 +29,19 @@ export default function AlertDialog({setIsAgree} : {setIsAgree: (status : boolea
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Use Google's location service?"}
+          {title}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Let Google help apps determine location. This means sending anonymous
-            location data to Google, even when no apps are running.
+            {content}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button 
-            onClick={() => { setIsOpen(false); setIsAgree(false) }}
+            onClick={() => { 
+              setIsOpen(false); 
+              if(setIsAgree) setIsAgree(false); 
+            }}
           >Disagree</Button>
           <Button 
             autoFocus

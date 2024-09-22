@@ -2,7 +2,7 @@ import LoginOrRegister from '@/components/LoginOrRegister'
 
 export default function page() {
   return (
-    <div className="flex w-full h-screen">
+    <div className="flex w-full h-screen mt-24 mb-24">
       <div className="w-full flex items-center justify-center lg:w-1/2 bg-white dark:bg-gray-900 text-black dark:text-white">
         <LoginOrRegister/>
       </div>

@@ -19,7 +19,7 @@ export default function NavBar() {
     setIsOpen(!isOpen);
   }
 
-  console.log(themeValues)
+  // console.log(themeValues)
 
   if (themeValues == null || themeValues.isChangeTheme == false) {
     return <Loading />;

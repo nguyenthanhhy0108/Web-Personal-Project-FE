@@ -1,5 +1,7 @@
 import Footer from "@/components/Footer";
 import NavBar from "@/components/NavBar";
+import Protector from "@/components/Protector";
+import ScrollToTopButton from "@/components/ScrollToTopButton";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
@@ -32,10 +34,12 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white dark:bg-gray-900 text-white dark:text-black`}
         >
-          <div className="flex flex-col justify-between gap-24">
+          <Protector/>
+          <div className="flex flex-col flex-grow">
             <NavBar />
             {children}
             <Footer/>
+            <ScrollToTopButton/>
           </div>
         </body>
       </ThemeProvider>

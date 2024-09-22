@@ -1,6 +1,6 @@
 "use client"
 
-import { Alert } from "@mui/material";
+import { Alert, Checkbox } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
 import AlertDialog from "./AlertDialog";
@@ -131,7 +131,12 @@ export default function RegisterForm({desire, setDesire}:RegisterProps) {
     <form
       onSubmit={handleSubmit}
       className={`${!signIn || desire === "login" ? "hidden" : ""} bg-gray-100 dark:bg-gray-950 px-11 py-11 rounded-3xl border-2 border-gray-200 dark:border-black`}>
-      {clickTermAndCondition && <AlertDialog setIsAgree={setIsAgree}/>}
+      {clickTermAndCondition && 
+      <AlertDialog 
+        setIsAgree={setIsAgree}
+        title="Our policy"
+        content={`If you click "Agree" that mean you confirm to provide your provided informations.`}  
+      />}
       <h1 className="text-5xl font-semibold">Hello friend</h1>
       <p className="font-medium text-lg text-gray-600 pt-3 italic">Welcome! Enter your details to create your account.</p>
       <div className="mt-9">
@@ -186,13 +191,14 @@ export default function RegisterForm({desire, setDesire}:RegisterProps) {
             required
           />
         </div>
-        <div className="mt-6 flex gap-2">
-          <input 
+        <div className="flex items-center mt-3">
+          <Checkbox 
             required
             id="agreement"
-            type="checkbox"
-            checked = {isAgree}/>
-          <label htmlFor="agreement">Agree with our <button onClick={handleClickTermAndCondition} className="text-blue-900 hover:underline hover:text-blue-950 dark:text-blue-400 dark:hover:text-blue-500">terms and conditions</button></label>
+            checked = {isAgree}
+            onChange={() => {}}
+          />
+          <label htmlFor="agreement">Agree with our <button onClick={handleClickTermAndCondition} className="items-center text-blue-900 hover:underline hover:text-blue-950 dark:text-blue-400 dark:hover:text-blue-500">terms and conditions</button></label>
         </div>
         <div className="mt-6 flex flex-col gap-y-6">
           <button 
