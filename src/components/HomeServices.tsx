@@ -67,7 +67,7 @@ export default function HomeServices() {
       </div>
       <div className="hidden lg:flex">
         {loading ? (
-          <Skeleton variant="rounded" animation="wave" width="100%" height={300} />
+          <Skeleton variant="rounded" animation="wave" width="100%" height={400} />
         ) : 
           (<CardCarousel
             cards={choosenService === 1 ? mainServices : otherServices}

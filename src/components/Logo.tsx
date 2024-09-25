@@ -13,8 +13,15 @@ export default function Logo(
     alt,
   }: ImageProps
 ) {
+
+  const handleClick = () => {
+    window.location.href = "/home"
+  }
+
   return (
-    <button title="Home">
+    <button title="Home"
+      onClick={handleClick}  
+    >
       <Image
         className="logo w-28 items-center justify-center"
         src={src}

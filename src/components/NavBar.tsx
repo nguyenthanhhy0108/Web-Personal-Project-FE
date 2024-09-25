@@ -1,17 +1,21 @@
 "use client"
 
+import { AuthenticationContext } from "@/contexts/AuthenticationContext";
 import { ThemeContext } from "@/contexts/ThemeContext";
 import LightModeIcon from '@mui/icons-material/LightMode';
 import ModeNightIcon from '@mui/icons-material/ModeNight';
 import { Menu, X } from "lucide-react";
 import { useContext, useState } from 'react';
+import AccountMenu from "./AccountMenu";
 import Loading from "./Loading";
 import Logo from "./Logo";
 import NavBarItem from "./NavBarItem";
 
 export default function NavBar() {
   
-  const themeValues = useContext(ThemeContext)
+  const themeValues = useContext(ThemeContext);
+
+  const authenticationValues = useContext(AuthenticationContext);
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -37,8 +41,11 @@ export default function NavBar() {
             <NavBarItem title="About" toLink="#"/>
             <NavBarItem title="Contact" toLink="#"/>
             <NavBarItem title="News" toLink="#"/>
+            {
+              authenticationValues?.isLogin == "logged-in" && (<AccountMenu />)
+            }
             <button onClick={themeValues.toggleThemeButton}>
-              {themeValues.themeMode === "dark" ? <LightModeIcon/> : <ModeNightIcon/>}
+              {themeValues.themeMode === "dark" ? <div className="px-3"><LightModeIcon/></div> : <div className="px-3"><ModeNightIcon/></div>}
             </button>
           </div>
         </div>
@@ -54,10 +61,13 @@ export default function NavBar() {
             <NavBarItem title="About" toLink="#"/>
             <NavBarItem title="Contact" toLink="#"/>
             <NavBarItem title="News" toLink="#"/>
+            {
+              authenticationValues?.isLogin == "logged-in" && (<AccountMenu/>)
+            }
             <button 
               className="mb-3 hover:text-blue-900"
               onClick={themeValues.toggleThemeButton}>
-              {themeValues.themeMode === "dark" ? <LightModeIcon/> : <ModeNightIcon/>}
+              {themeValues.themeMode === "dark" ? <div className="py-3"><LightModeIcon/></div> : <div className="py-3"><ModeNightIcon/></div>}
             </button>
           </div>
         )

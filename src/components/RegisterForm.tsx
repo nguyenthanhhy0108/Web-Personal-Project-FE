@@ -7,7 +7,8 @@ import AlertDialog from "./AlertDialog";
 
 interface RegisterProps {
   desire: string;
-  setDesire: React.Dispatch<React.SetStateAction<string>>;
+  setDesire: React.Dispatch<React.SetStateAction<string>>,
+  setIsRegisterSuccessfull: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const InitialMap = () => {
@@ -25,7 +26,7 @@ const InitialMap = () => {
 
 const errorMap = InitialMap();
 
-export default function RegisterForm({desire, setDesire}:RegisterProps) {
+export default function RegisterForm({desire, setDesire, setIsRegisterSuccessfull}:RegisterProps) {
 
   // console.log(desire)
 
@@ -101,7 +102,9 @@ export default function RegisterForm({desire, setDesire}:RegisterProps) {
       const data = await response.json();
   
       if (data.code === 1000) {
-        router.push('/');
+        router.push('/welcome');
+        setDesire("login");
+        setIsRegisterSuccessfull(true);
       } else {
         setIsError(true);
         setMessage(errorMap?.get(data.code));
@@ -193,6 +196,7 @@ export default function RegisterForm({desire, setDesire}:RegisterProps) {
         </div>
         <div className="flex items-center mt-3">
           <Checkbox 
+            className="dark:text-white"
             required
             id="agreement"
             checked = {isAgree}

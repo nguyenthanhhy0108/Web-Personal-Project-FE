@@ -16,7 +16,7 @@ export default function ImageSlider() {
     }, 5000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [currentImageIndex]);
 
   const handleNextImage = () => {
     if(currentImageIndex == imageLinks.length - 1) {

@@ -1,18 +1,20 @@
 "use client"
 
+import { AuthenticationContext } from '@/contexts/AuthenticationContext';
 import { setCookie } from '@/utils/Cookie';
 import { Checkbox } from '@mui/material';
 import Alert from '@mui/material/Alert';
 import { useRouter } from 'next/navigation';
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useContext, useState } from "react";
 import Loading from './Loading';
 
 interface LoginFormProps {
   desire: string;
-  setDesire: React.Dispatch<React.SetStateAction<string>>;
+  setDesire: React.Dispatch<React.SetStateAction<string>>,
+  isRegisterSuccessfull: boolean;
 }
 
-export default function LoginForm({ desire, setDesire } : LoginFormProps) {
+export default function LoginForm({ desire, setDesire, isRegisterSuccessfull } : LoginFormProps) {
 
   const router = useRouter();
   const [username, setUsername] = useState("");
@@ -24,7 +26,7 @@ export default function LoginForm({ desire, setDesire } : LoginFormProps) {
   const [submitStatus, setSubmitStatus] = useState("");
   const [signUp, setSignUp] = useState(true);
 
-  
+  const authenticationValues = useContext(AuthenticationContext);
 
   const changeUsername = (event:ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
@@ -42,6 +44,18 @@ export default function LoginForm({ desire, setDesire } : LoginFormProps) {
     setSignUp(true);
     setDesire("register");
   }
+
+  const handleGoogleLogin = () => {
+    const clientId = process.env.NEXT_PUBLIC_KEYCLOAK_CLIENT_ID;
+    const redirectUri = process.env.NEXT_PUBLIC_REDIRECT_URI; 
+    const scope = "openid email profile";
+
+    const authUrl = 
+    `${process.env.NEXT_PUBLIC_KEYCLOAK_DOMAIN}/realms/${process.env.NEXT_PUBLIC_KEYCLOAK_REALM}/protocol/openid-connect/auth?client_id=${clientId}&response_type=code&scope=${scope}&redirect_uri=${redirectUri}&kc_idp_hint=google`;
+
+    window.location.href = authUrl;
+  };
+
 
   const submitLoginForm = async (event:React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -70,6 +84,7 @@ export default function LoginForm({ desire, setDesire } : LoginFormProps) {
             value: data.data,
             time: 1});
         }
+        authenticationValues?.setIsLogin("logged-in");
         router.push('/home');
       }
   
@@ -98,8 +113,16 @@ export default function LoginForm({ desire, setDesire } : LoginFormProps) {
       <h1 className="text-5xl font-semibold">Welcome Back</h1>
       <p className="font-medium text-lg text-gray-600 pt-3 italic">Welcome back! Please enter your details to sign in.</p>
       <div className="mt-9">
-        {isError && 
+        {(isError && authenticationValues?.isLogin != "error") && 
           (<Alert severity="error">{message}</Alert>)
+        }
+        {
+          (isRegisterSuccessfull && authenticationValues?.isLogin != "error") && 
+          (<Alert severity="success">Register Successfully!</Alert>)
+        }
+        {
+          authenticationValues?.isLogin == "error" &&
+          (<Alert severity="error">Attempt To Login Fail!</Alert>)
         }
         <div className='mt-6'>
           <label className="text-lg font-medium">Username</label>
@@ -125,7 +148,7 @@ export default function LoginForm({ desire, setDesire } : LoginFormProps) {
         <div className="mt-6 flex justify-between items-center">
           <div>
             <Checkbox
-              className='items-center dark:text-white'
+              className='items-center dark:text-white '
               id="remember"
               checked={remember}
               onChange={changeRemember}
@@ -141,7 +164,10 @@ export default function LoginForm({ desire, setDesire } : LoginFormProps) {
             type='submit'
             className={`active:scale-95 active:duration-75 transition-all bg-violet-600 py-3 text-white font-bold text-2xl rounded-xl hover:bg-violet-800 hover:scale-[1.01] ${submit && "bg-violet-800 scale-[1.01]"} ease-in-out`}>Sign in</button>
           <hr className="w-full border-gray-300"></hr>
-          <button className="flex justify-center items-center py-3 border-gray-300 dark:border-white dark:text-black dark:bg-white border-2 active:scale-95 active:duration-75 transition-all rounded-xl hover:scale-[1.01] ease-in-out">
+          <button 
+            type='button'
+            onClick={handleGoogleLogin}
+            className="flex justify-center items-center py-3 border-gray-300 dark:border-white dark:text-black dark:bg-white border-2 active:scale-95 active:duration-75 transition-all rounded-xl hover:scale-[1.01] ease-in-out">
             <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 48 48">
               <path fill="#4285F4" d="M24 9.5c3.22 0 5.62 1.1 7.32 2.02l5.36-5.35C33.37 3.7 29.18 2 24 2 14.73 2 7.21 7.66 4.08 15.24l6.9 5.36C13.11 14.03 18.09 9.5 24 9.5z"></path>
               <path fill="#34A853" d="M46.5 24.5c0-1.6-.14-3.1-.4-4.5H24v9h12.7c-.56 2.87-2.18 5.3-4.58 6.94l7.12 5.53c4.17-3.86 6.56-9.55 6.56-16.03z"></path>

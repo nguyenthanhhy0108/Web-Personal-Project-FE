@@ -1,3 +1,8 @@
+export const legalAPI = [
+  "/auth",
+  "/home",
+]
+
 export const mainServices = [
   {
     title: "Car Repair Services",
@@ -46,27 +51,27 @@ export const otherServices = [
 
 export const imageLinks = [
   {
-    id: 1,
+    id: 0,
     url: "/images/m-image-1.jpg"
   },
   {
-    id: 2,
+    id: 1,
     url: "/images/m-image-2.jpg"
   },
   {
-    id: 3,
+    id: 2,
     url: "/images/m-image-3.jpg"
   },
   {
-    id: 4,
+    id: 3,
     url: "/images/m-image-4.jpg"
   },
   {
-    id: 5,
+    id: 4,
     url: "/images/m-image-5.jpg"
   },
   {
-    id: 6,
+    id: 5,
     url: "/images/m-image-6.jpg"
   }
 ];

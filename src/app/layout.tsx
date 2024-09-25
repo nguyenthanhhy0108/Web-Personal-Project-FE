@@ -1,8 +1,10 @@
 import Footer from "@/components/Footer";
 import NavBar from "@/components/NavBar";
-import Protector from "@/components/Protector";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
+import AuthenticationProvider from "@/contexts/AuthenticationContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
+import Protector from "@/Protector/Protector";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -28,21 +30,28 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  if (!process.env.NEXT_PUBLIC_CLIENT_ID) {
+    throw new Error("CLIENT_ID environment variable is not defined.");
+  }
   return (
     <html lang="en">
-      <ThemeProvider>
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white dark:bg-gray-900 text-white dark:text-black`}
-        >
-          <Protector/>
-          <div className="flex flex-col flex-grow">
-            <NavBar />
-            {children}
-            <Footer/>
-            <ScrollToTopButton/>
-          </div>
-        </body>
-      </ThemeProvider>
+      <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_CLIENT_ID}>
+        <ThemeProvider>
+          <AuthenticationProvider>
+            <body
+              className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white dark:bg-gray-900 text-white dark:text-black`}
+            >
+              <Protector/>
+              <div className="flex flex-col flex-grow">
+                <NavBar />
+                {children}
+                <Footer/>
+                <ScrollToTopButton/>
+              </div>
+            </body>
+          </AuthenticationProvider>
+        </ThemeProvider>
+      </GoogleOAuthProvider>
     </html>
   );
 }
