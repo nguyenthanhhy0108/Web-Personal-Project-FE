@@ -1,10 +1,13 @@
 "use client"
 
-import { legalAPI } from '@/constants';
-import { getCookie, setCookie } from '@/utils/Cookie';
+import { AuthenticationContext } from '@/contexts/AuthenticationContext';
+import { getCookie } from '@/utils/Cookie';
+import { formatDateToString } from '@/utils/DateProcessing';
 import parseToken from '@/utils/JwtParser';
+import { hashStringShort } from '@/utils/PasswordHashing';
+import { createUserAndFetchToken } from '@/utils/UserService';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 
 export const getAPI = (url: string) => {
   const parsedUrl = new URL(url);
@@ -14,43 +17,66 @@ export const getAPI = (url: string) => {
 export default function Protector() {
 
   const router = useRouter();
+  const authenticationValues = useContext(AuthenticationContext);
 
   useEffect(() => {
-    const url = window.location.href;
-    const urlParams = new URL(url);
+    const urlString = window.location.toString()
 
-    const googleToken = urlParams.searchParams.get('code');
+    const url = new URL(urlString);
 
-    let token = undefined;
+    if (url.pathname =='/home') {
+      const hash = window.location.hash;
+      const params = new URLSearchParams(hash.substring(1));
 
-    if(googleToken) {
+      if (params.get('error')){
+        authenticationValues?.setIsLogin('access-denied');
+        
+        router.push('/auth')
+      }else {
+        
+        const accessToken = params.get('access_token');
+        if (accessToken) {
+          fetch('https://people.googleapis.com/v1/people/me?personFields=names,emailAddresses,birthdays,genders,phoneNumbers,addresses,photos', {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+            .then((response) => response.json())
+            .then(async (data) => {
+              console.log('User Info:', data);
 
-      console.log(googleToken)
-      
-      const requestBody = {
-        "code": googleToken,
-        "redirectUri":process.env.NEXT_PUBLIC_REDIRECT_URI
+              let password = data.resourceName
+              password = password.toString().split('/')[1]
+              password = (await hashStringShort(password)).toString();
+
+              const requestBody = {
+                "password": password.toString(),
+                "email": data.emailAddresses[0].value.toString(),
+                "username": data.emailAddresses[0].value.toString(),
+                "firstName": data.names[0].givenName.toString(),
+                "lastName": data.names[0].familyName.toString(),
+                "dateOfBirth": formatDateToString(data.birthdays[0].date).toString()
+              }
+
+              console.log(requestBody)
+
+              const userCredentials = {
+                "username": requestBody.username,
+                "password": requestBody.password
+              }
+
+              console.log(userCredentials)
+
+              await createUserAndFetchToken(requestBody, userCredentials);
+              
+            })
+            .catch((error) => {
+              console.error('Error fetching user info:', error);
+            });
+        }
       }
-
-      const fetchTokens = async () => {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/app/get-tokens-by-google-code`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(requestBody),
-        })
-        const data = await response.json();
-        console.log(data)
-
-        // alert(data.data)
-        setCookie<string>({
-          name: "access-token",
-          value: data.data,
-          time: 1});
-      }
-      fetchTokens();
     }
+    let token = undefined;
 
     token = getCookie("access-token");
     console.log(token);
@@ -69,22 +95,14 @@ export default function Protector() {
       checkExpiryTime = currentTime > expirationDate.getTime();
 
     console.log(checkExpiryTime)
+    
+    // if (!legalAPI.includes(api)) {
+    //   router.push('/auth');
+    // }
 
-    const urlString = window.location.toString()
-    const api = getAPI(urlString);
-
-    if (!legalAPI.includes(api)) {
-      window.location.href = "/auth";
-    }
-
-    if (urlString.includes("code")) {
-      window.location.href = "/home";
-    }
-
-    if (token == null || checkExpiryTime) {
-      router.push('/auth');
-    }
-
+    // if (token == null || checkExpiryTime) {
+    //   router.push('/auth');
+    // }
   }, [router]);
 
   return (

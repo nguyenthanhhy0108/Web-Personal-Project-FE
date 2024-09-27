@@ -11,7 +11,7 @@ export function getCookie(name: string): string | null {
   return null;
 }
 
-export function setCookie<T>({ name, value, time }: CookieDefinitionValues<T>) {
+export async function setCookie<T>({ name, value, time }: CookieDefinitionValues<T>) {
   let expires = "";
   
   if (time) {

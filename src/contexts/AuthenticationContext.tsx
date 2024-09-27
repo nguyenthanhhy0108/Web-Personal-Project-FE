@@ -1,6 +1,7 @@
 "use client"
 
 import { getCookie } from "@/utils/Cookie";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import { createContext, Dispatch, SetStateAction, useEffect, useState } from "react";
 
 interface AuthenticationValues {
@@ -26,8 +27,10 @@ export default function AuthenticationProvider({children} : {children:React.Reac
   }
 
   return (
-    <AuthenticationContext.Provider value={authenticationValues}>
-      {children}
-    </AuthenticationContext.Provider>
+    <GoogleOAuthProvider clientId="1015909475778-q23gahjf0mfg22c9u3b0375bho4lv9in.apps.googleusercontent.com">
+      <AuthenticationContext.Provider value={authenticationValues}>
+        {children}
+      </AuthenticationContext.Provider>
+    </GoogleOAuthProvider>
   );
 }
