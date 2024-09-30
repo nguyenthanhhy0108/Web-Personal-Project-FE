@@ -3,13 +3,13 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import Image from 'next/image';
 import { useState } from 'react';
 import CardSpanDialog from './CardSpanDialog';
 
 interface CardProps{
   "title": string,
   "description": string,
+  "price": string,
   "imageLink": string
 }
 
@@ -17,8 +17,8 @@ const minimizeContent = (content: string) => {
   return content.split(" ").slice(0, 11).join(" ") + "..."
 }
 
-export default function ImgMediaCard(
-  {title, description, imageLink} : CardProps
+export default function CarCard(
+  {title, description, imageLink, price} : CardProps
 ) {
 
   const [openCardLearnMore, setOpenCardLearnMore] = useState(false);
@@ -28,25 +28,31 @@ export default function ImgMediaCard(
   }
 
   return (
-    <Card className='w-auto flex-grow dark:bg-black dark:text-white rounded-md border-2 border-gray-200 dark:border-black hover:scale-[1.03] ease-in-out transition-all'>
+    <Card className='w-auto flex-grow dark:bg-gray-800 dark:text-white rounded-lg border-2 border-gray-200 dark:border-gray-900 hover:scale-[1.03] ease-in-out transition-all'>
       <CardSpanDialog
         title={title}
-        content={description}
+        description={description}
+        price={price}
         img={imageLink}
         status={openCardLearnMore}
         setOpenCardLearnMore={setOpenCardLearnMore}
       />
       <div className='flex flex-col'>
-        <Image
+        <img
           src={imageLink}
           alt='IMG'
           width={900}
           height={900}
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {title}
-          </Typography>
+          <div className='grid grid-rows-2'>
+            <Typography gutterBottom variant="h6" component="div" className='text-3xl'>
+              {title}
+            </Typography>
+            <Typography gutterBottom variant="h6" component="div" className='text-lg text-violet-400'>
+              {price}
+            </Typography>
+          </div>
           <Typography variant="body2" sx={{ color: 'text.secondary' }} className='dark:text-white'>
             {
               minimizeContent(description)

@@ -14,9 +14,9 @@ interface UserCredentials {
   "username": string,
 }
 
-export async function createUser({ userCreationParam } : {userCreationParam :UserCreationParam}) {
+export async function createUser(userCreationParam :UserCreationParam) {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/user/create-user`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/user/profiles`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -34,7 +34,7 @@ export async function createUser({ userCreationParam } : {userCreationParam :Use
 
 export async function getAccessToken(userCredential: UserCredentials) {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/app/get-tokens`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/app/token`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -55,7 +55,7 @@ export const createUserAndFetchToken = async (userCreationParam: UserCreationPar
   try {
     let createData = null;
     try {
-      createData = await createUser({ userCreationParam: userCreationParam });
+      createData = await createUser(userCreationParam);
       if (createData.code == '9003' || createData.code == '9004'){
         console.log('Ignoring');
       }

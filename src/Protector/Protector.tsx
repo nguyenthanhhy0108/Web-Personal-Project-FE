@@ -1,5 +1,6 @@
 "use client"
 
+import { legalAPI } from '@/constants';
 import { AuthenticationContext } from '@/contexts/AuthenticationContext';
 import { getCookie } from '@/utils/Cookie';
 import { formatDateToString } from '@/utils/DateProcessing';
@@ -79,7 +80,7 @@ export default function Protector() {
     let token = undefined;
 
     token = getCookie("access-token");
-    console.log(token);
+    // console.log(token);
     let parsedToken = null;
     if (token)
       parsedToken = parseToken(token);
@@ -94,15 +95,29 @@ export default function Protector() {
     if(expirationDate)
       checkExpiryTime = currentTime > expirationDate.getTime();
 
-    console.log(checkExpiryTime)
+    // console.log(checkExpiryTime)
     
-    // if (!legalAPI.includes(api)) {
-    //   router.push('/auth');
-    // }
+    if (!legalAPI.includes(url.pathname)) {
 
-    // if (token == null || checkExpiryTime) {
-    //   router.push('/auth');
-    // }
+    }
+
+    if (url.pathname == "/auth") {
+      if (token == null || checkExpiryTime) {
+        // pass
+      }
+    } else {
+      if (token == null || checkExpiryTime) {
+        window.location.href = '/auth'
+        // router.push('/auth');
+      }
+    }
+
+    if (token != null) {
+      if (url.pathname == '/auth') {
+        router.push('/home');
+      }
+    }
+
   }, [router]);
 
   return (

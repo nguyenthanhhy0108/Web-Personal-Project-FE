@@ -9,13 +9,13 @@ export default function HomeServices() {
 
   const [choosenService, setChoosenService] = useState(2);
 
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     //Mock
     const timer = setTimeout(() => {
-      setLoading(false);
-    }, 300);
+      setIsLoading(false);
+    }, 1000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -42,7 +42,7 @@ export default function HomeServices() {
           Caring and Others services
         </button>
         <div className={`lg:hidden ${choosenService == 1 ? "hidden transition-all duration-1000" : ""}`}>
-          {loading ? (
+          {isLoading ? (
             <Skeleton variant="rounded" animation="wave" width="100%" height={300} />
           ) : (
             <CardCarousel
@@ -56,7 +56,7 @@ export default function HomeServices() {
           Fixing and Maintaining services
         </button>
         <div className={`lg:hidden ${choosenService == 2 ? "hidden transition-all duration-1000" : ""}`}>
-          {loading ? (
+          {isLoading ? (
             <Skeleton variant="rounded" animation="wave" width="100%" height={300} />
           ) : (
             <CardCarousel
@@ -66,7 +66,7 @@ export default function HomeServices() {
         </div>
       </div>
       <div className="hidden lg:flex">
-        {loading ? (
+        {isLoading ? (
           <Skeleton variant="rounded" animation="wave" width="100%" height={400} />
         ) : 
           (<CardCarousel

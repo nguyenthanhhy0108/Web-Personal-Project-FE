@@ -1,5 +1,6 @@
 "use client"
 
+import { createUser } from "@/utils/UserService";
 import { Alert, Checkbox } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useState } from "react";
@@ -91,18 +92,11 @@ export default function RegisterForm({desire, setDesire, setIsRegisterSuccessful
     }
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/user/create-user`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestBody),
-      });
-  
-      const data = await response.json();
+      
+      const data = await createUser(requestBody);
   
       if (data.code === 1000) {
-        router.push('/welcome');
+        router.push('/auth');
         setDesire("login");
         setIsRegisterSuccessfull(true);
       } else {

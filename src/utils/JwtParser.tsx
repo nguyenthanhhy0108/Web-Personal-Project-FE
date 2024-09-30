@@ -13,7 +13,7 @@ export interface JwtPayload {
 export default function parseToken(token: string): JwtPayload | null {
   try {
     const decoded = jwtDecode<JwtPayload>(token);
-    console.log("Decoded JWT:", decoded);
+    // console.log("Decoded JWT:", decoded);
     return decoded;
   } catch (error) {
     console.error("Invalid token:", error);

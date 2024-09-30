@@ -4,7 +4,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { IconButton } from "@mui/material";
 import { useState } from "react";
-import ImgMediaCard from "./Card";
+import CarCard from './Card';
 
 interface GivenCard {
   title: string;
@@ -50,7 +50,8 @@ const CardCarousel = ({cards} : {cards: GivenCards}) => {
                     : "opacity-0 pointer-events-none hidden lg:flex"
                 }`}
               >
-                <ImgMediaCard 
+                <CarCard
+                  price=''
                   title={card.title} 
                   description={card.description} 
                   imageLink={card.img}
