@@ -23,11 +23,17 @@ export default function Protector() {
 
     const url = new URL(urlString);
 
+    if (urlString.includes("email-existed")) {
+      authenticationValues?.setIsLogin('email-existed');
+      router.push('/auth');  
+    }
+
     if (url.pathname == '/home') {
       const hash = window.location.hash;
       const params = new URLSearchParams(hash.substring(1));
 
       if (params.get('error')) {
+
         authenticationValues?.setIsLogin('access-denied');
 
         router.push('/auth');
@@ -50,15 +56,21 @@ export default function Protector() {
               password = password.toString().split('/')[1];
               password = (await hashStringShort(password)).toString();
 
+              let dateOfBirth = '1111-11-11';
+
+              if (data.birthdays) {
+                dateOfBirth = formatDateToString(
+                  data.birthdays[0].date,
+                ).toString()
+              }
+
               const requestBody = {
                 password: password.toString(),
                 email: data.emailAddresses[0].value.toString(),
                 username: data.emailAddresses[0].value.toString(),
                 firstName: data.names[0].givenName.toString(),
                 lastName: data.names[0].familyName.toString(),
-                dateOfBirth: formatDateToString(
-                  data.birthdays[0].date,
-                ).toString(),
+                dateOfBirth: dateOfBirth,
               };
 
               console.log(requestBody);

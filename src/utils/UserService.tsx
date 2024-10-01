@@ -65,8 +65,11 @@ export const createUserAndFetchToken = async (
     let createData = null;
     try {
       createData = await createUser(userCreationParam);
-      if (createData.code == '9003' || createData.code == '9004') {
+      if (createData.code == '9003') {
         console.log('Ignoring');
+      }
+      if (createData.code == '9004') {
+        window.location.href = "/auth?error=email-existed"
       }
     } catch (error) {
       console.log(error);

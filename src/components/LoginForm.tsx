@@ -109,6 +109,9 @@ export default function LoginForm({
         {authenticationValues?.isLogin == 'access-denied' && (
           <Alert severity='error'>Attempt To Login Fail!</Alert>
         )}
+        {authenticationValues?.isLogin == 'email-existed' && (
+          <Alert severity='error'>Email has already existed on a different account!</Alert>
+        )}
         <div className='mt-6'>
           <label className='text-lg font-medium'>Username</label>
           <input
