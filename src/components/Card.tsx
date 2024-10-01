@@ -6,26 +6,28 @@ import Typography from '@mui/material/Typography';
 import { useState } from 'react';
 import CardSpanDialog from './CardSpanDialog';
 
-interface CardProps{
-  "title": string,
-  "description": string,
-  "price": string,
-  "imageLink": string
+interface CardProps {
+  title: string;
+  description: string;
+  price: string;
+  imageLink: string;
 }
 
 const minimizeContent = (content: string) => {
-  return content.split(" ").slice(0, 11).join(" ") + "..."
-}
+  return content.split(' ').slice(0, 11).join(' ') + '...';
+};
 
-export default function CarCard(
-  {title, description, imageLink, price} : CardProps
-) {
-
+export default function CarCard({
+  title,
+  description,
+  imageLink,
+  price,
+}: CardProps) {
   const [openCardLearnMore, setOpenCardLearnMore] = useState(false);
 
   const handleClickLearnMore = () => {
     setOpenCardLearnMore(!openCardLearnMore);
-  }
+  };
 
   return (
     <Card className='w-auto flex-grow dark:bg-gray-800 dark:text-white rounded-lg border-2 border-gray-200 dark:border-gray-900 hover:scale-[1.03] ease-in-out transition-all'>
@@ -38,33 +40,43 @@ export default function CarCard(
         setOpenCardLearnMore={setOpenCardLearnMore}
       />
       <div className='flex flex-col'>
-        <img
-          src={imageLink}
-          alt='IMG'
-          width={900}
-          height={900}
-        />
+        <img src={imageLink} alt='IMG' width={900} height={900} />
         <CardContent>
           <div className='grid grid-rows-2'>
-            <Typography gutterBottom variant="h6" component="div" className='text-3xl'>
+            <Typography
+              gutterBottom
+              variant='h6'
+              component='div'
+              className='text-3xl'
+            >
               {title}
             </Typography>
-            <Typography gutterBottom variant="h6" component="div" className='text-lg text-violet-400'>
+            <Typography
+              gutterBottom
+              variant='h6'
+              component='div'
+              className='text-lg text-violet-400'
+            >
               {price}
             </Typography>
           </div>
-          <Typography variant="body2" sx={{ color: 'text.secondary' }} className='dark:text-white'>
-            {
-              minimizeContent(description)
-            }
+          <Typography
+            variant='body2'
+            sx={{ color: 'text.secondary' }}
+            className='dark:text-white'
+          >
+            {minimizeContent(description)}
           </Typography>
         </CardContent>
         <CardActions>
           {/* <Button size="small">Share</Button> */}
-          <Button 
+          <Button
             className='flex ml-auto hover:bg-gray-300 dark:hover:bg-gray-800 hover:scale-[1.05] duration-75'
             onClick={handleClickLearnMore}
-            size="small">Learn More</Button>
+            size='small'
+          >
+            Learn More
+          </Button>
         </CardActions>
       </div>
     </Card>

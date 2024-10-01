@@ -1,12 +1,12 @@
-"use client"
+'use client';
 
-import { ThemeContext } from "@/contexts/ThemeContext";
-import { getInitialVehicle, priceStringToNumber } from "@/utils/VehicleService";
-import { Skeleton } from "@mui/material";
-import Image from "next/image";
-import { useContext, useEffect, useState } from "react";
-import CarCard from "./Card";
-import ImageSlider from "./ImageSlider";
+import { ThemeContext } from '@/contexts/ThemeContext';
+import { getInitialVehicle, priceStringToNumber } from '@/utils/VehicleService';
+import { Skeleton } from '@mui/material';
+import Image from 'next/image';
+import { useContext, useEffect, useState } from 'react';
+import CarCard from './Card';
+import ImageSlider from './ImageSlider';
 
 interface Vehicle {
   vehicleId: string;
@@ -24,11 +24,12 @@ interface VehiclePrice {
 }
 
 export default function HomeProducts() {
-
   const themeValues = useContext(ThemeContext);
 
   const [vehicleData, setVehicleData] = useState<Vehicle[]>([]);
-  const [impressiveVehicle, setImpressiveVehicle] = useState<Vehicle[]>(new Array(6).fill({} as Vehicle));
+  const [impressiveVehicle, setImpressiveVehicle] = useState<Vehicle[]>(
+    new Array(6).fill({} as Vehicle),
+  );
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -43,102 +44,111 @@ export default function HomeProducts() {
 
   useEffect(() => {
     const vehiclePrice = vehicleData.map((vehicle, index) => {
-      const stringPrice = vehicle.vehiclePrice.split(':')[1].split(' ')[1]
+      const stringPrice = vehicle.vehiclePrice.split(':')[1].split(' ')[1];
       if (stringPrice == 'Updating') {
-        return {"index": index, "price": 0};
+        return { index: index, price: 0 };
       } else {
-        return({"index": index, "price": priceStringToNumber(stringPrice)});
+        return { index: index, price: priceStringToNumber(stringPrice) };
       }
-    })
+    });
 
-    const impressiveVehicleIndex = vehiclePrice.sort((a: VehiclePrice, b: VehiclePrice) => b.price - a.price)
-      .slice(0, 6).map(item => item.index);
+    const impressiveVehicleIndex = vehiclePrice
+      .sort((a: VehiclePrice, b: VehiclePrice) => b.price - a.price)
+      .slice(0, 6)
+      .map((item) => item.index);
 
     const vehicles = impressiveVehicleIndex.map((index) => {
       return vehicleData[index];
-    })
+    });
 
     setTimeout(() => {
       setImpressiveVehicle(vehicles);
       setIsLoading(false);
     }, 1000);
-  }, [vehicleData])
-  
+  }, [vehicleData]);
+
   return (
-    <div className="flex flex-col justify-between">
-      <ImageSlider/>
-      <div className="flex mr-auto justify-center font-bold dark:text-white text-black p-6">
-        <h1 className="lg:text-4xl text-2xl mt-12 flex">
+    <div className='flex flex-col justify-between'>
+      <ImageSlider />
+      <div className='flex mr-auto justify-center font-bold dark:text-white text-black p-6'>
+        <h1 className='lg:text-4xl text-2xl mt-12 flex'>
           DISCOVER OUR IMPRESSIVE CARS
         </h1>
       </div>
-      <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6 px-5">
-        {
-          impressiveVehicle.map((vehicle) => {
-            if (isLoading) {
-              return (
-                <Skeleton
-                  className="rounded-md"
-                  key={vehicle.vehicleId}
-                  sx={{ bgcolor: 'grey.1000' }}
-                  variant="rectangular"
-                  width={460}
-                  height={300}
+      <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6 px-5'>
+        {impressiveVehicle.map((vehicle) => {
+          if (isLoading) {
+            return (
+              <Skeleton
+                className='rounded-md'
+                key={vehicle.vehicleId}
+                sx={{ bgcolor: 'grey.1000' }}
+                variant='rectangular'
+                width={460}
+                height={300}
+              />
+            );
+          } else {
+            return (
+              <div key={vehicle.vehicleId}>
+                <CarCard
+                  title={vehicle.vehicleName}
+                  description={vehicle.vehicleDescription}
+                  imageLink={vehicle.vehicleImageUrl}
+                  price={vehicle.vehiclePrice.split('*')[0]}
                 />
-              );
-            } else {
-              return (
-                <div key={vehicle.vehicleId}>
-                  <CarCard
-                    title={vehicle.vehicleName}
-                    description={vehicle.vehicleDescription}
-                    imageLink={vehicle.vehicleImageUrl}
-                    price={vehicle.vehiclePrice.split('*')[0]}
-                  />
-                </div>
-              )
-            }
-          })
-        }
+              </div>
+            );
+          }
+        })}
       </div>
 
-      <div className="flex justify-center w-11/12 border-t-2 border-b-2 border-gray-300 dark:border-white mt-24 items-center mx-auto">
-        <div className="grid grid-cols-3 gap-14 lg:gap-32 my-3">
-          <button className="flex flex-col items-center hover:scale-[1.06]" title="Discount">
+      <div className='flex justify-center w-11/12 border-t-2 border-b-2 border-gray-300 dark:border-white mt-24 items-center mx-auto'>
+        <div className='grid grid-cols-3 gap-14 lg:gap-32 my-3'>
+          <button
+            className='flex flex-col items-center hover:scale-[1.06]'
+            title='Discount'
+          >
             <Image
-              src={`${themeValues?.themeMode == 'dark' ? '/images/discount-logo-white.png' : "/images/discount-logo.png"}`}
-              alt="Discount"
+              src={`${themeValues?.themeMode == 'dark' ? '/images/discount-logo-white.png' : '/images/discount-logo.png'}`}
+              alt='Discount'
               width={80}
               height={80}
             />
-            <h3 className="font-bold text-xl text-black dark:text-white">
+            <h3 className='font-bold text-xl text-black dark:text-white'>
               Discount
             </h3>
           </button>
-          <button className="flex flex-col items-center hover:scale-[1.06]" title="Prices List">
+          <button
+            className='flex flex-col items-center hover:scale-[1.06]'
+            title='Prices List'
+          >
             <Image
-              src={`${themeValues?.themeMode == 'dark' ? '/images/price-white.png' : "/images/price.png"}`}
-              alt="Prices List"
+              src={`${themeValues?.themeMode == 'dark' ? '/images/price-white.png' : '/images/price.png'}`}
+              alt='Prices List'
               width={80}
               height={80}
             />
-            <h3 className="font-bold text-xl text-black dark:text-white">
+            <h3 className='font-bold text-xl text-black dark:text-white'>
               Prices List
             </h3>
           </button>
-          <button className="flex flex-col items-center hover:scale-[1.06]" title="Test Drive">
+          <button
+            className='flex flex-col items-center hover:scale-[1.06]'
+            title='Test Drive'
+          >
             <Image
-              src={`${themeValues?.themeMode == 'dark' ? '/images/steering-wheel-white.png' : "/images/steering-wheel.png"}`}
-              alt="Test Drive"
+              src={`${themeValues?.themeMode == 'dark' ? '/images/steering-wheel-white.png' : '/images/steering-wheel.png'}`}
+              alt='Test Drive'
               width={80}
               height={80}
             />
-            <h3 className="font-bold text-xl text-black dark:text-white">
+            <h3 className='font-bold text-xl text-black dark:text-white'>
               Test Drive
             </h3>
           </button>
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import LoginForm from "./LoginForm";
-import RegisterForm from "./RegisterForm";
+import { useState } from 'react';
+import LoginForm from './LoginForm';
+import RegisterForm from './RegisterForm';
 
 export default function LoginOrRegister() {
-  const [desire, setDesire] = useState("login");
+  const [desire, setDesire] = useState('login');
   const [isRegisterSuccessfull, setIsRegisterSuccessfull] = useState(false);
 
   // console.log(desire)

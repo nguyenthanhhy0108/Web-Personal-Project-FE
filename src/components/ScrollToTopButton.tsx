@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { Fab } from '@mui/material';
@@ -15,7 +15,8 @@ const ScrollToTopButton: React.FC = () => {
     const start = window.scrollY;
     const startTime = performance.now();
 
-    const easeInOutQuad = (t: number) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t);
+    const easeInOutQuad = (t: number) =>
+      t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
 
     const animateScroll = (currentTime: number) => {
       const timeElapsed = currentTime - startTime;
@@ -50,9 +51,9 @@ const ScrollToTopButton: React.FC = () => {
     <>
       {showButton && (
         <Fab
-          color="default"
+          color='default'
           onClick={scrollToTop}
-          className="fixed bottom-4 right-4 z-50 bg-gray-600 dark:text-white bg-transparent hidden lg:flex"
+          className='fixed bottom-4 right-4 z-50 bg-gray-600 dark:text-white bg-transparent hidden lg:flex'
         >
           <KeyboardArrowUpIcon />
         </Fab>

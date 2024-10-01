@@ -1,30 +1,29 @@
-"use client"
+'use client';
 
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useEffect, useState } from 'react';
 
 interface ThemeValues {
-  themeMode: string,
-  toggleThemeButton: () => void,
-  isChangeTheme: boolean,
+  themeMode: string;
+  toggleThemeButton: () => void;
+  isChangeTheme: boolean;
 }
 
 export const ThemeContext = createContext<ThemeValues | undefined>(undefined);
 
-export const ThemeProvider = ({children} : {children:React.ReactNode}) => {
-
-  const [themeMode, setThemeMode] = useState<string>("light");
+export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
+  const [themeMode, setThemeMode] = useState<string>('light');
   const [isChangeTheme, setIsChangeTheme] = useState<boolean>(false);
   const [isMounted, setIsMounted] = useState(false);
 
   /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
-    const currentTheme = localStorage.getItem("theme");
+    const currentTheme = localStorage.getItem('theme');
 
-    if(currentTheme === null) {
-      setIsChangeTheme(true)
+    if (currentTheme === null) {
+      setIsChangeTheme(true);
     } else {
-      setIsChangeTheme(true)
-      setThemeMode(currentTheme)
+      setIsChangeTheme(true);
+      setThemeMode(currentTheme);
     }
 
     setIsMounted(true);
@@ -32,7 +31,7 @@ export const ThemeProvider = ({children} : {children:React.ReactNode}) => {
 
   useEffect(() => {
     if (isMounted) {
-      if (themeMode === "dark") {
+      if (themeMode === 'dark') {
         document.documentElement.classList.add('dark');
       } else {
         document.documentElement.classList.remove('dark');
@@ -42,18 +41,18 @@ export const ThemeProvider = ({children} : {children:React.ReactNode}) => {
   }, [themeMode]);
 
   const toggleThemeButton = () => {
-    setThemeMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
+    setThemeMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
   };
 
   const themeValues = {
     themeMode,
     toggleThemeButton,
-    isChangeTheme
-  }
+    isChangeTheme,
+  };
 
   return (
     <ThemeContext.Provider value={themeValues}>
       {children}
     </ThemeContext.Provider>
   );
-}
+};

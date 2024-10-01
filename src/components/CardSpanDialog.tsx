@@ -10,12 +10,12 @@ import Typography from '@mui/material/Typography';
 import * as React from 'react';
 
 interface CardSpanProps {
-    title: string,
-    description: string,
-    price: string,
-    img: string,
-    status: boolean,
-    setOpenCardLearnMore?: (status: boolean) => void;
+  title: string;
+  description: string;
+  price: string;
+  img: string;
+  status: boolean;
+  setOpenCardLearnMore?: (status: boolean) => void;
 }
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -27,29 +27,36 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export default function CardSpanDialog(
-  {title, description, price, img, status, setOpenCardLearnMore}: CardSpanProps
-) {
-
+export default function CardSpanDialog({
+  title,
+  description,
+  price,
+  img,
+  status,
+  setOpenCardLearnMore,
+}: CardSpanProps) {
   const handleClose = () => {
-    if(setOpenCardLearnMore)
-      setOpenCardLearnMore(false);
+    if (setOpenCardLearnMore) setOpenCardLearnMore(false);
   };
 
   return (
     <React.Fragment>
       <BootstrapDialog
         onClose={handleClose}
-        aria-labelledby="customized-dialog-title"
+        aria-labelledby='customized-dialog-title'
         open={status}
         className='backdrop-blur-lg'
       >
         <div className='border-2 dark:border-gray-900 rounded-none'>
-          <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title" className='dark:bg-gray-800 dark:text-white font-bold text-3xl'>
+          <DialogTitle
+            sx={{ m: 0, p: 2 }}
+            id='customized-dialog-title'
+            className='dark:bg-gray-800 dark:text-white font-bold text-3xl'
+          >
             {title}
           </DialogTitle>
           <IconButton
-            aria-label="close"
+            aria-label='close'
             onClick={handleClose}
             sx={(theme) => ({
               position: 'absolute',
@@ -58,28 +65,28 @@ export default function CardSpanDialog(
               color: theme.palette.grey[500],
             })}
           >
-            <CloseIcon className='hover:text-blue-600'/>
+            <CloseIcon className='hover:text-blue-600' />
           </IconButton>
           <DialogContent dividers className='dark:bg-gray-800 dark:text-white'>
-            <img
-              src={img}
-              alt='IMG'
-              width={900}
-              height={900}
-            />
+            <img src={img} alt='IMG' width={900} height={900} />
           </DialogContent>
-          <DialogContent dividers className='dark:bg-gray-800 dark:text-white text-lg'>
+          <DialogContent
+            dividers
+            className='dark:bg-gray-800 dark:text-white text-lg'
+          >
             <Typography gutterBottom className='text-violet-600 text-xl'>
               {price}
             </Typography>
           </DialogContent>
           <DialogContent dividers className='dark:bg-gray-800 dark:text-white'>
-            <Typography gutterBottom>
-              {description}
-            </Typography>
+            <Typography gutterBottom>{description}</Typography>
           </DialogContent>
           <DialogActions className='dark:bg-gray-800 dark:text-white'>
-            <Button className='font-bold text-xl lg:text-3xl hover:bg-gray-300 dark:hover:bg-gray-800 hover:scale-[1.05] text-blue-600' autoFocus onClick={handleClose}>
+            <Button
+              className='font-bold text-xl lg:text-3xl hover:bg-gray-300 dark:hover:bg-gray-800 hover:scale-[1.05] text-blue-600'
+              autoFocus
+              onClick={handleClose}
+            >
               Visit
             </Button>
           </DialogActions>

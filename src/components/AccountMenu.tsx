@@ -21,17 +21,20 @@ export default function AccountMenu() {
   return (
     <React.Fragment>
       <div className='flex justify-center items-center mx-auto py-3'>
-        <Tooltip title="Account settings">
+        <Tooltip title='Account settings'>
           <button
             className='cursor-pointer'
             onClick={handleClick}
             aria-controls={open ? 'account-menu' : undefined}
-            aria-haspopup="true"
+            aria-haspopup='true'
             aria-expanded={open ? 'true' : undefined}
           >
-            <Avatar className='flex justify-center mx-auto left-1/2 -translate-x-1/2' sx={{ width: 32, height: 32 }}>
+            <Avatar
+              className='flex justify-center mx-auto left-1/2 -translate-x-1/2'
+              sx={{ width: 32, height: 32 }}
+            >
               <Image
-                src="/images/default-avt.png"
+                src='/images/default-avt.png'
                 alt='avt'
                 width={300}
                 height={300}
@@ -42,7 +45,7 @@ export default function AccountMenu() {
       </div>
       <Menu
         anchorEl={anchorEl}
-        id="account-menu"
+        id='account-menu'
         open={open}
         onClose={handleClose}
         onClick={handleClose}
@@ -85,13 +88,13 @@ export default function AccountMenu() {
         <Divider />
         <MenuItem onClick={handleClose} className='hover:bg-gray-300'>
           <ListItemIcon>
-            <Settings fontSize="small" />
+            <Settings fontSize='small' />
           </ListItemIcon>
           Settings
         </MenuItem>
         <MenuItem onClick={handleClose} className='hover:bg-gray-300'>
           <ListItemIcon>
-            <Logout fontSize="small" />
+            <Logout fontSize='small' />
           </ListItemIcon>
           Logout
         </MenuItem>
