@@ -80,3 +80,20 @@ export const imageLinks = [
     url: '/images/m-image-6.jpg',
   },
 ];
+
+export const videoLinks = [
+  {
+    id: 1,
+    url: "/videos/self-driving.mp4"
+  },
+  {
+    id: 2,
+    url: "/videos/awd.mp4"
+  },{
+    id: 3,
+    url: "/videos/interior.mp4"
+  },{
+    id: 4,
+    url: "/videos/hybrid.mp4"
+  },
+]

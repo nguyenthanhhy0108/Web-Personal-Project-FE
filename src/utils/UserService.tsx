@@ -68,9 +68,13 @@ export const createUserAndFetchToken = async (
       if (createData.code == '9003') {
         console.log('Ignoring');
       }
+      if (createData.code == '1000') {
+        sendNotificationMail(userCreationParam.email, userCredentials);
+      }
       if (createData.code == '9004') {
         window.location.href = "/auth?error=email-existed"
       }
+      
     } catch (error) {
       console.log(error);
     }
@@ -89,3 +93,24 @@ export const createUserAndFetchToken = async (
     console.error('Error fetching token:', error);
   }
 };
+
+
+export const sendNotificationMail = (destination: string, userCredential: UserCredentials) => {
+  const url = process.env.NEXT_PUBLIC_DOMAIN + '/notification/email/' + destination;
+  try {
+    fetch(
+      url,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userCredential),
+      },
+    );
+
+  } catch (error) {
+    console.log('Error');
+    return { error: true };
+  }
+}

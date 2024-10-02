@@ -67,9 +67,13 @@ export default function RegisterForm({
   const nameParser = (name: string) => {
     const fullName = name;
     setFirstname(fullName.split(' ')[0]);
-    setLastname(
-      fullName.split(' ').slice(1, fullName.split(' ').length).join(' '),
-    );
+    if (fullName.split(' ')[1]) {
+      setLastname(
+        fullName.split(' ').slice(1, fullName.split(' ').length).join(' '),
+      );
+    } else {
+      setLastname("Hmmm...")
+    }
   };
 
   const changeName = (event: ChangeEvent<HTMLInputElement>) => {

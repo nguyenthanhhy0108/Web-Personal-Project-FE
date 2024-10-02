@@ -45,10 +45,10 @@ export default function VideoPlayer({ videoLink }: { videoLink: string }) {
         }
       }
     }
-    setIsPlaying(!isPlaying);
     setIsZoomed(false);
   };
 
+  
   return (
     <div className='w-full h-full relative group'>
       <video

@@ -1,3 +1,4 @@
+import { videoLinks } from '@/constants';
 import VideoPlayer from './VideoPlayer';
 
 export default function HomeTechnology() {
@@ -11,21 +12,21 @@ export default function HomeTechnology() {
         </div>
         <div className='hidden lg:grid lg:grid-rows-2 lg:grid-cols-2 gap-3 w-full h-full'>
           <div className='row-span-2 bg-black border-2 border-black rounded-3xl'>
-            <VideoPlayer videoLink='/videos/self-driving.mp4' />
+            <VideoPlayer videoLink={videoLinks[0].url} />
           </div>
 
           <div className='grid grid-cols-2 gap-3 w-full h-full'>
             <div className='bg-black border-2 border-black rounded-3xl'>
-              <VideoPlayer videoLink='/videos/awd.mp4' />
+              <VideoPlayer videoLink={videoLinks[1].url} />
             </div>
 
             <div className='bg-black border-2 border-black rounded-3xl'>
-              <VideoPlayer videoLink='/videos/interior.mp4' />
+              <VideoPlayer videoLink={videoLinks[2].url} />
             </div>
           </div>
 
           <div className='bg-black border-2 border-black rounded-3xl'>
-            <VideoPlayer videoLink='/videos/hybrid.mp4' />
+            <VideoPlayer videoLink={videoLinks[3].url} />
           </div>
         </div>
         <div className='flex justify-center p-3 pt-9'>
@@ -45,21 +46,17 @@ export default function HomeTechnology() {
           </h1>
         </div>
         <div className='lg:hidden flex flex-col gap-3 w-screen'>
-          <div className='bg-black border-2 border-black rounded-3xl w-full min-h-[300px] h-[300px]'>
-            <VideoPlayer videoLink='/videos/self-driving.mp4' />
-          </div>
-
-          <div className='bg-black border-2 border-black rounded-3xl w-full min-h-[300px] h-[300px]'>
-            <VideoPlayer videoLink='/videos/awd.mp4' />
-          </div>
-
-          <div className='bg-black border-2 border-black rounded-3xl w-full min-h-[300px] h-[300px]'>
-            <VideoPlayer videoLink='/videos/interior.mp4' />
-          </div>
-
-          <div className='bg-black border-2 border-black rounded-3xl w-full min-h-[300px] h-[300px]'>
-            <VideoPlayer videoLink='/videos/hybrid.mp4' />
-          </div>
+          {
+            videoLinks.map((videoInstance) => {
+              return (
+                <div 
+                  key={videoInstance.id}
+                  className='bg-black border-2 border-black rounded-3xl w-full min-h-[300px] h-[300px]'>
+                  <VideoPlayer videoLink={videoInstance.url} />
+                </div>
+              );
+            })
+          }
         </div>
         <div className='lg:hidden flex justify-center p-3 pt-9'>
           <button
