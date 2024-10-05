@@ -42,7 +42,7 @@ export default function RootLayout({
               className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white dark:bg-gray-900 text-white dark:text-black`}
             >
               <Protector />
-              <div className='flex flex-col flex-grow relative'>
+              <div className='flex flex-col flex-grow w-screen relative'>
                 <NavBar />
                 {children}
                 <Footer />

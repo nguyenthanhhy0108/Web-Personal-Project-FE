@@ -4,29 +4,26 @@ import { Fullscreen, VolumeOff, VolumeUp } from '@mui/icons-material';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import { IconButton } from '@mui/material';
 import { PauseIcon } from 'lucide-react';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 export default function VideoPlayer({ videoLink }: { videoLink: string }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const videoRefBG = useRef<HTMLVideoElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMute, setIsMute] = useState(false);
   const [isZoomed, setIsZoomed] = useState(false);
 
   const handlePlayPause = () => {
-    if (videoRef.current && videoRefBG.current) {
+    if (videoRef.current) {
       if (isPlaying) {
         videoRef.current.pause();
-        videoRefBG.current.pause();
       } else {
         videoRef.current.play();
-        videoRefBG.current.play();
       }
       setIsPlaying(!isPlaying);
     }
   };
 
   const handleMute = () => {
-    if (videoRef.current && videoRefBG.current) {
+    if (videoRef.current) {
       if (isMute) {
         videoRef.current.muted = false;
       } else {
@@ -41,6 +38,7 @@ export default function VideoPlayer({ videoLink }: { videoLink: string }) {
     if (!isZoomed) {
       if (videoElement) {
         if (videoElement.requestFullscreen) {
+          // setIsPlaying(false);
           videoElement.requestFullscreen();
         }
       }
@@ -48,17 +46,32 @@ export default function VideoPlayer({ videoLink }: { videoLink: string }) {
     setIsZoomed(false);
   };
 
+  const handleFullscreenChange = () => {
+    const videoElement = videoRef.current;
+    if (!document.fullscreenElement) {
+      if (videoElement) {
+        setIsPlaying(false);
+        videoElement.pause();
+      }
+    } else {
+      if (videoElement) {
+        setIsPlaying(true);
+        videoElement.play();
+      }
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    };
+  }, []);
+
   
   return (
     <div className='w-full h-full relative group'>
-      <video
-        ref={videoRefBG}
-        className='w-full h-full z-0 group-hover:block rounded-3xl object-fill bg-black opacity-[0.15] backdrop-blur absolute'
-        muted
-      >
-        <source src={videoLink} type='video/mp4' />
-        Your browser does not support the video tag.
-      </video>
       <video
         ref={videoRef}
         className='w-full h-full z-20 group-hover:block rounded-3xl absolute'

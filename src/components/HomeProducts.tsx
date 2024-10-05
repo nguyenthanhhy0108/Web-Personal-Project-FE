@@ -76,12 +76,12 @@ export default function HomeProducts() {
         </h1>
       </div>
       <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6 px-5'>
-        {impressiveVehicle.map((vehicle) => {
+        {impressiveVehicle.map((vehicle, index) => {
           if (isLoading) {
             return (
               <Skeleton
                 className='rounded-md'
-                key={vehicle.vehicleId}
+                key={index}
                 sx={{ bgcolor: 'grey.1000' }}
                 variant='rectangular'
                 width={460}
