@@ -113,18 +113,18 @@ export default function Protector() {
     if (!legalAPI.includes(url.pathname)) {
     }
 
-    if (url.pathname == '/auth') {
-      if (token == null) {
-        // pass
-      } else {
-        router.push('/home');
-      }
-    } else {
-      if (token === null) {
-        // alert("ABC")
-        router.push('/auth');
-      }
-    }
+    // if (url.pathname == '/auth') {
+    //   if (token == null) {
+    //     // pass
+    //   } else {
+    //     router.push('/home');
+    //   }
+    // } else {
+    //   if (token === null) {
+    //     // alert("ABC")
+    //     router.push('/auth');
+    //   }
+    // }
 
     if (token != null) {
       if (url.pathname == '/auth') {

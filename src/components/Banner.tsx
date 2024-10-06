@@ -14,7 +14,7 @@ export default function Banner({id, title, description, url} : BannerProps) {
   }
 
   return (
-    <div className="flex flex-col bg-white h-full w-auto object-cover py-6 lg:py-0 rounded-2xl dark:bg-gray-800 dark:text-white">
+    <div className="flex flex-col bg-white h-full w-auto object-cover py-6 lg:py-0 rounded-2xl dark:bg-gray-800 dark:text-white hover:scale-[1.01] hover:border-2 hover:border-blue-900 transition-all duration-75 ease-in-out">
       <img
         className="rounded-2xl hover:cursor-pointer object-cover overflow-hidden"
         onClick={handleImgClick}
@@ -27,7 +27,7 @@ export default function Banner({id, title, description, url} : BannerProps) {
       <div className="text-black mx-auto dark:text-white">
         {description}
       </div>
-      <div className="text-blue-600 mx-auto hover:text-blue-900 dark:text-white">
+      <div className="text-blue-600 mx-auto hover:text-blue-900">
         <a href={url}>More Informations...</a>
       </div>
     </div>

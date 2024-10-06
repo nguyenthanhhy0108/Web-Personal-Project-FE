@@ -43,15 +43,22 @@ export default function HomeProducts() {
   // console.log(vehicleData)
 
   useEffect(() => {
-    const vehiclePrice = vehicleData.map((vehicle, index) => {
-      const stringPrice = vehicle.vehiclePrice.split(':')[1].split(' ')[1];
-      if (stringPrice == 'Updating') {
-        return { index: index, price: 0 };
-      } else {
-        return { index: index, price: priceStringToNumber(stringPrice) };
-      }
-    });
 
+    let vehiclePrice = null;
+
+    if (vehicleData != undefined) {
+      vehiclePrice = vehicleData.map((vehicle, index) => {
+        const stringPrice = vehicle.vehiclePrice.split(':')[1].split(' ')[1];
+        if (stringPrice == 'Updating') {
+          return { index: index, price: 0 };
+        } else {
+          return { index: index, price: priceStringToNumber(stringPrice) };
+        }
+      });
+    } else {
+      return;
+    }
+    
     const impressiveVehicleIndex = vehiclePrice
       .sort((a: VehiclePrice, b: VehiclePrice) => b.price - a.price)
       .slice(0, 6)
@@ -62,8 +69,12 @@ export default function HomeProducts() {
     });
 
     setTimeout(() => {
-      setImpressiveVehicle(vehicles);
-      setIsLoading(false);
+      if (vehicles.length != 0) {
+        setImpressiveVehicle(vehicles);
+        setIsLoading(false);
+      } else {
+        setImpressiveVehicle(new Array(6).fill({} as Vehicle));
+      }
     }, 1000);
   }, [vehicleData]);
 
@@ -71,9 +82,9 @@ export default function HomeProducts() {
     <div className='flex flex-col justify-between'>
       <ImageSlider />
       <div className='flex mr-auto justify-center font-bold dark:text-white text-black p-6'>
-        <h1 className='lg:text-4xl text-2xl mt-12 flex'>
+        <h2 className='lg:text-4xl text-2xl mt-12 flex'>
           DISCOVER OUR IMPRESSIVE CARS
-        </h1>
+        </h2>
       </div>
       <div className='grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6 px-5'>
         {impressiveVehicle.map((vehicle, index) => {

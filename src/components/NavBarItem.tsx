@@ -1,6 +1,5 @@
 'use-client';
 
-import Link from 'next/link';
 
 interface NavBarItemProps {
   title: string;
@@ -8,9 +7,16 @@ interface NavBarItemProps {
 }
 
 export default function NavBarItem({ title, toLink }: NavBarItemProps) {
+
+  const handleClick = () => {
+    window.location.href = toLink;
+  }
+
   return (
-    <button title={title} className='p-3 hover:text-blue-900 w-full'>
-      <Link href={toLink}>{title}</Link>
+    <button onClick={handleClick} title={title} className='p-3 hover:text-blue-900 w-full'>
+      <div>
+        {title}
+      </div>
     </button>
   );
 }

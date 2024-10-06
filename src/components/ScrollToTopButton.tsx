@@ -1,7 +1,6 @@
 'use client';
 
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { Fab } from '@mui/material';
+import { ArrowUp } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 
 const ScrollToTopButton: React.FC = () => {
@@ -50,13 +49,16 @@ const ScrollToTopButton: React.FC = () => {
   return (
     <>
       {showButton && (
-        <Fab
-          color='default'
+        <button
           onClick={scrollToTop}
-          className='fixed bottom-4 right-4 z-50 bg-gray-600 dark:text-white bg-transparent hidden lg:flex'
+          className="fixed bottom-4 right-4 z-50 bg-gray-800 text-white rounded-full opacity-45 hover:opacity-100 p-6"
+          title="Go to top"
         >
-          <KeyboardArrowUpIcon />
-        </Fab>
+          
+          <ArrowUp
+            className='bg-transparent'
+          />
+        </button>
       )}
     </>
   );

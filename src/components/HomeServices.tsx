@@ -28,7 +28,7 @@ export default function HomeServices() {
 
   return (
     <div className='flex flex-col justify-center font-bold gap-10 dark:text-white text-black p-6'>
-      <h1 className='lg:text-4xl text-2xl mt-20 flex'>ABOUT OUR SERVICES</h1>
+      <h2 className='lg:text-4xl text-2xl mt-20 flex'>ABOUT OUR SERVICES</h2>
       {/* <h3 className="font-medium text-2xl text-gray-600 dark:text-white mt-9 flex justify-center">
         Discover our impressive cars
       </h3> */}

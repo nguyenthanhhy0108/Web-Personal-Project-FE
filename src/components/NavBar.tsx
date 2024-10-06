@@ -42,6 +42,8 @@ export default function NavBar() {
         <div className='hidden lg:flex ml-auto'>
           <div className='flex gap-6'>
             <NavBarItem title='About' toLink='#' />
+            <NavBarItem title='Cars' toLink='/cars' />
+            <NavBarItem title='Services' toLink='#' />
             <NavBarItem title='Contact' toLink='#' />
             <NavBarItem title='News' toLink='#' />
             {authenticationValues?.isLogin == 'logged-in' && <AccountMenu />}
@@ -67,6 +69,8 @@ export default function NavBar() {
       {isOpen && (
         <div className='flex flex-wrap flex-col items-center justify-center bg-white dark:bg-black dark:text-white w-screen'>
           <NavBarItem title='About' toLink='#' />
+          <NavBarItem title='Cars' toLink='#' />
+          <NavBarItem title='Services' toLink='#' />
           <NavBarItem title='Contact' toLink='#' />
           <NavBarItem title='News' toLink='#' />
           {authenticationValues?.isLogin == 'logged-in' && <AccountMenu />}

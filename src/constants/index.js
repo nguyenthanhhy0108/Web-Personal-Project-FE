@@ -97,3 +97,31 @@ export const videoLinks = [
     url: "/videos/hybrid.mp4"
   },
 ]
+
+export const brandLogos = new Map([
+  ['audi', '/images/car-logo/audi.png'],
+  ['bmw', '/images/car-logo/bmw.png'],
+  ['ford', '/images/car-logo/ford.png'],
+  ['honda', '/images/car-logo/honda.png'],
+  ['hyundai', '/images/car-logo/hyundai.png'],
+  ['jaguar', '/images/car-logo/jaguar.png'],
+  ['kia', '/images/car-logo/kia.png'],
+  ['landrover', '/images/car-logo/landrover.png'],
+  ['lexus', '/images/car-logo/lexus.png'],
+  ['mazda', '/images/car-logo/mazda.png'],
+  ['mercedes', '/images/car-logo/mercedes.png'],
+  ['mg', '/images/car-logo/mg.png'],
+  ['mini-cooper', '/images/car-logo/mini-cooper.png'],
+  ['mitsubishi', '/images/car-logo/mitsubishi.png'],
+  ['nissan', '/images/car-logo/nissan.png'],
+  ['peugeot', '/images/car-logo/peugeot.png'],
+  ['porsche', '/images/car-logo/porsche.png'],
+  ['subaru', '/images/car-logo/subaru.png'],
+  ['suzuki', '/images/car-logo/suzuki.png'],
+  ['toyota', '/images/car-logo/toyota.png'],
+  ['vinfast', '/images/car-logo/vinfast.png'],
+  ['volvo', '/images/car-logo/volvo.png'],
+  ['volkswagen', '/images/car-logo/volkswagen.png'],
+]);
+
+export const brandLogosList = Array.from(brandLogos)

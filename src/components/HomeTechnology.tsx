@@ -6,9 +6,9 @@ export default function HomeTechnology() {
     <div>
       <div className='hidden lg:flex flex-col w-screen h-screen px-3'>
         <div className='flex mr-auto justify-center font-bold dark:text-white text-black p-6'>
-          <h1 className='lg:text-4xl text-2xl mt-12 flex'>
+          <h2 className='lg:text-4xl text-2xl mt-12 flex'>
             DISCOVER MODERN TECHNOLOGIES
-          </h1>
+          </h2>
         </div>
         <div className='hidden lg:grid lg:grid-rows-2 lg:grid-cols-2 gap-3 w-full h-full'>
           <div className='row-span-2 bg-black border-2 border-black rounded-3xl'>
@@ -41,9 +41,9 @@ export default function HomeTechnology() {
       {/* Moblie */}
       <div className='lg:hidden flex flex-col'>
         <div className='flex mr-auto justify-center font-bold dark:text-white text-black p-6'>
-          <h1 className='lg:text-4xl text-2xl mt-12 flex'>
+          <h2 className='lg:text-4xl text-2xl mt-12 flex'>
             DISCOVER MODERN TECHNOLOGIES
-          </h1>
+          </h2>
         </div>
         <div className='lg:hidden flex flex-col gap-3 w-screen'>
           {
