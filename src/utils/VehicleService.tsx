@@ -20,6 +20,6 @@ export async function getInitialVehicle() {
   }
 }
 
-export function priceStringToNumber(price: string) {
-  return Number(price.replace(/,/g, ''));
+export function priceNumberToString(price: number) {
+  return price.toLocaleString('en-US');
 }

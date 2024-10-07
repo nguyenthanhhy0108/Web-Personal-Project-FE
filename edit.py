@@ -1,37 +1,49 @@
-import cv2
-import os
+import numpy as np
+import scipy.stats as stats
+import matplotlib.pyplot as plt
 
-def resize_images_in_folder(folder_path, reference_image_path, output_folder):
-    # Đọc ảnh tham chiếu để lấy kích thước
-    reference_image = cv2.imread(reference_image_path)
-    reference_height, reference_width = reference_image.shape[:2]
+def run():
+    # Generate synthetic data
+    n = 1
+    mu = 0
+    std = 1  # Standard deviation
+    x = np.random.normal(loc=mu, scale=std, size=(n, 1))
 
-    # Tạo thư mục đầu ra nếu chưa tồn tại
-    os.makedirs(output_folder, exist_ok=True)
+    # Hypotheses:
+    # H_0: mu_2 = 0   vs.   H_1: mu_2 != 0
 
-    # Duyệt qua tất cả các file trong thư mục
-    for file_name in os.listdir(folder_path):
-        file_path = os.path.join(folder_path, file_name)
+    # Construct test-statistic
+    t_statistic, p_value = stats.ttest_1samp(x, 0)
 
-        # Kiểm tra nếu file là ảnh (tùy thuộc vào định dạng của bạn, có thể kiểm tra bằng đuôi file)
-        if file_name.endswith(('.png', '.jpg', '.jpeg')):
-            # Đọc ảnh
-            img = cv2.imread(file_path)
-            
-            if img is not None:
-                # Resize ảnh theo kích thước của ảnh tham chiếu
-                resized_img = cv2.resize(img, (reference_width, reference_height))
+    return p_value
 
-                # Lưu ảnh đã resize vào thư mục đầu ra
-                output_path = os.path.join(output_folder, file_name)
-                cv2.imwrite(output_path, resized_img)
-                print(f"Đã resize và lưu: {output_path}")
-            else:
-                print(f"Không thể mở ảnh: {file_name}")
 
-# Ví dụ sử dụng
-folder_path = r'D:\Java_project\Front-End\project-front-end\public\images\car-logo'  # Thư mục chứa ảnh cần resize
-reference_image_path = r'D:\Java_project\Front-End\project-front-end\public\images\car-logo\hyundai.png'  # Đường dẫn đến hyundai.png
-output_folder = r'D:\Java_project\Front-End\project-front-end\public\images\car-logo-new'
+if __name__ == '__main__':
 
-resize_images_in_folder(folder_path, reference_image_path, output_folder)
+    # Exercise 1: Code to compute a single p_value
+    p_value = run()
+    print(f"Single p-value: {p_value}")
+
+    # Exercise 2: Compute the false positive rate with 1000 iterations
+    max_iteration = 1000
+    p_values = []
+    alpha = 0.05  # Significance level
+
+    for _ in range(max_iteration):
+        p = run()
+        p_values.append(p)
+
+    p_values = np.array(p_values)
+
+    # False positive rate (reject H_0 when H_0 is true)
+    false_positive_rate = np.mean(p_values < alpha)
+    print(f"False positive rate: {false_positive_rate * 100}%")
+
+    # Exercise 3: Plot the distribution of the p_value
+    plt.hist(p_values, bins=30, edgecolor='black', alpha=0.7)
+    plt.axvline(x=alpha, color='red', linestyle='--', label=f'alpha = {alpha}')
+    plt.title('Distribution of p-values')
+    plt.xlabel('p-value')
+    plt.ylabel('Frequency')
+    plt.legend()
+    plt.show()

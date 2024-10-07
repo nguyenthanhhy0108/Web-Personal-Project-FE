@@ -1,19 +1,49 @@
 "use client"
 
 import { brandLogosList } from "@/constants";
-import { useState } from "react";
+import useDebounce from "@/hooks/useDebounce";
+import { fetchRecommendedCarNames } from "@/utils/SearchService";
+import { useEffect, useState } from "react";
 import CarBrand from "./CarBrand";
+import MainSearchRecommend from "./MainSearchRecommend";
 
 export default function SearchingArea() {
 
+  const [mainInput, setMainInput] = useState<string>("");
+  const debouncedMainSearch = useDebounce(mainInput, 666);
   const [isMore, setIsMore] = useState(false);
+  const [mainSearchRecommend, setMainSearchRecommend] = useState<string[]>([]);
+  const [isMainSearchRecommend, setIsMainSearchRecommend] = useState(true);
+
+  useEffect(() => {
+    setMainInput("");
+    const fetchData = async() => {
+      if (debouncedMainSearch == "") {
+        return
+      }
+      const data = await fetchRecommendedCarNames(debouncedMainSearch);
+      setMainSearchRecommend(data);
+    }
+    fetchData();
+    console.log(mainSearchRecommend)
+  }, [debouncedMainSearch])
 
   const handleClickMoreOptions = () => {
     setIsMore(!isMore);
+    setIsMainSearchRecommend(false);
   }
 
   const handleClickFind = () => {
     // setIsMore(!isMore);
+  }
+
+  const handleChangeMainSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.value == "") {
+      setIsMainSearchRecommend(false);
+    } else {
+      setIsMainSearchRecommend(true);
+      setMainInput(event.target.value);
+    }
   }
 
   return (
@@ -26,7 +56,10 @@ export default function SearchingArea() {
           <input
             className="border-2 border-gray-700 dark:border-gray-700 p-3 rounded-lg text-black w-full pl-10 hover:border-blue-800 focus:border-blue-800 outline-none"
             type="text"
+            readOnly={isMore}
+            disabled={isMore}
             placeholder="Which car do you want to find ?"
+            onChange={handleChangeMainSearch}
           />
           <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
             <svg
@@ -108,6 +141,13 @@ export default function SearchingArea() {
             </button>
           </div>
         </div>
+        {
+          isMainSearchRecommend && (
+            <MainSearchRecommend
+              mainSearchRecommend={mainSearchRecommend}
+            />
+          )
+        }
       </div>
       {/* Brands */}
       <div className={`hidden bg-gray-300 dark:bg-gray-900 mx-auto justify-center gap-3 ${isMore ? "lg:flex lg:flex-col" : ""}  py-6`}>
@@ -168,11 +208,11 @@ export default function SearchingArea() {
           <div>
             <div className="flex justify-between gap-16 bg-gray-300 dark:bg-gray-900">
               <div className="flex-grow relative p-6">
-                <div className="text-black dark:hidden flex text-xl font-bold absolute -translate-y-1/2 bg-white translate-x-1/2 px-3 rounded-xl">
-                  <h2>Brands</h2>
+                <div className="text-black dark:hidden flex text-xl font-bold absolute -translate-y-1/2 bg-gray-100 translate-x-1/2 px-3 rounded-xl">
+                  <h2>Brand (1)</h2>
                 </div>
                 <div className="bg-gray-900 hidden dark:flex text-xl font-bold dark:text-white px-3">
-                  <h2>Brands</h2>
+                  <h2>Brand (1)</h2>
                 </div>
                 <input
                   className="border-2 border-gray-700 py-3 rounded-lg text-black w-full pl-3 hover:border-blue-800 focus:border-blue-800 outline-none"
@@ -181,11 +221,11 @@ export default function SearchingArea() {
                 />
               </div>
               <div className="flex-grow relative p-6">
-                <div className="dark:hidden text-black text-xl font-bold absolute -translate-y-1/2 bg-white translate-x-1/2 px-3 rounded-xl">
-                  <h2>Car Name</h2>
+                <div className="dark:hidden text-black text-xl font-bold absolute -translate-y-1/2 bg-gray-100 translate-x-1/2 px-3 rounded-xl">
+                  <h2>Car Name (2)</h2>
                 </div>
                 <div className="bg-gray-900 hidden dark:flex text-xl font-bold dark:text-white px-3">
-                  <h2>Car Name</h2>
+                  <h2>Car Name (2)</h2>
                 </div>
                 <input
                   className="border-2 border-gray-700 p-3 rounded-lg text-black w-full pl-3 hover:border-blue-800 focus:border-blue-800 outline-none"

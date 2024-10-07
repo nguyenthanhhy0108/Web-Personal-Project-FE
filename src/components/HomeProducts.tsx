@@ -1,7 +1,7 @@
 'use client';
 
 import { ThemeContext } from '@/contexts/ThemeContext';
-import { getInitialVehicle, priceStringToNumber } from '@/utils/VehicleService';
+import { getInitialVehicle, priceNumberToString } from '@/utils/VehicleService';
 import { Skeleton } from '@mui/material';
 import Image from 'next/image';
 import { useContext, useEffect, useState } from 'react';
@@ -48,11 +48,11 @@ export default function HomeProducts() {
 
     if (vehicleData != undefined) {
       vehiclePrice = vehicleData.map((vehicle, index) => {
-        const stringPrice = vehicle.vehiclePrice.split(':')[1].split(' ')[1];
-        if (stringPrice == 'Updating') {
+        const price = vehicle.vehiclePrice;
+        if (parseInt(price) == 0) {
           return { index: index, price: 0 };
         } else {
-          return { index: index, price: priceStringToNumber(stringPrice) };
+          return { index: index, price: parseInt(price) };
         }
       });
     } else {
@@ -106,7 +106,7 @@ export default function HomeProducts() {
                   title={vehicle.vehicleName}
                   description={vehicle.vehicleDescription}
                   imageLink={vehicle.vehicleImageUrl}
-                  price={vehicle.vehiclePrice.split('*')[0]}
+                  price={priceNumberToString(parseInt(vehicle.vehiclePrice)) + " VND"}
                 />
               </div>
             );

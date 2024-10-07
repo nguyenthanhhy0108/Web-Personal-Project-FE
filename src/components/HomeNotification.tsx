@@ -41,6 +41,7 @@ export default function HomeNotification() {
     
         if (data.code == 1000) {
           banners = data.data;
+          console.log(banners);
         }
       } catch (error) {
         console.log('Error');
@@ -67,7 +68,7 @@ export default function HomeNotification() {
       <div className='lg:hidden flex flex-col h-full w-full justify-between'>
         <div className='bg-black my-auto rounded-2xl'>
           {
-            (isLoading || bannerList.length != 3) ?
+            (isLoading || bannerList.length < 3) ?
               (
                 <Skeleton
                   className='rounded-md'
@@ -90,7 +91,7 @@ export default function HomeNotification() {
         </div>
         <div className='flex bg-black h-[400px] rounded-2xl'>
           {
-            (isLoading || bannerList.length != 3) ?
+            (isLoading || bannerList.length < 3) ?
               (
                 <Skeleton
                   className='rounded-md'
@@ -113,7 +114,7 @@ export default function HomeNotification() {
         </div>
         <div className='flex bg-black h-[400px] rounded-2xl'>
           {
-            (isLoading || bannerList.length != 3) ?
+            (isLoading || bannerList.length < 3) ?
               (
                 <Skeleton
                   className='rounded-md'
@@ -138,7 +139,7 @@ export default function HomeNotification() {
       <div className='hidden lg:grid grid-cols-2 h-full w-full gap-3 rounded-2xl'>
         <div className='row-span-2 my-auto rounded-2xl'>
           {
-            (isLoading || bannerList.length != 3) ?
+            (isLoading || bannerList.length < 3) ?
               (
                 <Skeleton
                   className='rounded-md'
@@ -161,7 +162,7 @@ export default function HomeNotification() {
         </div>
         <div className='flex h-[400px] rounded-2xl'>
           {
-            (isLoading || bannerList.length != 3) ?
+            (isLoading || bannerList.length < 3) ?
               (
                 <Skeleton
                   className='rounded-md'
@@ -184,7 +185,7 @@ export default function HomeNotification() {
         </div>
         <div className='flex h-[400px] rounded-2xl'>
           {
-            (isLoading || bannerList.length != 3) ?
+            (isLoading || bannerList.length < 3) ?
               (
                 <Skeleton
                   className='rounded-md'
