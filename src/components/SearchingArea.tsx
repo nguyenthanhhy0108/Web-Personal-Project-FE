@@ -2,7 +2,7 @@
 
 import { brandLogosList } from "@/constants";
 import useDebounce from "@/hooks/useDebounce";
-import { fetchRecommendedCarNames } from "@/utils/SearchService";
+import { fetchAllBrandNames, fetchRecommendedCarNames } from "@/utils/SearchService";
 import { useEffect, useState } from "react";
 import CarBrand from "./CarBrand";
 import MainSearchRecommend from "./MainSearchRecommend";
@@ -14,6 +14,24 @@ export default function SearchingArea() {
   const [isMore, setIsMore] = useState(false);
   const [mainSearchRecommend, setMainSearchRecommend] = useState<string[]>([]);
   const [isMainSearchRecommend, setIsMainSearchRecommend] = useState(true);
+  const [brandsRecommend, setBrandsRecommend] = useState<string []>([]);
+  const [brandsInitialData, setBrandsInitialData] = useState<string []>([]);
+  const [brandSearchField, setBrandSearchField] = useState("");
+  const [choosenBrand, setChoosenBrand] = useState<string|undefined>("");
+  const [isChooseBrand, setIsChooseBrand] = useState<boolean>(false);
+
+  useEffect(() => {
+    const fetchData = async() => {
+      const data = await fetchAllBrandNames();
+      setBrandsInitialData(data);
+    }
+    fetchData();
+  }, [])
+
+  useEffect(() => {
+    if (choosenBrand)
+      setBrandSearchField(choosenBrand);
+  }, [choosenBrand])
 
   useEffect(() => {
     setMainInput("");
@@ -46,13 +64,28 @@ export default function SearchingArea() {
     }
   }
 
+  const handleBrandClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setIsChooseBrand(true);
+    if (event.currentTarget.textContent?.toString())
+      setBrandSearchField(event.currentTarget.textContent?.toString());
+    setChoosenBrand(event.currentTarget.textContent?.toString());
+  }
+
+  const handleChangeBrand = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIsChooseBrand(false)
+    setBrandSearchField(event.target.value);
+    setBrandsRecommend(brandsInitialData.filter((brand) => {
+      return brand.includes(event.target.value.toLowerCase());
+    }))
+  }
+
   return (
     <div>
-      <div className="w-screen h-auto py-14 bg-gray-300 dark:bg-gray-900">
+      <div className="w-screen h-auto py-14 bg-gray-200 dark:bg-gray-900">
         <h1 className="flex justify-center mb-6 text-4xl font-bold text-black dark:text-white">
           SEARCH
         </h1>
-        <div className="w-3/4 flex mx-auto relative">
+        <div className="w-3/4 flex mx-auto relative justify-between">
           <input
             className="border-2 border-gray-700 dark:border-gray-700 p-3 rounded-lg text-black w-full pl-10 hover:border-blue-800 focus:border-blue-800 outline-none"
             type="text"
@@ -150,13 +183,15 @@ export default function SearchingArea() {
         }
       </div>
       {/* Brands */}
-      <div className={`hidden bg-gray-300 dark:bg-gray-900 mx-auto justify-center gap-3 ${isMore ? "lg:flex lg:flex-col" : ""}  py-6`}>
+      <div className={`hidden bg-gray-200 dark:bg-gray-900 mx-auto justify-center gap-3 ${isMore ? "lg:flex lg:flex-col" : ""}  py-6`}>
         <div className="flex justify-between items-center gap-3">
           {
             brandLogosList.map((object, index) => {
               if (index > 6) return;
               return (
                 <CarBrand
+                  handleClick={handleBrandClick}
+                  currentBrand={choosenBrand}
                   key={index}
                   brandName={object[0]}
                 />
@@ -170,6 +205,8 @@ export default function SearchingArea() {
               if (index < 7 || index > 13) return;
               return (
                 <CarBrand
+                  handleClick={handleBrandClick}
+                  currentBrand={choosenBrand}
                   key={index}
                   brandName={object[0]}
                 />
@@ -183,6 +220,8 @@ export default function SearchingArea() {
               if (index < 14 || index > 20) return;
               return (
                 <CarBrand
+                  handleClick={handleBrandClick}
+                  currentBrand={choosenBrand}
                   key={index}
                   brandName={object[0]}
                 />
@@ -193,11 +232,15 @@ export default function SearchingArea() {
         <div className="flex justify-between gap-3">
           <div className="flex justify-center flex-grow">
             <CarBrand
+              handleClick={handleBrandClick}
+              currentBrand={choosenBrand}
               brandName={brandLogosList[21][0]}
             />
           </div>
           <div className="flex justify-center flex-grow">
             <CarBrand
+              handleClick={handleBrandClick}
+              currentBrand={choosenBrand}
               brandName={brandLogosList[22][0]}
             />
           </div>
@@ -206,7 +249,7 @@ export default function SearchingArea() {
       {
         isMore && (
           <div>
-            <div className="flex justify-between gap-16 bg-gray-300 dark:bg-gray-900">
+            <div className="flex justify-between gap-16 bg-gray-200 dark:bg-gray-900">
               <div className="flex-grow relative p-6">
                 <div className="text-black dark:hidden flex text-xl font-bold absolute -translate-y-1/2 bg-gray-100 translate-x-1/2 px-3 rounded-xl">
                   <h2>Brand (1)</h2>
@@ -214,11 +257,34 @@ export default function SearchingArea() {
                 <div className="bg-gray-900 hidden dark:flex text-xl font-bold dark:text-white px-3">
                   <h2>Brand (1)</h2>
                 </div>
-                <input
-                  className="border-2 border-gray-700 py-3 rounded-lg text-black w-full pl-3 hover:border-blue-800 focus:border-blue-800 outline-none"
-                  type="text"
-                  placeholder="Which brand do you want to find ?"
-                />
+                <div>
+                  <input
+                    className="border-2 border-gray-700 py-3 rounded-lg text-black w-full pl-3 hover:border-blue-800 focus:border-blue-800 outline-none"
+                    type="text"
+                    placeholder={"Which brand do you want to find ?"}
+                    onChange={handleChangeBrand}
+                    value={brandSearchField}
+                  />
+                  {
+                    brandsRecommend.map((brand, index) => {
+                      if (brandSearchField == "" || isChooseBrand) {
+                        return null;
+                      } else {
+                        if (index > 3) {
+                          return null;
+                        } else {
+                          return (
+                            <button
+                              onClick={handleBrandClick}
+                              type="button"
+                              className={`h-auto py-3 pl-3 bg-white w-full items-center font-bold flex ${index == 0 ? "rounded-t-lg" : ""} ${index == brandsRecommend.length - 1 ? "rounded-b-lg" : ""} ${brandsRecommend.length == 1 ? "rounded-lg" : ""}`}
+                              key={index}>{brand.toUpperCase()}</button>
+                          )
+                        }
+                      }
+                    })
+                  }
+                </div>
               </div>
               <div className="flex-grow relative p-6">
                 <div className="dark:hidden text-black text-xl font-bold absolute -translate-y-1/2 bg-gray-100 translate-x-1/2 px-3 rounded-xl">
@@ -231,10 +297,11 @@ export default function SearchingArea() {
                   className="border-2 border-gray-700 p-3 rounded-lg text-black w-full pl-3 hover:border-blue-800 focus:border-blue-800 outline-none"
                   type="text"
                   placeholder="Which car do you want to find ?"
+                  disabled={brandSearchField == ""}
                 />
               </div>
             </div>
-            <div className="pb-6 bg-gray-300 dark:bg-gray-900">
+            <div className="pb-6 bg-gray-200 dark:bg-gray-900">
               <button
                 type="button"
                 title="Find"

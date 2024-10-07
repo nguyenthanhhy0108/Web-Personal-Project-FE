@@ -5,15 +5,18 @@ import Image from "next/image";
 
 interface CarBrandProps {
   brandName: string;
+  currentBrand: string|undefined;
+  handleClick: (event: React.MouseEvent<HTMLButtonElement>) => void
 }
 
-export default function CarBrand({ brandName }: CarBrandProps) {
+export default function CarBrand({ brandName, currentBrand, handleClick }: CarBrandProps) {
   const logoSrc = brandLogos.get(brandName.toLowerCase());
 
   return (
     <button 
       type="button"
-      className="dark:bg-gray-700 dark:border-black pl-1 dark:text-white py-2 border-2 border-gray-800 text-black rounded-xl flex items-center justify-center w-48 h-16 gap-3">
+      onClick={handleClick}
+      className={`dark:bg-gray-700 ${currentBrand == brandName.toUpperCase() ? "ring-2" : ""} hover:ring-2 dark:border-black pl-1 dark:text-white py-2 border-2 border-gray-800 text-black rounded-xl flex items-center justify-center w-48 h-16 gap-3`}>
       {logoSrc ? (
         <Image
           className="object-contain h-[30px] w-auto"

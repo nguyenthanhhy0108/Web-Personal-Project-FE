@@ -23,7 +23,7 @@ export default function Footer() {
         </div>
         <div className='flex flex-col text-sm absolute left-1/2 transform -translate-x-1/2 text-center'>
           <div className='lg:flex justify-between'>
-            <NavBarItem title='Term' toLink='#' />
+            <NavBarItem title='Terms' toLink='#' />
             <NavBarItem title='Privacy' toLink='#' />
             <NavBarItem title='Security' toLink='#' />
             <NavBarItem title='Contact' toLink='#' />
