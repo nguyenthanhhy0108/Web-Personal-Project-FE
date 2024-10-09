@@ -47,3 +47,11 @@ export async function getBrandNameByVehicleName(vehicleName: string|null) {
     }
   }
 }
+
+export const changeSearchStateValue = (key: string, value: string) => {
+  const storedState = localStorage.getItem('searchState');
+  const searchState = storedState ? JSON.parse(storedState) : {};
+
+  searchState[key] = value;
+  localStorage.setItem('searchState', JSON.stringify(searchState));
+}

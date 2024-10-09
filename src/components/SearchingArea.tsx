@@ -2,13 +2,21 @@
 
 import { brandLogos, brandLogosList } from "@/constants";
 import useDebounce from "@/hooks/useDebounce";
+import { getURL } from "@/utils/GeneralServices";
 import { fetchAllBrandNames, fetchRecommendedCarNames, fetchRecommendedCarNamesByBrand } from "@/utils/SearchService";
 import { getBrandNameByVehicleName } from "@/utils/VehicleService";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import CarBrand from "./CarBrand";
 import MainSearchRecommend from "./MainSearchRecommend";
 
-export default function SearchingArea() {
+interface SearchingAreaProps {
+  setCarName: (carName: string) => void;
+  setBrandName: (brandName: string) => void;
+  setIsClickFind: (isClicked: boolean) => void;
+}
+
+export default function SearchingArea({setCarName, setBrandName, setIsClickFind}: SearchingAreaProps) {
 
   const [vehicleSearchField, setVehicleSearchField] = useState("");
   const debouncedMainSearch = useDebounce(vehicleSearchField, 100);
@@ -17,6 +25,7 @@ export default function SearchingArea() {
   const [isMainSearchRecommend, setIsMainSearchRecommend] = useState(false);
   const [vehicleNameSearchRecommend, setVehicleNameSearchRecommend] = useState<string[]>([]);
   const [isVehicleNameSearchRecommend, setIsVehicleNameSearchRecommend] = useState(true);
+  const [isBrandSearchRecommend, setIsBrandSearchRecommend] = useState(true);
   const [brandsRecommend, setBrandsRecommend] = useState<string []>([]);
   const [brandsInitialData, setBrandsInitialData] = useState<string []>([]);
   const [brandSearchField, setBrandSearchField] = useState("");
@@ -26,12 +35,23 @@ export default function SearchingArea() {
   const [isChooseBrand, setIsChooseBrand] = useState<boolean>(false);
   const [isChooseVehicle, setIsChooseVehicle] = useState<boolean>(false);
 
+  
+  const router = useRouter();
+
   useEffect(() => {
     const fetchData = async() => {
       const data = await fetchAllBrandNames();
       setBrandsInitialData(data);
     }
     fetchData();
+    
+    const storedState = localStorage.getItem('searchState');
+    const searchState = storedState ? JSON.parse(storedState) : {};
+
+    setChoosenBrand(searchState.brandName.toString())
+    setChoosenVehicle(searchState.carName.toString())
+    setBrandSearchField(searchState.brandName.toString())
+    setVehicleSearchField(searchState.carName.toString())
   }, [])
 
   useEffect(() => {
@@ -69,6 +89,8 @@ export default function SearchingArea() {
   }, [debouncedVehicleNameSearch])
 
   const handleChangeVehicleName = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCarName(event.target.value);
+    // changeSearchStateValue("carName", event.target.value);
     setIsChooseVehicle(false);
     if (event.target.value == "") {
       setIsVehicleNameSearchRecommend(false);
@@ -84,6 +106,8 @@ export default function SearchingArea() {
     setIsChooseVehicle(true);
     if (event.currentTarget.textContent) {
       setChoosenVehicle(event.currentTarget.textContent)
+      setCarName(event.currentTarget.textContent);
+      // changeSearchStateValue("carName", event.currentTarget.textContent);
     }
     let brandName = "";
     const findBrand = async () => {
@@ -92,6 +116,8 @@ export default function SearchingArea() {
       if ((brandSearchField !== brandName) && brandName !== undefined) {
         setBrandSearchField(brandName.toUpperCase());
         setChoosenBrand(brandName.toUpperCase());
+        setBrandName(brandName.toUpperCase());
+        // changeSearchStateValue("brandName", brandName.toUpperCase());
       }
     };
   
@@ -102,16 +128,36 @@ export default function SearchingArea() {
     setIsMore(!isMore);
     setIsMainSearchRecommend(false);
     setIsVehicleNameSearchRecommend(false);
+    setIsBrandSearchRecommend(false);
+    setBrandName("");
+    // changeSearchStateValue("brandName", "");
+    setChoosenBrand("");
   }
 
   const handleClickFind = () => {
-    // setIsMore(!isMore);
+    setIsClickFind(true);
+    setIsMainSearchRecommend(false);
+    setIsVehicleNameSearchRecommend(false);
+    setIsBrandSearchRecommend(false);
+    const url = getURL();
+    if (!url.searchParams.get("page")) {
+      router.push("/cars?page=1")
+    }
+  }
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleClickFind();
+    }
   }
 
   const handleChangeMainSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setCarName(event.target.value);
+    // changeSearchStateValue("carName", event.target.value);
     setIsMainSearchRecommend(true);
     if (event.target.value == "") {
       setIsMainSearchRecommend(false);
+      setVehicleSearchField(event.target.value);
     } else {
       setIsMainSearchRecommend(true);
       setVehicleSearchField(event.target.value);
@@ -120,8 +166,12 @@ export default function SearchingArea() {
 
   const handleBrandClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setIsChooseBrand(true);
-    if (event.currentTarget.textContent?.toString())
+    if (event.currentTarget.textContent?.toString()) {
       setBrandSearchField(event.currentTarget.textContent?.toString());
+      setBrandName(event.currentTarget.textContent?.toString());
+      // changeSearchStateValue("brandName", event.currentTarget.textContent.toString());
+    }
+      
     setChoosenBrand(event.currentTarget.textContent?.toString());
   }
 
@@ -130,27 +180,44 @@ export default function SearchingArea() {
       setVehicleSearchField(event.currentTarget.textContent?.toString());
       setChoosenVehicle(event.currentTarget.textContent?.toString());
       setIsChooseVehicle(true);
+      setCarName(event.currentTarget.textContent.toString());
+      // changeSearchStateValue("carName", event.currentTarget.textContent);
     }
   }
 
   const handleChangeBrand = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setIsChooseBrand(false)
+    setIsChooseBrand(false);
+    setIsBrandSearchRecommend(true);
     setBrandSearchField(event.target.value);
     setBrandsRecommend(brandsInitialData.filter((brand) => {
       return brand.includes(event.target.value.toLowerCase());
     }))
+    setBrandName(event.target.value);
+    // changeSearchStateValue("brandName", event.target.value);
+    if (event.target.value == "") {
+      setIsBrandSearchRecommend(false);
+    }
+  }
+
+  const handleClearClick = () => {
+    setIsBrandSearchRecommend(false);
+    setIsMainSearchRecommend(false);
+    setIsVehicleNameSearchRecommend(false);
   }
 
   return (
-    <div>
+    <div
+      onClick={handleClearClick}
+    >
       <div className={`w-screen h-auto py-14 flex-grow bg-gray-200 ${!isMore ? "pb-48 lg:pb-24" : ""}  dark:bg-gray-900`}>
         <h1 className="flex justify-center mb-6 text-4xl font-bold text-black dark:text-white">
           SEARCH
         </h1>
-        <div className="w-3/4 lg:flex mx-auto relative justify-between">
+        <div className="lg:w-3/4 w-10/12 lg:flex mx-auto relative justify-between">
           <input
             className="border-2 border-gray-700 dark:border-gray-700 p-3 rounded-lg text-black w-full pl-10 hover:border-blue-800 focus:border-blue-800 outline-none"
             type="text"
+            onKeyDown={handleKeyDown}
             readOnly={isMore}
             disabled={isMore}
             value={vehicleSearchField}
@@ -188,7 +255,7 @@ export default function SearchingArea() {
                 <button
                   onClick={handleClickFind}
                   className={`px-12 py-4 items-center flex rounded-xl bg-red-500 hover:bg-red-700 hover:scale-[1.05] duration-75 transition-all`}
-                  type="button"
+                  type="submit"
                   title="Find"
                 >
                   Find
@@ -412,7 +479,7 @@ export default function SearchingArea() {
                   />
                   {
                     brandsRecommend.map((brand, index) => {
-                      if (brandSearchField == "" || isChooseBrand) {
+                      if (brandSearchField == "" || isChooseBrand || !isBrandSearchRecommend) {
                         return null;
                       } else {
                         if (index > 3) {
@@ -445,6 +512,7 @@ export default function SearchingArea() {
                   className="border-2 border-gray-700 p-3 rounded-lg text-black w-full pl-3 hover:border-blue-800 focus:border-blue-800 outline-none"
                   type="text"
                   onChange={handleChangeVehicleName}
+                  onKeyDown={handleKeyDown}
                   value={vehicleSearchField}
                   placeholder="Which car do you want to find ?"
                   disabled={brandSearchField == "" || !brandLogos.has(brandSearchField ? brandSearchField.toLowerCase() : "")}
@@ -474,6 +542,7 @@ export default function SearchingArea() {
               <button
                 type="button"
                 title="Find"
+                onClick={handleClickFind}
                 className="flex justify-center items-center lg:mt-0 bg-red-500 hover:bg-red-700 mx-auto px-16 py-4 font-bold rounded-3xl text-2xl"
               >
                 Find

@@ -1,5 +1,6 @@
 'use client';
 
+import { Vehicle } from '@/constants/interface';
 import { ThemeContext } from '@/contexts/ThemeContext';
 import { getInitialVehicle, priceNumberToString } from '@/utils/VehicleService';
 import { Skeleton } from '@mui/material';
@@ -8,15 +9,6 @@ import { useContext, useEffect, useState } from 'react';
 import CarCard from './Card';
 import ImageSlider from './ImageSlider';
 
-interface Vehicle {
-  vehicleId: string;
-  vehicleName: string;
-  vehiclePrice: string;
-  vehicleDescription: string;
-  vehicleImageUrl: string;
-  numberOfRemaining: number;
-  brandName: string;
-}
 
 interface VehiclePrice {
   index: number;

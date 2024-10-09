@@ -3,6 +3,7 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
+import Image from 'next/image';
 import { useState } from 'react';
 import CardSpanDialog from './CardSpanDialog';
 
@@ -40,7 +41,12 @@ export default function CarCard({
         setOpenCardLearnMore={setOpenCardLearnMore}
       />
       <div className='flex flex-col'>
-        <img src={imageLink} alt='IMG' width={900} height={900} />
+        <Image
+          className='object-contain w-[500px] h-[500px]'
+          alt='IMG'
+          src={imageLink}
+          width={900} height={900}
+        />
         <CardContent>
           <div className='grid grid-rows-2'>
             <Typography

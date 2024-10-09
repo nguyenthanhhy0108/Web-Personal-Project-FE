@@ -124,4 +124,6 @@ export const brandLogos = new Map([
   ['volkswagen', '/images/car-logo/volkswagen.png'],
 ]);
 
-export const brandLogosList = Array.from(brandLogos)
+export const brandLogosList = Array.from(brandLogos);
+
+export const searchProductPageSize = 12;

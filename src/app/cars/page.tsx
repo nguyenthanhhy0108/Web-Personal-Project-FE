@@ -1,11 +1,11 @@
 import IntroductionImage from "@/components/IntroductionImage";
-import SearchingArea from "@/components/SearchingArea";
+import SearchCar from "@/components/SearchCar";
 
 export default function page() {
   return (
     <div className="w-screen ">
       <IntroductionImage/>
-      <SearchingArea/>
+      <SearchCar/>
     </div>
   )
 }

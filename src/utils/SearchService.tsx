@@ -1,3 +1,5 @@
+import { searchProductPageSize } from "@/constants";
+
 export const fetchAllBrandNames = async(): Promise<string[]> => {
   try {
     const response = await fetch(
@@ -78,3 +80,37 @@ export const fetchRecommendedCarNamesByBrand = async(brandName: string, typedStr
     return [];
   }
 }
+
+export const getRelevantCars = async(carName: string, carBrand: string, pageNumber?: number) => {
+
+  if (pageNumber == null) {
+    pageNumber = 1;
+  }
+
+  const carSearchParams = {
+    "brandName": carBrand,
+    "carName": carName,
+    "pageSize": searchProductPageSize,
+    "pageNumber": pageNumber,  
+  }
+
+  try {
+    const response = await fetch(
+      process.env.NEXT_PUBLIC_DOMAIN + '/search/vehicles',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(carSearchParams),
+      },
+    )
+    const data = await response.json();
+    if (data.code == 1000) {
+      return {"BEData": data.data, "currentPage": carSearchParams.pageNumber};
+    }
+    return data;
+  } catch (ex) {
+    console.log(Error);
+  }
+} 

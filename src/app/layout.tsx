@@ -42,7 +42,7 @@ export default function RootLayout({
         <ThemeProvider>
           <AuthenticationProvider>
             <body
-              className={`${geistSans.variable} ${geistMono.variable} overflow-x-hidden antialiased bg-white dark:bg-gray-900 text-white dark:text-black`}
+              className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white dark:bg-gray-900 text-white dark:text-black`}
             >
               <Protector />
               <div className='flex flex-col flex-grow w-screen h-screen relative'>
