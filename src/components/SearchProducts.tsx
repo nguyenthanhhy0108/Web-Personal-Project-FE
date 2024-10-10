@@ -4,6 +4,7 @@ import { Vehicle } from "@/constants/interface";
 import { getURL } from "@/utils/GeneralServices";
 import { getRelevantCars } from "@/utils/SearchService";
 import { priceNumberToString } from "@/utils/VehicleService";
+import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import CarCard from "./Card";
 
@@ -18,27 +19,24 @@ export default function SearchProducts({brandName, carName, isClickFind, setIsCl
 
   const [carsData, setCarsData] = useState<Vehicle[]>([]);
   const [totalPages, setTotalPages] = useState<number>(0);
-  const [currentPage, setCurrentPage] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const [error, setError] = useState<string>("");
 
   useEffect(() => {
     if (isClickFind) {
       const fetchData = async() => {
-        const url = getURL();
+        const urlParams = getURL().searchParams;
         let data;
-        const pageParam = url.searchParams.get("page");
+        const pageParam = urlParams.get("page");
+        console.log(brandName);
+        console.log(carName)
         if (pageParam != null) {
           const pageNumber = parseInt(pageParam);
           data = await getRelevantCars(carName, brandName, pageNumber);
-          const state = {
-            "brandName": brandName,
-            "carName": carName
-          }
-          localStorage.setItem('searchState', JSON.stringify(state));
         } else {
           data = await getRelevantCars(carName, brandName);
         }
-        if (data.code == 9034) {
+        if (data.code == 9034 || data.code == 9035) {
           setError("Not Found");
         } else {
           setError("");
@@ -54,11 +52,32 @@ export default function SearchProducts({brandName, carName, isClickFind, setIsCl
 
   }, [isClickFind])
 
-  const handleBackToPage1 = () => {
-    window.location.href = "/cars?page=1";
+  useEffect(() => {
+    const urlParams = getURL().searchParams;
+    if (urlParams.get("page")) {
+      setIsClickFind(!isClickFind);
+    }
+  }, [])
+
+  const handleResetSearch = () => {
+    window.location.href = "/cars?brand=" + "&search=" + "&page=1";
   }
 
-  console.log(currentPage)
+  const handlePageButton = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const page = event.currentTarget.textContent?.trim();
+    if (page) {
+      window.location.href = "/cars?brand=" + brandName + "&search=" + carName + "&page=" + page;
+    }
+  };
+
+  const handlePrevButton = () => {
+    window.location.href = "/cars?brand=" + brandName + "&search=" + carName + "&page=" + (currentPage - 1).toString();
+  };
+
+  const handleNextButton = () => {
+    window.location.href = "/cars?brand=" + brandName + "&search=" + carName + "&page=" + (currentPage + 1).toString();
+  };
+
 
   return (
     <div className="w-screen pb-24">
@@ -67,11 +86,11 @@ export default function SearchProducts({brandName, carName, isClickFind, setIsCl
           <div className="flex flex-col justify-center items-center mx-auto text-3xl font-bold dark:text-white text-black">
             <hr className="h-3 w-full mx-auto flex justify-center" />
             <div className="mt-4">Not Found!</div>
-            <div className="mt-4">Can Not Find Any Cars In Our Inventory</div>
+            <div className="mt-4 flex justify-center text-center">Can Not Find Any Cars In Our Inventory</div>
             <button 
-              onClick={handleBackToPage1}
+              onClick={handleResetSearch}
               className="mt-16 p-6 bg-gray-50 text-blue-800 rounded-3xl">
-              Back To Page 1
+              Reset Search Engine
             </button>
           </div>
         ) : null
@@ -92,39 +111,100 @@ export default function SearchProducts({brandName, carName, isClickFind, setIsCl
             }) : null
         }
       </div>
-      <div className="flex justify-center mx-auto gap-3 dark:text-white text-black text-xl">
-        {
-          totalPages > 5 && currentPage > 3 ? 
-            <button className="justify-items-end">
-              &lt; ...
-            </button>
-            : null
-        }
-        <div
-          className="justify-center flex"
-        >
-          {
-            Array.from({ length: totalPages + 1 }, (_, index) => {
-              if (index != 0 && index >= currentPage - 2 && index <= currentPage + 2) {
-                return (
-                  <button className={`px-2 ${currentPage == index ? "underline text-blue-600" : ""}`} key={index}>
-                    {index}
-                  </button>
-                );
+      {
+        !(error == "Not Found") ? (
+          <div className="lg:flex hidden justify-center mx-auto gap-3 dark:text-white text-black text-xl">
+            {
+              totalPages > 9 && currentPage > 4 ? 
+                <button 
+                  onClick={handlePrevButton}
+                >
+                  <ArrowBackIos
+                    className="hover:text-red-600"
+                  />
+                </button>
+                : null
+            }
+            <div
+              className="justify-center flex"
+            >
+              {
+                Array.from({ length: totalPages + 1 }, (_, index) => {
+                  if (index != 0 && index >= currentPage - 4 && index <= currentPage + 4) {
+                    return (
+                      <button 
+                        onClick={handlePageButton}
+                        className={`mx-2 p-3 bg-gray-300 w-9 h-9 items-center flex font-bold text-black justify-center rounded-full hover:ring-4 hover:ring-red-600  ${currentPage == index ? "text-white bg-red-600" : ""}`} key={index}>
+                        {index}
+                      </button>
+                    );
+                  }
+                  return null;
+                })
               }
-              return null;
-            })
-          }
-        </div>
-        {
-          totalPages > 5 && currentPage < totalPages - 2 ? 
-            <button>
-              ...
-              &gt;
-            </button>
-            : null
-        }
-      </div>
+            </div>
+            {
+              totalPages > 9 && currentPage < totalPages - 4 ? 
+                <button
+                  onClick={handleNextButton}
+                >
+                  <ArrowForwardIos
+                    className="hover:text-red-600"
+                  />
+                </button>
+                : null
+            }
+          </div>
+        ) : null
+      }
+
+      {
+        !(error == "Not Found") ? (
+          <div className="flex lg:hidden justify-center mx-auto gap-3 dark:text-white text-black text-xl">
+            {
+              totalPages > 5 && currentPage > 2 ? 
+                <button 
+                  onClick={handlePrevButton}
+                >
+                  <ArrowBackIos
+                    className="hover:text-red-600"
+                  />
+                </button>
+                : null
+            }
+            <div
+              className="justify-center flex"
+            >
+              {
+                Array.from({ length: totalPages + 1 }, (_, index) => {
+                  if (index != 0 && index >= currentPage - 2 && index <= currentPage + 2) {
+                    return (
+                      <button 
+                        onClick={handlePageButton}
+                        className={`mx-2 p-3 bg-gray-300 w-9 h-9 items-center flex font-bold text-black justify-center rounded-full hover:ring-4 hover:ring-red-600  ${currentPage == index ? "text-white bg-red-600" : ""}`} key={index}>
+                        {index}
+                      </button>
+                    );
+                  }
+                  return null;
+                })
+              }
+            </div>
+            {
+              totalPages > 5 && currentPage < totalPages - 2 ? 
+                <button
+                  onClick={handleNextButton}
+                >
+                  <ArrowForwardIos
+                    className="hover:text-red-600"
+                  />
+                </button>
+                : null
+            }
+          </div>
+        ) : null
+      }
+      
     </div>
   )
 }

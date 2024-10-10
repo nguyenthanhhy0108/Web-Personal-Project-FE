@@ -45,13 +45,12 @@ export default function SearchingArea({setCarName, setBrandName, setIsClickFind}
     }
     fetchData();
     
-    const storedState = localStorage.getItem('searchState');
-    const searchState = storedState ? JSON.parse(storedState) : {};
+    const urlParams = getURL().searchParams
 
-    setChoosenBrand(searchState.brandName.toString())
-    setChoosenVehicle(searchState.carName.toString())
-    setBrandSearchField(searchState.brandName.toString())
-    setVehicleSearchField(searchState.carName.toString())
+    setChoosenBrand(urlParams.get("brand")?.toString() || "");
+    setChoosenVehicle(urlParams.get("search") || "");
+    setBrandSearchField(urlParams.get("brand")?.toString() || "");
+    setVehicleSearchField(urlParams.get("search") || "");
   }, [])
 
   useEffect(() => {
@@ -139,9 +138,16 @@ export default function SearchingArea({setCarName, setBrandName, setIsClickFind}
     setIsMainSearchRecommend(false);
     setIsVehicleNameSearchRecommend(false);
     setIsBrandSearchRecommend(false);
-    const url = getURL();
-    if (!url.searchParams.get("page")) {
-      router.push("/cars?page=1")
+    const urlParams = getURL().searchParams;
+    if (urlParams.get("page") == null) {
+      router.push(
+        "/cars?brand=" + brandSearchField.toString() + 
+        "&search=" + vehicleSearchField.toString() + 
+        "&page=1")
+    } else {
+      router.push("/cars?brand=" + brandSearchField.toString() + 
+        "&search=" + vehicleSearchField.toString() + 
+        "&page=" + urlParams.get("page"))
     }
   }
 
@@ -209,7 +215,7 @@ export default function SearchingArea({setCarName, setBrandName, setIsClickFind}
     <div
       onClick={handleClearClick}
     >
-      <div className={`w-screen h-auto py-14 flex-grow bg-gray-200 ${!isMore ? "pb-48 lg:pb-24" : ""}  dark:bg-gray-900`}>
+      <div className={`w-screen h-80 py-14 flex-grow bg-gray-200 ${!isMore ? "pb-48 lg:pb-24" : ""}  dark:bg-gray-900`}>
         <h1 className="flex justify-center mb-6 text-4xl font-bold text-black dark:text-white">
           SEARCH
         </h1>
