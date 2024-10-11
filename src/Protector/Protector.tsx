@@ -23,9 +23,9 @@ export default function Protector() {
 
     const url = new URL(urlString);
 
-    if (urlString.includes("email-existed")) {
+    if (urlString.includes('email-existed')) {
       authenticationValues?.setIsLogin('email-existed');
-      router.push('/auth');  
+      router.push('/auth');
     }
 
     if (url.pathname == '/home') {
@@ -33,7 +33,6 @@ export default function Protector() {
       const params = new URLSearchParams(hash.substring(1));
 
       if (params.get('error')) {
-
         authenticationValues?.setIsLogin('access-denied');
 
         router.push('/auth');
@@ -61,7 +60,7 @@ export default function Protector() {
               if (data.birthdays) {
                 dateOfBirth = formatDateToString(
                   data.birthdays[0].date,
-                ).toString()
+                ).toString();
               }
 
               const requestBody = {
@@ -93,44 +92,26 @@ export default function Protector() {
     let token = undefined;
 
     token = getCookie('access-token');
-    // console.log(token);
-    // let parsedToken = null;
-    // if (token)
-    //   parsedToken = parseToken(token);
-
-    // let expirationDate = null
-    // if(parsedToken )
-    //   expirationDate = parsedToken?.exp ? new Date(parsedToken.exp * 1000) : null;
-
-    // const currentTime = Date.now();
-
-    // let checkExpiryTime = true;
-    // if(expirationDate)
-    //   checkExpiryTime = currentTime > expirationDate.getTime();
-
-    // console.log(checkExpiryTime)
 
     if (!legalAPI.includes(url.pathname)) {
     }
 
-    // if (url.pathname == '/auth') {
-    //   if (token == null) {
-    //     // pass
-    //   } else {
-    //     router.push('/home');
-    //   }
-    // } else {
-    //   if (token === null) {
-    //     // alert("ABC")
-    //     router.push('/auth');
-    //   }
-    // }
+    if (url.pathname == '/auth') {
+      if (token == null) {
+        // pass
+      } else {
+        router.push('/home');
+      }
+    } else {
+      if (token === null) {
+        router.push('/auth');
+      }
+    }
 
     if (token != null) {
       if (url.pathname == '/auth') {
         router.refresh();
         router.push('/home');
-        // window.location.href = '/home'
       }
     }
   }, [router]);

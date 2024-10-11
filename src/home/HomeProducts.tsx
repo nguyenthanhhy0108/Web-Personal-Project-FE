@@ -6,9 +6,8 @@ import { getInitialVehicle, priceNumberToString } from '@/utils/VehicleService';
 import { Skeleton } from '@mui/material';
 import Image from 'next/image';
 import { useContext, useEffect, useState } from 'react';
-import CarCard from './Card';
+import CarCard from '../cars/Card';
 import ImageSlider from './ImageSlider';
-
 
 interface VehiclePrice {
   index: number;
@@ -35,7 +34,6 @@ export default function HomeProducts() {
   // console.log(vehicleData)
 
   useEffect(() => {
-
     let vehiclePrice = null;
 
     if (vehicleData != undefined) {
@@ -50,7 +48,7 @@ export default function HomeProducts() {
     } else {
       return;
     }
-    
+
     const impressiveVehicleIndex = vehiclePrice
       .sort((a: VehiclePrice, b: VehiclePrice) => b.price - a.price)
       .slice(0, 6)
@@ -98,7 +96,9 @@ export default function HomeProducts() {
                   title={vehicle.vehicleName}
                   description={vehicle.vehicleDescription}
                   imageLink={vehicle.vehicleImageUrl}
-                  price={priceNumberToString(parseInt(vehicle.vehiclePrice)) + " VND"}
+                  price={
+                    priceNumberToString(parseInt(vehicle.vehiclePrice)) + ' VND'
+                  }
                 />
               </div>
             );

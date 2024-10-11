@@ -84,19 +84,21 @@ export const imageLinks = [
 export const videoLinks = [
   {
     id: 1,
-    url: "/videos/self-driving.mp4"
+    url: '/videos/self-driving.mp4',
   },
   {
     id: 2,
-    url: "/videos/awd.mp4"
-  },{
-    id: 3,
-    url: "/videos/interior.mp4"
-  },{
-    id: 4,
-    url: "/videos/hybrid.mp4"
+    url: '/videos/awd.mp4',
   },
-]
+  {
+    id: 3,
+    url: '/videos/interior.mp4',
+  },
+  {
+    id: 4,
+    url: '/videos/hybrid.mp4',
+  },
+];
 
 export const brandLogos = new Map([
   ['audi', '/images/car-logo/audi.png'],

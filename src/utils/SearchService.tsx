@@ -1,6 +1,6 @@
-import { searchProductPageSize } from "@/constants";
+import { searchProductPageSize } from '@/constants';
 
-export const fetchAllBrandNames = async(): Promise<string[]> => {
+export const fetchAllBrandNames = async (): Promise<string[]> => {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_DOMAIN}/vehicle-inventory/brands/names`,
@@ -24,10 +24,11 @@ export const fetchAllBrandNames = async(): Promise<string[]> => {
     console.error('Error:', error);
     return [];
   }
-}
+};
 
-
-export const fetchRecommendedCarNames = async(typedString: string): Promise<string[]> => {
+export const fetchRecommendedCarNames = async (
+  typedString: string,
+): Promise<string[]> => {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_DOMAIN}/search/vehicles/` + typedString,
@@ -51,21 +52,25 @@ export const fetchRecommendedCarNames = async(typedString: string): Promise<stri
     console.error('Error:', error);
     return [];
   }
-}
+};
 
-
-export const fetchRecommendedCarNamesByBrand = async(brandName: string, typedString: string): Promise<string[]> => {
+export const fetchRecommendedCarNamesByBrand = async (
+  brandName: string,
+  typedString: string,
+): Promise<string[]> => {
   try {
-    const url = process.env.NEXT_PUBLIC_DOMAIN + '/search/vehicles/' + brandName.toLowerCase() + "/" + typedString;
-    const response = await fetch(
-      url,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+    const url =
+      process.env.NEXT_PUBLIC_DOMAIN +
+      '/search/vehicles/' +
+      brandName.toLowerCase() +
+      '/' +
+      typedString;
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
       },
-    );
+    });
 
     const data = await response.json();
 
@@ -79,20 +84,23 @@ export const fetchRecommendedCarNamesByBrand = async(brandName: string, typedStr
     console.error('Error:', error);
     return [];
   }
-}
+};
 
-export const getRelevantCars = async(carName: string, carBrand: string, pageNumber?: number) => {
-
+export const getRelevantCars = async (
+  carName: string,
+  carBrand: string,
+  pageNumber?: number,
+) => {
   if (pageNumber == null) {
     pageNumber = 1;
   }
 
   const carSearchParams = {
-    "brandName": carBrand,
-    "carName": carName,
-    "pageSize": searchProductPageSize,
-    "pageNumber": pageNumber,  
-  }
+    brandName: carBrand,
+    carName: carName,
+    pageSize: searchProductPageSize,
+    pageNumber: pageNumber,
+  };
 
   try {
     const response = await fetch(
@@ -104,13 +112,13 @@ export const getRelevantCars = async(carName: string, carBrand: string, pageNumb
         },
         body: JSON.stringify(carSearchParams),
       },
-    )
+    );
     const data = await response.json();
     if (data.code == 1000) {
-      return {"BEData": data.data, "currentPage": carSearchParams.pageNumber};
+      return { BEData: data.data, currentPage: carSearchParams.pageNumber };
     }
     return data;
   } catch (ex) {
     console.log(Error);
   }
-} 
+};

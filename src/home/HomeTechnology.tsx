@@ -46,17 +46,16 @@ export default function HomeTechnology() {
           </h2>
         </div>
         <div className='lg:hidden flex flex-col gap-3 w-screen'>
-          {
-            videoLinks.map((videoInstance) => {
-              return (
-                <div 
-                  key={videoInstance.id}
-                  className='bg-black border-2 border-black rounded-3xl w-full min-h-[300px] h-[300px]'>
-                  <VideoPlayer videoLink={videoInstance.url} />
-                </div>
-              );
-            })
-          }
+          {videoLinks.map((videoInstance) => {
+            return (
+              <div
+                key={videoInstance.id}
+                className='bg-black border-2 border-black rounded-3xl w-full min-h-[300px] h-[300px]'
+              >
+                <VideoPlayer videoLink={videoInstance.url} />
+              </div>
+            );
+          })}
         </div>
         <div className='lg:hidden flex justify-center p-3 pt-9'>
           <button

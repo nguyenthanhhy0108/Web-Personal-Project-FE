@@ -45,7 +45,8 @@ export default function CarCard({
           className='object-contain w-[500px] h-[500px]'
           alt='IMG'
           src={imageLink}
-          width={900} height={900}
+          width={900}
+          height={900}
         />
         <CardContent>
           <div className='grid grid-rows-2'>

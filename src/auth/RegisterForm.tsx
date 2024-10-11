@@ -72,7 +72,7 @@ export default function RegisterForm({
         fullName.split(' ').slice(1, fullName.split(' ').length).join(' '),
       );
     } else {
-      setLastname("Hmmm...")
+      setLastname('Hmmm...');
     }
   };
 

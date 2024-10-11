@@ -1,21 +1,20 @@
-"use client"
+'use client';
 
-import { getURL } from "@/utils/GeneralServices";
-import { useEffect, useState } from "react";
-import SearchingArea from "./SearchingArea";
-import SearchProducts from "./SearchProducts";
+import { getURL } from '@/utils/GeneralServices';
+import { useEffect, useState } from 'react';
+import SearchingArea from './SearchingArea';
+import SearchProducts from './SearchProducts';
 
 export default function SearchCar() {
-
-  const [carName, setCarName] = useState<string>("");
-  const [brandName, setBrandName] = useState<string>("");
+  const [carName, setCarName] = useState<string>('');
+  const [brandName, setBrandName] = useState<string>('');
   const [isClickFind, setIsClickFind] = useState<boolean>(false);
 
   useEffect(() => {
     const urlParam = getURL().searchParams;
-    setCarName(urlParam.get("search") || "");
-    setBrandName(urlParam.get("brand") || "")
-  }, [])
+    setCarName(urlParam.get('search') || '');
+    setBrandName(urlParam.get('brand') || '');
+  }, []);
 
   return (
     <div>
@@ -31,5 +30,5 @@ export default function SearchCar() {
         setIsClickFind={setIsClickFind}
       />
     </div>
-  )
+  );
 }

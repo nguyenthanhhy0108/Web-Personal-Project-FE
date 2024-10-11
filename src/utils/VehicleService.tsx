@@ -24,11 +24,13 @@ export function priceNumberToString(price: number) {
   return price.toLocaleString('en-US');
 }
 
-export async function getBrandNameByVehicleName(vehicleName: string|null) {
+export async function getBrandNameByVehicleName(vehicleName: string | null) {
   if (vehicleName) {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_DOMAIN}/vehicle-inventory/vehicles/` + vehicleName + "/brand",
+        `${process.env.NEXT_PUBLIC_DOMAIN}/vehicle-inventory/vehicles/` +
+          vehicleName +
+          '/brand',
         {
           method: 'GET',
           headers: {
@@ -36,14 +38,14 @@ export async function getBrandNameByVehicleName(vehicleName: string|null) {
           },
         },
       );
-  
+
       const data = await response.json();
-  
+
       if (data.code == 1000) {
         return data.data;
       }
     } catch (ex) {
-      console.log(ex)
+      console.log(ex);
     }
   }
 }
@@ -54,4 +56,4 @@ export const changeSearchStateValue = (key: string, value: string) => {
 
   searchState[key] = value;
   localStorage.setItem('searchState', JSON.stringify(searchState));
-}
+};

@@ -1,5 +1,6 @@
 'use client';
 
+import Loading from '@/components/Loading';
 import { AuthenticationContext } from '@/contexts/AuthenticationContext';
 import { setCookie } from '@/utils/Cookie';
 import { getAccessToken } from '@/utils/UserService';
@@ -7,8 +8,7 @@ import { Checkbox } from '@mui/material';
 import Alert from '@mui/material/Alert';
 import { useRouter } from 'next/navigation';
 import React, { ChangeEvent, useContext, useState } from 'react';
-import GoogleLoginButton from './GoogleLoginButton';
-import Loading from './Loading';
+import GoogleLoginButton from '../auth/GoogleLoginButton';
 
 interface LoginFormProps {
   desire: string;
@@ -110,7 +110,9 @@ export default function LoginForm({
           <Alert severity='error'>Attempt To Login Fail!</Alert>
         )}
         {authenticationValues?.isLogin == 'email-existed' && (
-          <Alert severity='error'>Email has already existed on a different account!</Alert>
+          <Alert severity='error'>
+            Email has already existed on a different account!
+          </Alert>
         )}
         <div className='mt-6'>
           <label className='text-lg font-medium'>Username</label>

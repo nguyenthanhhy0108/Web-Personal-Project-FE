@@ -1,4 +1,4 @@
-import LoginOrRegister from '@/components/LoginOrRegister';
+import LoginOrRegister from '@/auth/LoginOrRegister';
 
 export default function page() {
   return (

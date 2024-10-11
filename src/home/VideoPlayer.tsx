@@ -63,13 +63,12 @@ export default function VideoPlayer({ videoLink }: { videoLink: string }) {
 
   useEffect(() => {
     document.addEventListener('fullscreenchange', handleFullscreenChange);
-    
+
     return () => {
       document.removeEventListener('fullscreenchange', handleFullscreenChange);
     };
   }, []);
 
-  
   return (
     <div className='w-full h-full relative group'>
       <video

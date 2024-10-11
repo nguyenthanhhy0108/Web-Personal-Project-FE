@@ -1,7 +1,7 @@
-import HomeNotification from '@/components/HomeNotification';
-import HomeProducts from '@/components/HomeProducts';
-import HomeServices from '@/components/HomeServices';
-import HomeTechnology from '@/components/HomeTechnology';
+import HomeNotification from '@/home/HomeNotification';
+import HomeProducts from '@/home/HomeProducts';
+import HomeServices from '@/home/HomeServices';
+import HomeTechnology from '@/home/HomeTechnology';
 
 export default function page() {
   return (

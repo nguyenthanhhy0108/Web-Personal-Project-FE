@@ -47,9 +47,7 @@ export default function RootLayout({
               <Protector />
               <div className='flex flex-col flex-grow w-screen h-screen relative'>
                 <NavBar />
-                <div className='flex-grow'>
-                  {children}
-                </div>
+                <div className='flex-grow'>{children}</div>
                 <Footer />
                 <ScrollToTopButton />
               </div>
