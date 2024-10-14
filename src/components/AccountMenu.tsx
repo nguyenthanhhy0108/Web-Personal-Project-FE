@@ -1,3 +1,6 @@
+"use client"
+
+import { deleteCookie } from '@/utils/Cookie';
 import Logout from '@mui/icons-material/Logout';
 import Settings from '@mui/icons-material/Settings';
 import Avatar from '@mui/material/Avatar';
@@ -7,10 +10,14 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import * as React from 'react';
 
 export default function AccountMenu() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+
+  const router = useRouter();
+
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -18,6 +25,15 @@ export default function AccountMenu() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  
+  const handleLogOut = () => {
+    deleteCookie('access-token');
+    router.refresh();
+    setTimeout(() => {
+      window.location.href = "/auth"
+    }, 300)
+  }
+
   return (
     <React.Fragment>
       <div className='flex justify-center items-center mx-auto py-3'>
@@ -92,7 +108,7 @@ export default function AccountMenu() {
           </ListItemIcon>
           Settings
         </MenuItem>
-        <MenuItem onClick={handleClose} className='hover:bg-gray-300'>
+        <MenuItem onClick={handleLogOut} className='hover:bg-gray-300'>
           <ListItemIcon>
             <Logout fontSize='small' />
           </ListItemIcon>
