@@ -112,3 +112,66 @@ export const sendNotificationMail = (
     return { error: true };
   }
 };
+
+
+export const getVerificationCode = async(
+  username: string | null,
+  email: string | null
+) => {
+
+  const requestBody = {
+    "email" : email,
+    "username": username
+  }
+
+  const url = process.env.NEXT_PUBLIC_DOMAIN + '/user/reset-password/verify';
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestBody),
+    });
+    const data = await response.json();
+    if (data.code) {
+      return data;
+    }
+    
+  } catch (error) {
+    console.log('Error');
+  }
+};
+
+export const confirmChangPassword = async(
+  code: string | null,
+  newPassword: string | null,
+  username: string | null,
+  email: string | null
+) => {
+
+  const requestBody = {
+    "email" : email,
+    "username": username,
+    "code": code,
+    "newPassword": newPassword
+  }
+
+  const url = process.env.NEXT_PUBLIC_DOMAIN + '/user/reset-password/confirm';
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(requestBody),
+    });
+    const data = await response.json();
+    if (data.code) {
+      return data;
+    }
+    
+  } catch (error) {
+    console.log('Error');
+  }
+};

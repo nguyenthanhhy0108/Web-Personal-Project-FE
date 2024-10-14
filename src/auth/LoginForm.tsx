@@ -14,12 +14,14 @@ interface LoginFormProps {
   desire: string;
   setDesire: React.Dispatch<React.SetStateAction<string>>;
   isRegisterSuccessfull: boolean;
+  isResetPassword: boolean;
 }
 
 export default function LoginForm({
   desire,
   setDesire,
   isRegisterSuccessfull,
+  isResetPassword,
 }: LoginFormProps) {
   const router = useRouter();
   const [username, setUsername] = useState('');
@@ -106,6 +108,9 @@ export default function LoginForm({
         {isRegisterSuccessfull && authenticationValues?.isLogin != 'error' && (
           <Alert severity='success'>Register Successfully!</Alert>
         )}
+        {isResetPassword && authenticationValues?.isLogin != 'error' && (
+          <Alert severity='success'>Reset Password Successfully!</Alert>
+        )}
         {authenticationValues?.isLogin == 'access-denied' && (
           <Alert severity='error'>Attempt To Login Fail!</Alert>
         )}
@@ -150,9 +155,11 @@ export default function LoginForm({
               Remember me
             </label>
           </div>
-          <button className='font-medium text-base text-violet-600 hover:text-violet-800'>
+          <a 
+            href='/forgot'
+            className='font-medium text-base text-violet-600 hover:text-violet-800'>
             Forgot Password
-          </button>
+          </a>
         </div>
         <div className='mt-6 flex flex-col gap-y-6'>
           <button

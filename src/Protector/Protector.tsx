@@ -93,16 +93,17 @@ export default function Protector() {
 
     token = getCookie('access-token');
 
-    if (!legalAPI.includes(url.pathname)) {
+    if (legalAPI.includes(url.pathname)) {
     }
 
-    if (url.pathname == '/auth') {
+    if (url.pathname == '/auth' || url.pathname == '/forgot') {
       if (token == null) {
         // pass
       } else {
         router.push('/home');
       }
-    } else {
+    } 
+    else {
       if (token === null) {
         router.push('/auth');
       }
