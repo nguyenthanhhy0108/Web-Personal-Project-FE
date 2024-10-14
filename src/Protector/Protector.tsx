@@ -96,12 +96,12 @@ export default function Protector() {
     if (legalAPI.includes(url.pathname)) {
     }
 
-    if (url.pathname == '/auth' || url.pathname == '/forgot') {
-      if (token == null) {
-        // pass
-      } else {
-        router.push('/home');
-      }
+    if (legalAPI.includes(url.pathname)) {
+      // if (token == null) {
+      //   // pass
+      // } else {
+      //   router.push('/home');
+      // }
     } else {
       if (token === null) {
         router.push('/auth');

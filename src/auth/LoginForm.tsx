@@ -26,7 +26,7 @@ export default function LoginForm({
   const router = useRouter();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [remember, setRemember] = useState(false);
+  const [remember, setRemember] = useState(true);
   const [isError, setIsError] = useState(false);
   const [message, setMessage] = useState('');
   const [submit, setSubmit] = useState(false);
@@ -54,38 +54,49 @@ export default function LoginForm({
 
   const submitLoginForm = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+  
+    // Cập nhật trạng thái trước khi thực hiện thao tác bất đồng bộ
     setSubmitStatus('waiting');
     setSubmit(true);
-    const requestBody = {
-      username: username,
-      password: password,
-    };
-
-    const data = await getAccessToken(requestBody);
-    if (data.code === 1000) {
-      if (remember == true) {
-        setCookie<string>({
-          name: 'access-token',
-          value: data.data,
-          time: 1,
-        });
+  
+    try {
+      const requestBody = {
+        username: username,
+        password: password,
+      };
+  
+      const data = await getAccessToken(requestBody);
+  
+      if (data.code === 1000) {
+        if (remember) {
+          setCookie<string>({
+            name: 'access-token',
+            value: data.data,
+            time: 1,
+          });
+        }
+        authenticationValues?.setIsLogin('logged-in');
+        router.push('/home');
       }
-      authenticationValues?.setIsLogin('logged-in');
-      router.push('/home');
-    }
-
-    if (data.code === 9008) {
+  
+      if (data.code === 9008) {
+        setIsError(true);
+        setMessage(data.message);
+      }
+  
+      if (data.error) {
+        setIsError(true);
+        setMessage('An unexpected error occurred! Please wait a little bit');
+      }
+    } catch (error) {
       setIsError(true);
-      setMessage(data.message);
+      setMessage('An unexpected error occurred! Please try again.');
+    } finally {
+      // Đảm bảo trạng thái được đặt lại sau khi hoàn tất
+      setUsername('');
+      setPassword('');
+      setSubmitStatus(''); // Reset trạng thái loading
     }
-
-    if (data.error) {
-      setIsError(true);
-      setMessage('An unexpected error occurred! Please waiting a little bit');
-    }
-    setUsername('');
-    setPassword('');
-    setSubmitStatus('');
   };
 
   if (submitStatus === 'waiting') {

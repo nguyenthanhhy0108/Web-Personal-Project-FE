@@ -240,7 +240,7 @@ export default function SearchingArea({
   return (
     <div onClick={handleClearClick}>
       <div
-        className={`w-screen h-80 py-14 flex-grow bg-gray-200 ${!isMore ? 'pb-48 lg:pb-24' : ''}  dark:bg-gray-900`}
+        className={`w-screen h-full py-14 flex-grow bg-gray-200 ${!isMore ? 'pb-48 lg:pb-24' : ''}  dark:bg-gray-900`}
       >
         <h1 className='flex justify-center mb-6 text-4xl font-bold text-black dark:text-white'>
           SEARCH

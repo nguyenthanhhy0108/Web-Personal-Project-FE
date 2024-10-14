@@ -25,6 +25,7 @@ export default function SearchProducts({
   const [totalPages, setTotalPages] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [error, setError] = useState<string>('');
+  const [isDisplay, setIsDisplay] = useState<boolean>(false);
 
   useEffect(() => {
     if (isClickFind) {
@@ -52,6 +53,7 @@ export default function SearchProducts({
       fetchData();
 
       setIsClickFind(false);
+      setIsDisplay(true);
     }
   }, [isClickFind]);
 
@@ -95,7 +97,7 @@ export default function SearchProducts({
   };
 
   return (
-    <div className='w-screen pb-24'>
+    <div className={`w-screen pb-24 ${!isDisplay ? "hidden" :""}`}>
       {error == 'Not Found' ? (
         <div className='flex flex-col justify-center items-center mx-auto text-3xl font-bold dark:text-white text-black'>
           <hr className='h-3 w-full mx-auto flex justify-center' />
