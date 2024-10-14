@@ -14,7 +14,7 @@ export default function LoginOrRegister() {
 
   useEffect(() => {
     const urlParams = getURL();
-    if (urlParams.searchParams.get("reset-password")) {
+    if (urlParams.searchParams.get('reset-password')) {
       setIsResetPassword(true);
     }
   }, []);

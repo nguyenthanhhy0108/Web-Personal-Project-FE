@@ -113,16 +113,14 @@ export const sendNotificationMail = (
   }
 };
 
-
-export const getVerificationCode = async(
+export const getVerificationCode = async (
   username: string | null,
-  email: string | null
+  email: string | null,
 ) => {
-
   const requestBody = {
-    "email" : email,
-    "username": username
-  }
+    email: email,
+    username: username,
+  };
 
   const url = process.env.NEXT_PUBLIC_DOMAIN + '/user/reset-password/verify';
   try {
@@ -137,25 +135,23 @@ export const getVerificationCode = async(
     if (data.code) {
       return data;
     }
-    
   } catch (error) {
     console.log('Error');
   }
 };
 
-export const confirmChangPassword = async(
+export const confirmChangPassword = async (
   code: string | null,
   newPassword: string | null,
   username: string | null,
-  email: string | null
+  email: string | null,
 ) => {
-
   const requestBody = {
-    "email" : email,
-    "username": username,
-    "code": code,
-    "newPassword": newPassword
-  }
+    email: email,
+    username: username,
+    code: code,
+    newPassword: newPassword,
+  };
 
   const url = process.env.NEXT_PUBLIC_DOMAIN + '/user/reset-password/confirm';
   try {
@@ -170,7 +166,6 @@ export const confirmChangPassword = async(
     if (data.code) {
       return data;
     }
-    
   } catch (error) {
     console.log('Error');
   }

@@ -1,32 +1,37 @@
-"use client"
+'use client';
 
-import { getVerificationCode } from "@/utils/UserService";
-import { Alert } from "@mui/material";
-import { useState } from "react";
+import { getVerificationCode } from '@/utils/UserService';
+import { Alert } from '@mui/material';
+import { useState } from 'react';
 
 interface VerifyFormProps {
-  username: string | null,
-  email: string | null,
-  isSentVerificationCode: boolean,
-  setUsername : (username: string) => void;
-  setEmail : (email: string) => void;
-  setIsSentVerificationCode: (status: boolean) => void
+  username: string | null;
+  email: string | null;
+  isSentVerificationCode: boolean;
+  setUsername: (username: string) => void;
+  setEmail: (email: string) => void;
+  setIsSentVerificationCode: (status: boolean) => void;
 }
 
-export default function VerifyForm({username, email, setUsername, setEmail, setIsSentVerificationCode} : VerifyFormProps) {
-
+export default function VerifyForm({
+  username,
+  email,
+  setUsername,
+  setEmail,
+  setIsSentVerificationCode,
+}: VerifyFormProps) {
   const [isError, setIsError] = useState<boolean>(false);
   const [isNotMatch, setIsNotMatch] = useState<boolean>(false);
   const [isUsernameError, setIsUsernameError] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
   const handleChangeUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
-  }
+  };
 
   const handleChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
-  }
+  };
 
   const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -43,7 +48,7 @@ export default function VerifyForm({username, email, setUsername, setEmail, setI
     } else {
       setIsSentVerificationCode(true);
     }
-  }
+  };
 
   return (
     <form
@@ -55,14 +60,12 @@ export default function VerifyForm({username, email, setUsername, setEmail, setI
         Please enter your details to reset your password through email.
       </p>
       <div className='mt-9'>
-        {isError && (
-          <Alert severity='error'>{errorMessage}</Alert>
-        )}
+        {isError && <Alert severity='error'>{errorMessage}</Alert>}
         <div className='mt-6'>
           <label className='text-lg font-medium'>Username</label>
           <input
             onChange={handleChangeUsername}
-            className={`${isUsernameError ? "border-red-600 dark:border-red-600" : ""} ${isNotMatch ? "border-red-600 dark:border-red-600" : ""} w-full border-2 border-gray-500 dark:border-white hover:border-black dark:hover:border-blue-600 rounded-lg p-3 mt-3 bg-transparent dark:bg-white dark:text-black`}
+            className={`${isUsernameError ? 'border-red-600 dark:border-red-600' : ''} ${isNotMatch ? 'border-red-600 dark:border-red-600' : ''} w-full border-2 border-gray-500 dark:border-white hover:border-black dark:hover:border-blue-600 rounded-lg p-3 mt-3 bg-transparent dark:bg-white dark:text-black`}
             placeholder='Enter your username'
             required
           />
@@ -71,7 +74,7 @@ export default function VerifyForm({username, email, setUsername, setEmail, setI
           <label className='text-lg font-medium'>Email</label>
           <input
             onChange={handleChangeEmail}
-            className={`${isNotMatch ? "border-red-600 dark:border-red-600" : ""} w-full border-2 border-gray-500 dark:border-white hover:border-black dark:hover:border-blue-600 rounded-lg p-3 mt-3 bg-transparent dark:bg-white dark:text-black`}
+            className={`${isNotMatch ? 'border-red-600 dark:border-red-600' : ''} w-full border-2 border-gray-500 dark:border-white hover:border-black dark:hover:border-blue-600 rounded-lg p-3 mt-3 bg-transparent dark:bg-white dark:text-black`}
             placeholder='Enter your email'
             type='email'
             required
@@ -79,8 +82,8 @@ export default function VerifyForm({username, email, setUsername, setEmail, setI
         </div>
       </div>
       <button
-        type="submit"
-        className="p-6 text-xl rounded-3xl flex justify-center mx-auto bg-green-600 mt-12 hover:scale-[1.05] transition-all duration-75 hover:bg-green-700"
+        type='submit'
+        className='p-6 text-xl rounded-3xl flex justify-center mx-auto bg-green-600 mt-12 hover:scale-[1.05] transition-all duration-75 hover:bg-green-700'
       >
         Get verification code
       </button>

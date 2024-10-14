@@ -1,9 +1,9 @@
-import ResetPasswordForm from "@/password-reset/ResetPasswordForm";
+import ResetPasswordForm from '@/password-reset/ResetPasswordForm';
 
 export default function page() {
   return (
     <div>
-      <ResetPasswordForm/>
+      <ResetPasswordForm />
     </div>
-  )
+  );
 }

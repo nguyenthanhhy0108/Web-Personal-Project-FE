@@ -155,9 +155,10 @@ export default function LoginForm({
               Remember me
             </label>
           </div>
-          <a 
+          <a
             href='/forgot'
-            className='font-medium text-base text-violet-600 hover:text-violet-800'>
+            className='font-medium text-base text-violet-600 hover:text-violet-800'
+          >
             Forgot Password
           </a>
         </div>

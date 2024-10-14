@@ -1,30 +1,29 @@
-"use client"
+'use client';
 
-import { confirmChangPassword } from "@/utils/UserService";
-import { Alert } from "@mui/material";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { confirmChangPassword } from '@/utils/UserService';
+import { Alert } from '@mui/material';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 interface ConfirmFormProps {
-  username: string | null,
-  email: string | null
+  username: string | null;
+  email: string | null;
 }
 
-export default function ConfirmForm({username, email} : ConfirmFormProps) {
-
+export default function ConfirmForm({ username, email }: ConfirmFormProps) {
   const [isError, setIsError] = useState<boolean>(false);
   const [isCodeError, setIsCodeError] = useState<boolean>(false);
   const [notMatch, setNotMatch] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>("");
-  const [code, setCode] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [retypePassword, setRetypePassword] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [code, setCode] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [retypePassword, setRetypePassword] = useState<string>('');
 
   const router = useRouter();
 
   const handleChangeCode = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCode(event.target.value);
-  }
+  };
 
   const handleChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (retypePassword != event.target.value) {
@@ -33,27 +32,34 @@ export default function ConfirmForm({username, email} : ConfirmFormProps) {
       setNotMatch(false);
     }
     setPassword(event.target.value);
-  }
+  };
 
-  const handleChangeRetypePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(password)
-    console.log("value", event.target.value)
+  const handleChangeRetypePassword = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    console.log(password);
+    console.log('value', event.target.value);
     if (password != event.target.value) {
       setNotMatch(true);
     } else {
       setNotMatch(false);
     }
     setRetypePassword(event.target.value);
-  }
+  };
 
   const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (notMatch) {
       setIsError(true);
-      setErrorMessage("Passwords are not match");
+      setErrorMessage('Passwords are not match');
     } else {
       setIsError(false);
-      const status = await confirmChangPassword(code, password, username, email);
+      const status = await confirmChangPassword(
+        code,
+        password,
+        username,
+        email,
+      );
       if (status) {
         setIsError(true);
         setErrorMessage(status.message);
@@ -61,10 +67,10 @@ export default function ConfirmForm({username, email} : ConfirmFormProps) {
           setIsCodeError(true);
         }
       } else {
-        router.push("/auth?reset-password=true")
+        router.push('/auth?reset-password=true');
       }
     }
-  }
+  };
 
   return (
     <form
@@ -76,16 +82,14 @@ export default function ConfirmForm({username, email} : ConfirmFormProps) {
         Please enter your details to reset your password through email.
       </p>
       <div className='mt-9'>
-        {isError && (
-          <Alert severity='error'>{errorMessage}</Alert>
-        )}
+        {isError && <Alert severity='error'>{errorMessage}</Alert>}
         <div className='mt-6'>
           <label className='text-lg font-medium'>Verification Code</label>
           <input
             onChange={handleChangeCode}
-            className={`${isCodeError ? "border-red-600 dark:border-red-600" : ""} w-full border-2 font-bold text-2xl text-blue-700 border-gray-500 dark:border-white hover:border-black dark:hover:border-blue-600 rounded-lg p-3 mt-3 bg-transparent dark:bg-white`}
+            className={`${isCodeError ? 'border-red-600 dark:border-red-600' : ''} w-full border-2 font-bold text-2xl text-blue-700 border-gray-500 dark:border-white hover:border-black dark:hover:border-blue-600 rounded-lg p-3 mt-3 bg-transparent dark:bg-white`}
             placeholder='Enter your verification code'
-            type="text"
+            type='text'
             maxLength={6}
             required
           />
@@ -94,7 +98,7 @@ export default function ConfirmForm({username, email} : ConfirmFormProps) {
           <label className='text-lg font-medium'>New Password</label>
           <input
             onChange={handleChangePassword}
-            className={`${notMatch ? "border-red-600 dark:border-red-600" : ""} w-full border-2 border-gray-500 dark:border-white hover:border-black dark:hover:border-blue-600 rounded-lg p-3 mt-3 bg-transparent dark:bg-white dark:text-black`}
+            className={`${notMatch ? 'border-red-600 dark:border-red-600' : ''} w-full border-2 border-gray-500 dark:border-white hover:border-black dark:hover:border-blue-600 rounded-lg p-3 mt-3 bg-transparent dark:bg-white dark:text-black`}
             placeholder='Enter your new password'
             minLength={8}
             maxLength={32}
@@ -106,7 +110,7 @@ export default function ConfirmForm({username, email} : ConfirmFormProps) {
         <label className='text-lg font-medium'>Retype New Password</label>
         <input
           onChange={handleChangeRetypePassword}
-          className={`${notMatch ? "border-red-600 dark:border-red-600" : ""} w-full border-2 border-gray-500 dark:border-white hover:border-black dark:hover:border-blue-600 rounded-lg p-3 mt-3 bg-transparent dark:bg-white dark:text-black`}
+          className={`${notMatch ? 'border-red-600 dark:border-red-600' : ''} w-full border-2 border-gray-500 dark:border-white hover:border-black dark:hover:border-blue-600 rounded-lg p-3 mt-3 bg-transparent dark:bg-white dark:text-black`}
           placeholder='Enter your new password again'
           minLength={8}
           maxLength={32}
@@ -114,8 +118,8 @@ export default function ConfirmForm({username, email} : ConfirmFormProps) {
         />
       </div>
       <button
-        type="submit"
-        className="p-6 text-xl rounded-3xl flex justify-center mx-auto bg-green-600 mt-12 hover:scale-[1.05] transition-all duration-75 hover:bg-green-700"
+        type='submit'
+        className='p-6 text-xl rounded-3xl flex justify-center mx-auto bg-green-600 mt-12 hover:scale-[1.05] transition-all duration-75 hover:bg-green-700'
       >
         Reset Password
       </button>

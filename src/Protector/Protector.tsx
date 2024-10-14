@@ -102,8 +102,7 @@ export default function Protector() {
       } else {
         router.push('/home');
       }
-    } 
-    else {
+    } else {
       if (token === null) {
         router.push('/auth');
       }
