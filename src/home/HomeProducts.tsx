@@ -6,7 +6,7 @@ import { getInitialVehicle, priceNumberToString } from '@/utils/VehicleService';
 import { Skeleton } from '@mui/material';
 import Image from 'next/image';
 import { useContext, useEffect, useState } from 'react';
-import CarCard from '../cars/Card';
+import CarCard from '../vehicles/Card';
 import ImageSlider from './ImageSlider';
 
 interface VehiclePrice {

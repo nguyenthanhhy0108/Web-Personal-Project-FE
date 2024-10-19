@@ -4,6 +4,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import CardSpanDialog from './CardSpanDialog';
 
@@ -26,9 +27,15 @@ export default function CarCard({
 }: CardProps) {
   const [openCardLearnMore, setOpenCardLearnMore] = useState(false);
 
+  const router = useRouter();
+  
   const handleClickLearnMore = () => {
     setOpenCardLearnMore(!openCardLearnMore);
   };
+
+  const handleCardClick = () => {
+    router.push("/car");
+  }
 
   return (
     <Card className='w-auto flex-grow dark:bg-gray-800 dark:text-white rounded-lg border-2 border-gray-200 dark:border-gray-900 hover:scale-[1.03] ease-in-out transition-all'>
@@ -39,10 +46,12 @@ export default function CarCard({
         img={imageLink}
         status={openCardLearnMore}
         setOpenCardLearnMore={setOpenCardLearnMore}
+        handleCardClick={handleCardClick}
       />
       <div className='flex flex-col'>
         <Image
-          className='object-contain w-[500px] h-[500px]'
+          onClick={handleCardClick}
+          className='object-contain w-[500px] h-[500px] hover:cursor-pointer'
           alt='IMG'
           src={imageLink}
           width={900}

@@ -1,5 +1,5 @@
-import IntroductionImage from '@/cars/IntroductionImage';
-import SearchCar from '@/cars/SearchCar';
+import IntroductionImage from '@/vehicles/IntroductionImage';
+import SearchCar from '@/vehicles/SearchCar';
 
 export default function page() {
   return (

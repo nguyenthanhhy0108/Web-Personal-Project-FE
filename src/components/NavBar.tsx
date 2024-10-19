@@ -42,10 +42,9 @@ export default function NavBar() {
         <div className='hidden lg:flex ml-auto'>
           <div className='flex gap-6'>
             <NavBarItem title='About' toLink='#' />
-            <NavBarItem title='Cars' toLink='/cars' />
-            <NavBarItem title='Services' toLink='#' />
+            <NavBarItem title='Vehicles' toLink='/vehicles' />
+            <NavBarItem title='Parts' toLink='/parts' />
             <NavBarItem title='Contact' toLink='#' />
-            <NavBarItem title='News' toLink='#' />
             {authenticationValues?.isLogin == 'logged-in' && <AccountMenu />}
             <button onClick={themeValues.toggleThemeButton}>
               {themeValues.themeMode === 'dark' ? (

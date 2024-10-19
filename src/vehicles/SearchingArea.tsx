@@ -97,6 +97,10 @@ export default function SearchingArea({
     fetchData();
   }, [debouncedVehicleNameSearch]);
 
+  const handleResetSearch = () => {
+    window.location.href = '/vehicles?brand=' + '&search=' + '&page=1';
+  };
+
   const handleChangeVehicleName = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
@@ -155,7 +159,7 @@ export default function SearchingArea({
     const urlParams = getURL().searchParams;
     if (urlParams.get('page') == null) {
       router.push(
-        '/cars?brand=' +
+        '/vehicles?brand=' +
           brandSearchField.toString() +
           '&search=' +
           vehicleSearchField.toString() +
@@ -163,7 +167,7 @@ export default function SearchingArea({
       );
     } else {
       router.push(
-        '/cars?brand=' +
+        '/vehicles?brand=' +
           brandSearchField.toString() +
           '&search=' +
           vehicleSearchField.toString() +
@@ -561,14 +565,22 @@ export default function SearchingArea({
               })}
             </div>
           </div>
-          <div className='pb-6 bg-gray-200 dark:bg-gray-900'>
+          <div className='flex pb-6 gap-6 justify-center bg-gray-200 dark:bg-gray-900'>
             <button
               type='button'
               title='Find'
               onClick={handleClickFind}
-              className='flex justify-center items-center lg:mt-0 bg-red-500 hover:bg-red-700 mx-auto px-16 py-4 font-bold rounded-3xl text-2xl'
+              className='flex items-center px-16 lg:mt-0 bg-red-500 hover:bg-red-700 py-4 font-bold rounded-3xl text-2xl'
             >
               Find
+            </button>
+            <button
+              type='button'
+              title='Reset Search Engine'
+              onClick={handleResetSearch}
+              className='flex items-center px-6 lg:mt-0 bg-gray-400 hover:bg-gray-500 py-4 font-bold rounded-3xl text-lg'
+            >
+              Reset
             </button>
           </div>
         </div>

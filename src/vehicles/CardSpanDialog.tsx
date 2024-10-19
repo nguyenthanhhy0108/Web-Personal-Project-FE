@@ -15,6 +15,7 @@ interface CardSpanProps {
   price: string;
   img: string;
   status: boolean;
+  handleCardClick: () => void;
   setOpenCardLearnMore?: (status: boolean) => void;
 }
 
@@ -33,6 +34,7 @@ export default function CardSpanDialog({
   price,
   img,
   status,
+  handleCardClick,
   setOpenCardLearnMore,
 }: CardSpanProps) {
   const handleClose = () => {
@@ -85,7 +87,7 @@ export default function CardSpanDialog({
             <Button
               className='font-bold text-xl lg:text-3xl hover:bg-gray-300 dark:hover:bg-gray-800 hover:scale-[1.05] text-blue-600'
               autoFocus
-              onClick={handleClose}
+              onClick={handleCardClick}
             >
               Visit
             </Button>

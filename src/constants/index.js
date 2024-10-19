@@ -1,4 +1,4 @@
-export const legalAPI = ['/auth', '/home', '/forgot', '/cars'];
+export const legalAPI = ['/auth', '/home', '/forgot', '/vehicles', '/deposite'];
 
 export const errors = new Map([
   [9001, 'Username is missing'],
@@ -42,6 +42,9 @@ export const errors = new Map([
   [9039, 'Invalid verification code'],
   [9040, 'Expiry verification code'],
   [9041, 'Username not exist'],
+  [9042, 'Save contract fail'],
+  [9043, 'Invalid contract id'],
+  [9044, 'Get contract fail'],
   [9998, 'You do not have enough permission'],
   [9999, 'Uncategorized error'],
   [10000, 'Service unavailable, please try again later.'],

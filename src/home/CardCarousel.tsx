@@ -4,7 +4,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { IconButton } from '@mui/material';
 import { useState } from 'react';
-import CarCard from '../cars/Card';
+import CarCard from '../vehicles/Card';
 
 interface GivenCard {
   title: string;

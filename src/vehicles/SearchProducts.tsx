@@ -65,20 +65,20 @@ export default function SearchProducts({
   }, []);
 
   const handleResetSearch = () => {
-    window.location.href = '/cars?brand=' + '&search=' + '&page=1';
+    window.location.href = '/vehicles?brand=' + '&search=' + '&page=1';
   };
 
   const handlePageButton = (event: React.MouseEvent<HTMLButtonElement>) => {
     const page = event.currentTarget.textContent?.trim();
     if (page) {
       window.location.href =
-        '/cars?brand=' + brandName + '&search=' + carName + '&page=' + page;
+        '/vehicles?brand=' + brandName + '&search=' + carName + '&page=' + page;
     }
   };
 
   const handlePrevButton = () => {
     window.location.href =
-      '/cars?brand=' +
+      '/vehicles?brand=' +
       brandName +
       '&search=' +
       carName +
@@ -88,7 +88,7 @@ export default function SearchProducts({
 
   const handleNextButton = () => {
     window.location.href =
-      '/cars?brand=' +
+      '/vehicles?brand=' +
       brandName +
       '&search=' +
       carName +
