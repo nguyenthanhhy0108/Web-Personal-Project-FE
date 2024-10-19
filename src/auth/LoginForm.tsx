@@ -54,19 +54,19 @@ export default function LoginForm({
 
   const submitLoginForm = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-  
+
     // Cập nhật trạng thái trước khi thực hiện thao tác bất đồng bộ
     setSubmitStatus('waiting');
     setSubmit(true);
-  
+
     try {
       const requestBody = {
         username: username,
         password: password,
       };
-  
+
       const data = await getAccessToken(requestBody);
-  
+
       if (data.code === 1000) {
         if (remember) {
           setCookie<string>({
@@ -78,12 +78,12 @@ export default function LoginForm({
         authenticationValues?.setIsLogin('logged-in');
         router.push('/home');
       }
-  
+
       if (data.code === 9008) {
         setIsError(true);
         setMessage(data.message);
       }
-  
+
       if (data.error) {
         setIsError(true);
         setMessage('An unexpected error occurred! Please wait a little bit');

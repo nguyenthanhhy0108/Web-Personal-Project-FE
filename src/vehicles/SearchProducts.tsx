@@ -97,7 +97,7 @@ export default function SearchProducts({
   };
 
   return (
-    <div className={`w-screen pb-24 ${!isDisplay ? "hidden" :""}`}>
+    <div className={`w-screen pb-24 ${!isDisplay ? 'hidden' : ''}`}>
       {error == 'Not Found' ? (
         <div className='flex flex-col justify-center items-center mx-auto text-3xl font-bold dark:text-white text-black'>
           <hr className='h-3 w-full mx-auto flex justify-center' />

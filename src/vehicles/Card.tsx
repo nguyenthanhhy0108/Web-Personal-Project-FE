@@ -28,14 +28,14 @@ export default function CarCard({
   const [openCardLearnMore, setOpenCardLearnMore] = useState(false);
 
   const router = useRouter();
-  
+
   const handleClickLearnMore = () => {
     setOpenCardLearnMore(!openCardLearnMore);
   };
 
   const handleCardClick = () => {
-    router.push("/car");
-  }
+    router.push('/car');
+  };
 
   return (
     <Card className='w-auto flex-grow dark:bg-gray-800 dark:text-white rounded-lg border-2 border-gray-200 dark:border-gray-900 hover:scale-[1.03] ease-in-out transition-all'>

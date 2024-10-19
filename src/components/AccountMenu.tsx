@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import { deleteCookie } from '@/utils/Cookie';
 import Logout from '@mui/icons-material/Logout';
@@ -25,14 +25,14 @@ export default function AccountMenu() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  
+
   const handleLogOut = () => {
     deleteCookie('access-token');
     router.refresh();
     setTimeout(() => {
-      window.location.href = "/auth"
-    }, 300)
-  }
+      window.location.href = '/auth';
+    }, 300);
+  };
 
   return (
     <React.Fragment>
