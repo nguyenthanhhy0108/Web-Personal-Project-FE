@@ -3,6 +3,8 @@
 import Loading from '@/components/Loading';
 import { AuthenticationContext } from '@/contexts/AuthenticationContext';
 import { setCookie } from '@/utils/Cookie';
+import parseToken from '@/utils/JwtParser';
+import { saveToLocalStorage } from '@/utils/LocalStorageServices';
 import { getAccessToken } from '@/utils/UserService';
 import { Checkbox } from '@mui/material';
 import Alert from '@mui/material/Alert';
@@ -55,7 +57,6 @@ export default function LoginForm({
   const submitLoginForm = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    // Cập nhật trạng thái trước khi thực hiện thao tác bất đồng bộ
     setSubmitStatus('waiting');
     setSubmit(true);
 
@@ -74,9 +75,11 @@ export default function LoginForm({
             value: data.data,
             time: 1,
           });
+          const userDetails = parseToken(data.data);
+          saveToLocalStorage("user-details", userDetails);
         }
         authenticationValues?.setIsLogin('logged-in');
-        router.push('/home');
+        window.location.href = "/home";
       }
 
       if (data.code === 9008) {

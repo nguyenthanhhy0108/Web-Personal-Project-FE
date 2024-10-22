@@ -4,6 +4,7 @@ import { legalAPI } from '@/constants';
 import { AuthenticationContext } from '@/contexts/AuthenticationContext';
 import { getCookie } from '@/utils/Cookie';
 import { formatDateToString } from '@/utils/DateProcessing';
+import { getFromLocalStorage, removeFromLocalStorage } from '@/utils/LocalStorageServices';
 import { hashStringShort } from '@/utils/PasswordHashing';
 import { createUserAndFetchToken } from '@/utils/UserService';
 import { useRouter } from 'next/navigation';
@@ -86,6 +87,14 @@ export default function Protector() {
             .catch((error) => {
               console.error('Error fetching user info:', error);
             });
+        } else {
+          if (getFromLocalStorage("old-url")) {
+            const oldUrl = getFromLocalStorage("old-url");
+            if (oldUrl != null && oldUrl != "") {
+              window.location.href = oldUrl;
+              removeFromLocalStorage("old-url");
+            }
+          }
         }
       }
     }

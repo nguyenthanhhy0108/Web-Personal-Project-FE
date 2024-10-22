@@ -1,19 +1,66 @@
 'use client';
 
 import ScreenAlert from '@/components/ScreenAlert';
-import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
-import { useEffect, useState } from 'react';
+import { saveContract } from '@/utils/ContractServices';
+import { getURL } from '@/utils/GeneralServices';
+import { classToPDF } from '@/utils/PdfServices';
+import { getRelevantCars } from '@/utils/SearchService';
+import { useRouter } from 'next/navigation';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+
+interface VehicleInformation {
+  brandName: string | null;
+  vehicleName: string | null;
+  price: string | null;
+}
 
 export default function ActualDeposite({
   customerInformation,
+  paymentSuccess,
+  setPaymentSuccess
 }: {
-  customerInformation: any;
+  customerInformation: any,
+  paymentSuccess: boolean,
+  setPaymentSuccess: Dispatch<SetStateAction<boolean>>;
 }) {
   const [currentTime, setCurrentTime] = useState('');
   const [isError, setIsError] = useState(false);
+  const [vehicleInformation, setVehicleInformation] = useState<VehicleInformation>({
+    brandName: null,
+    vehicleName: null,
+    price: null,
+  });
+
+  const router = useRouter();
 
   useEffect(() => {
+
+    const urlParams = getURL();
+    const brandName = urlParams.searchParams.get("brandName");
+    const vehicleName = urlParams.searchParams.get("vehicleName");
+
+    if (vehicleName != null && brandName != null) {
+
+      const checkCar = async () => {
+        const data = await getRelevantCars(vehicleName, brandName); 
+        console.log(data);
+        if (data.code == 9999) {
+          window.location.href = "/home"
+        }
+      }
+
+      checkCar();
+
+      setVehicleInformation({
+        brandName: brandName,
+        vehicleName: vehicleName,
+        price: "0.1"
+      });
+
+    } else {
+      router.push("/home");
+    }
+
     const timer = setInterval(() => {
       const now = new Date();
 
@@ -33,78 +80,51 @@ export default function ActualDeposite({
     return () => clearInterval(timer);
   }, []);
 
-  const downloadPDF = () => {
-    if (
-      customerInformation.name == null ||
-      customerInformation.address == null ||
-      customerInformation.phoneNumber == null ||
-      customerInformation.email == null ||
-      customerInformation.gender == null ||
-      customerInformation.birthday == null
-    ) {
-      setIsError(true);
-      return;
-    }
-
-    const capture = document.querySelector('.actual-receipt');
-
-    if (capture instanceof HTMLElement) {
-      html2canvas(capture, { useCORS: true }).then((canvas) => {
-        const imgData = canvas.toDataURL('image/png');
-        const doc = new jsPDF('p', 'mm', 'a4');
-
-        const pageWidth = doc.internal.pageSize.getWidth();
-        const pageHeight = doc.internal.pageSize.getHeight();
-
-        // Get the aspect ratio of the canvas
-        const canvasAspectRatio = canvas.width / canvas.height;
-        const pdfWidth = pageWidth - 20; // Subtract margins (10mm on each side)
-        const pdfHeight = (canvas.height * pdfWidth) / canvas.width; // Maintain aspect ratio
-
-        // Calculate the number of pages required
-        const totalPages = Math.ceil(pdfHeight / pageHeight);
-
-        // Define a footer space (e.g., 20mm)
-        const footerSpace = 20;
-
-        for (let i = 0; i < totalPages; i++) {
-          const startY = i * (pageHeight - footerSpace); // Starting Y position for each page
-
-          // Determine the height to draw based on the page index
-          const imgY = startY * -1; // Adjust Y position for the image
-          const imgHeight = Math.min(
-            pageHeight - footerSpace,
-            pdfHeight - startY,
-          ); // Limit height to remaining content
-
-          // Calculate the scaling factors
-          const scaleX = pdfWidth / canvas.width;
-          const scaleY = imgHeight / canvas.height;
-
-          // Use the smaller scaling factor to maintain aspect ratio
-          const scale = Math.min(scaleX, scaleY);
-
-          // Calculate the new dimensions
-          const newWidth = canvas.width * scale;
-          const newHeight = canvas.height * scale;
-
-          // Center the image horizontally
-          const x = (pageWidth - newWidth) / 2;
-
-          // Set a smaller font size
-          doc.setFontSize(10); // Adjust the font size here
-
-          // Add the image to the PDF with calculated dimensions
-          doc.addImage(imgData, 'PNG', x, imgY, newWidth, newHeight);
-        }
-
-        doc.save('receipt.pdf');
-      });
-    }
+  const downloadPDF = async (direct: boolean) => {
+    const blob = await classToPDF('.actual-receipt', direct);
+    return blob;
   };
 
+  if (paymentSuccess) {
+    downloadPDF(true);
+
+    const backgroundDownload = async () => {
+      const pdfBlob = await downloadPDF(false);
+
+      const formData = new FormData();
+      if (pdfBlob != null) {
+        formData.append('contractPdf', pdfBlob, 'receipt.pdf');
+      }
+      if (vehicleInformation.brandName) {
+        formData.append('brandName', vehicleInformation.brandName);
+      }
+      if (vehicleInformation.vehicleName) {
+        formData.append('vehicleName', vehicleInformation.vehicleName);
+      }
+      if (vehicleInformation.price) {
+        formData.append('price', vehicleInformation.price);
+      }
+      formData.append('name', customerInformation.name);
+      formData.append('address', customerInformation.address);
+      formData.append('phoneNumber', customerInformation.phoneNumber);
+      formData.append('email', customerInformation.email);
+      formData.append('gender', customerInformation.gender);
+      formData.append('dateOfBirth', customerInformation.birthday);
+      formData.append('idCardNumber', customerInformation.idCard);
+  
+      formData.forEach((value, key) => {
+        console.log(key + ', ' + value);
+      });
+      saveContract(formData);
+    }
+
+    backgroundDownload();
+
+    setPaymentSuccess(false);
+  }
+
   return (
-    <div className='flex-grow flex-col w-1/2 flex bg-gray-700'>
+    <div className='flex-grow flex-col lg:w-1/2 flex bg-gray-400 dark:bg-gray-700'>
       {isError && (
         <ScreenAlert
           status='error'
@@ -114,7 +134,11 @@ export default function ActualDeposite({
           setIsOpened={setIsError}
         />
       )}
-      <div className='actual-receipt my-auto mx-auto flex flex-col gap-6 w-3/4 border-2 border-gray-200 dark:border-gray-200 pb-3 bg-white text-black px-3'>
+      <h1 className='text-5xl font-semibold flex mx-auto text-black dark:text-white mt-6'>Your Contract!</h1>
+        <p className='font-medium text-lg lg:flex hidden text-white flex mx-auto pt-3 italic'>
+          Please fill out your informations and progress payment and contract will be sent for you.
+        </p>
+      <div className='actual-receipt mx-auto flex flex-col gap-6 lg:w-3/4 w-[95%] my-6 border-2 border-gray-200 dark:border-gray-200 pb-3 bg-white text-black px-3'>
         <img
           src='/images/black-logo.png'
           className='mx-auto'
@@ -158,12 +182,18 @@ export default function ActualDeposite({
                   </td>
                 </tr>
                 <tr className='bg-gray-200'>
+                  <td className='p-2 font-bold'>ID Card:</td>
+                  <td className='p-2 break-words max-w-xs'>
+                    {customerInformation.idCard}
+                  </td>
+                </tr>
+                <tr className=''>
                   <td className='p-2 font-bold'>Gender:</td>
                   <td className='p-2 break-words max-w-xs'>
                     {customerInformation.gender}
                   </td>
                 </tr>
-                <tr>
+                <tr className='bg-gray-200'>
                   <td className='p-2 font-bold'>Birthday:</td>
                   <td className='p-2 break-words max-w-xs'>
                     {customerInformation.birthday}
@@ -180,15 +210,15 @@ export default function ActualDeposite({
               <tbody>
                 <tr className='bg-gray-200'>
                   <td className='p-2 font-bold'>Vehicle Name:</td>
-                  <td className='p-2'>Tesla Model S</td>
+                  <td className='p-2 break-words max-w-xs'>{vehicleInformation.vehicleName}</td>
                 </tr>
                 <tr>
                   <td className='p-2 font-bold'>Brand Name:</td>
-                  <td className='p-2'>Tesla</td>
+                  <td className='p-2 break-words max-w-xs'>{vehicleInformation.brandName?.toUpperCase()}</td>
                 </tr>
                 <tr className='bg-gray-200'>
                   <td className='p-2 font-bold'>Price:</td>
-                  <td className='p-2'>$75,000</td>
+                  <td className='p-2 break-words max-w-xs'>${vehicleInformation.price}</td>
                 </tr>
               </tbody>
             </table>
@@ -207,12 +237,12 @@ export default function ActualDeposite({
           <h1 className='font-bold mx-auto'>UR-WJH CEO.</h1>
         </div>
       </div>
-      <button
+      {/* <button
         className='p-3 bg-green-500 hover:bg-green-600'
         onClick={downloadPDF}
       >
         Dowload PDF
-      </button>
+      </button> */}
     </div>
   );
 }

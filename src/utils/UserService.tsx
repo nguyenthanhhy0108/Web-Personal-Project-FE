@@ -1,4 +1,5 @@
-import { setCookie } from './Cookie';
+import { getCookie, setCookie } from './Cookie';
+import parseToken from './JwtParser';
 
 interface UserCreationParam {
   password: string;
@@ -65,6 +66,7 @@ export const createUserAndFetchToken = async (
     let createData = null;
     try {
       createData = await createUser(userCreationParam);
+      // alert(createData.code)
       if (createData.code == '9003') {
         console.log('Ignoring');
       }
@@ -72,7 +74,8 @@ export const createUserAndFetchToken = async (
       //   sendNotificationMail(userCreationParam.email, userCredentials);
       // }
       if (createData.code == '9004') {
-        window.location.href = '/auth?error=email-existed';
+        // window.location.href = '/auth?error=email-existed';
+        console.log('Ignoring')
       }
     } catch (error) {
       console.log(error);
@@ -170,3 +173,35 @@ export const confirmChangPassword = async (
     console.log('Error');
   }
 };
+
+
+export async function getProfileDetails() {
+  const token = getCookie("access-token");
+  if (token) {
+    const userId = parseToken(token)?.sub;
+
+    const url = process.env.NEXT_PUBLIC_DOMAIN + '/user/profiles/' + userId;
+
+    try {
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      return data.data;
+    } catch (error) {
+      console.error('Error:', error);
+      return null;
+    }
+  }
+
+  return null;
+}
