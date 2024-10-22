@@ -5,7 +5,13 @@ import { getURL } from '@/utils/GeneralServices';
 import { getRelevantCars } from '@/utils/SearchService';
 import { getProfileDetails } from '@/utils/UserService';
 import { useRouter } from 'next/navigation';
-import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from 'react';
+import {
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+} from 'react';
 
 export default function FormDeposite({
   setPaymentSuccess,
@@ -20,7 +26,6 @@ export default function FormDeposite({
   const router = useRouter();
 
   useEffect(() => {
-
     const fetchUserDetails = async () => {
       const data = await getProfileDetails();
       if (data) {
@@ -34,45 +39,45 @@ export default function FormDeposite({
     };
 
     const urlParams = getURL();
-    const brandName = urlParams.searchParams.get("brandName");
-    const vehicleName = urlParams.searchParams.get("vehicleName");
+    const brandName = urlParams.searchParams.get('brandName');
+    const vehicleName = urlParams.searchParams.get('vehicleName');
 
     if (vehicleName != null && brandName != null) {
-
       const checkCar = async () => {
-        const data = await getRelevantCars(vehicleName, brandName); 
+        const data = await getRelevantCars(vehicleName, brandName);
         console.log(data);
         if (data.code == 9999) {
-          window.location.href = "/home"
+          window.location.href = '/home';
         }
-      }
+      };
 
       checkCar();
       fetchUserDetails();
-
     } else {
-      window.location.href = "/home"
+      window.location.href = '/home';
     }
-
   }, []);
 
   useEffect(() => {
     // console.log(customerInformation)
     checkInformation();
-  }, [customerInformation])
+  }, [customerInformation]);
 
   const checkInformation = () => {
     if (
-      customerInformation.address == null || customerInformation.address == "" ||
-      customerInformation.phoneNumber == null || customerInformation.phoneNumber == "" ||
-      customerInformation.idCard == null || customerInformation.idCard == "" ||
+      customerInformation.address == null ||
+      customerInformation.address == '' ||
+      customerInformation.phoneNumber == null ||
+      customerInformation.phoneNumber == '' ||
+      customerInformation.idCard == null ||
+      customerInformation.idCard == '' ||
       customerInformation.gender == null
     ) {
       setIsError(true);
     } else {
       setIsError(false);
     }
-  }
+  };
 
   const handleChangeAddress = (event: ChangeEvent<HTMLInputElement>) => {
     setCustomerInformation((prevState) => ({
@@ -87,7 +92,7 @@ export default function FormDeposite({
       phoneNumber: event.target.value,
     }));
   };
-  
+
   const handleChangeIdCard = (event: ChangeEvent<HTMLInputElement>) => {
     setCustomerInformation((prevState) => ({
       ...prevState,
@@ -208,10 +213,8 @@ export default function FormDeposite({
         Next Steps
         <ArrowForward />
       </button> */}
-      <div className={`w-1/2 ${isError ? "hidden" : ""}`}>
-        <PayPalCustomButton
-          setPaymentSuccess={setPaymentSuccess}
-        />
+      <div className={`w-1/2 ${isError ? 'hidden' : ''}`}>
+        <PayPalCustomButton setPaymentSuccess={setPaymentSuccess} />
       </div>
     </div>
   );

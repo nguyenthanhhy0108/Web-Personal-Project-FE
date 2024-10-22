@@ -1,8 +1,8 @@
-import { getCookie } from "./Cookie";
-import parseToken from "./JwtParser";
+import { getCookie } from './Cookie';
+import parseToken from './JwtParser';
 
 export async function saveContract(formData: FormData) {
-  const token = getCookie("access-token");
+  const token = getCookie('access-token');
   if (token) {
     const userId = parseToken(token)?.sub;
 
@@ -12,7 +12,7 @@ export async function saveContract(formData: FormData) {
       const response = await fetch(url, {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: formData,
       });

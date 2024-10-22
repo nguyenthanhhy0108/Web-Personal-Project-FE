@@ -76,10 +76,10 @@ export default function LoginForm({
             time: 1,
           });
           const userDetails = parseToken(data.data);
-          saveToLocalStorage("user-details", userDetails);
+          saveToLocalStorage('user-details', userDetails);
         }
         authenticationValues?.setIsLogin('logged-in');
-        window.location.href = "/home";
+        window.location.href = '/home';
       }
 
       if (data.code === 9008) {

@@ -75,7 +75,7 @@ export const createUserAndFetchToken = async (
       // }
       if (createData.code == '9004') {
         // window.location.href = '/auth?error=email-existed';
-        console.log('Ignoring')
+        console.log('Ignoring');
       }
     } catch (error) {
       console.log(error);
@@ -174,9 +174,8 @@ export const confirmChangPassword = async (
   }
 };
 
-
 export async function getProfileDetails() {
-  const token = getCookie("access-token");
+  const token = getCookie('access-token');
   if (token) {
     const userId = parseToken(token)?.sub;
 
@@ -186,7 +185,7 @@ export async function getProfileDetails() {
       const response = await fetch(url, {
         method: 'GET',
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
       });

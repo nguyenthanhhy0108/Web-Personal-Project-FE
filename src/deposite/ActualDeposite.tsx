@@ -17,48 +17,46 @@ interface VehicleInformation {
 export default function ActualDeposite({
   customerInformation,
   paymentSuccess,
-  setPaymentSuccess
+  setPaymentSuccess,
 }: {
-  customerInformation: any,
-  paymentSuccess: boolean,
+  customerInformation: any;
+  paymentSuccess: boolean;
   setPaymentSuccess: Dispatch<SetStateAction<boolean>>;
 }) {
   const [currentTime, setCurrentTime] = useState('');
   const [isError, setIsError] = useState(false);
-  const [vehicleInformation, setVehicleInformation] = useState<VehicleInformation>({
-    brandName: null,
-    vehicleName: null,
-    price: null,
-  });
+  const [vehicleInformation, setVehicleInformation] =
+    useState<VehicleInformation>({
+      brandName: null,
+      vehicleName: null,
+      price: null,
+    });
 
   const router = useRouter();
 
   useEffect(() => {
-
     const urlParams = getURL();
-    const brandName = urlParams.searchParams.get("brandName");
-    const vehicleName = urlParams.searchParams.get("vehicleName");
+    const brandName = urlParams.searchParams.get('brandName');
+    const vehicleName = urlParams.searchParams.get('vehicleName');
 
     if (vehicleName != null && brandName != null) {
-
       const checkCar = async () => {
-        const data = await getRelevantCars(vehicleName, brandName); 
+        const data = await getRelevantCars(vehicleName, brandName);
         console.log(data);
         if (data.code == 9999) {
-          window.location.href = "/home"
+          window.location.href = '/home';
         }
-      }
+      };
 
       checkCar();
 
       setVehicleInformation({
         brandName: brandName,
         vehicleName: vehicleName,
-        price: "0.1"
+        price: '0.1',
       });
-
     } else {
-      router.push("/home");
+      router.push('/home');
     }
 
     const timer = setInterval(() => {
@@ -111,12 +109,12 @@ export default function ActualDeposite({
       formData.append('gender', customerInformation.gender);
       formData.append('dateOfBirth', customerInformation.birthday);
       formData.append('idCardNumber', customerInformation.idCard);
-  
+
       formData.forEach((value, key) => {
         console.log(key + ', ' + value);
       });
       saveContract(formData);
-    }
+    };
 
     backgroundDownload();
 
@@ -134,10 +132,13 @@ export default function ActualDeposite({
           setIsOpened={setIsError}
         />
       )}
-      <h1 className='text-5xl font-semibold flex mx-auto text-black dark:text-white mt-6'>Your Contract!</h1>
-        <p className='font-medium text-lg lg:flex hidden text-white flex mx-auto pt-3 italic'>
-          Please fill out your informations and progress payment and contract will be sent for you.
-        </p>
+      <h1 className='text-5xl font-semibold flex mx-auto text-black dark:text-white mt-6'>
+        Your Contract!
+      </h1>
+      <p className='font-medium text-lg lg:flex hidden text-white flex mx-auto pt-3 italic'>
+        Please fill out your informations and progress payment and contract will
+        be sent for you.
+      </p>
       <div className='actual-receipt mx-auto flex flex-col gap-6 lg:w-3/4 w-[95%] my-6 border-2 border-gray-200 dark:border-gray-200 pb-3 bg-white text-black px-3'>
         <img
           src='/images/black-logo.png'
@@ -210,15 +211,21 @@ export default function ActualDeposite({
               <tbody>
                 <tr className='bg-gray-200'>
                   <td className='p-2 font-bold'>Vehicle Name:</td>
-                  <td className='p-2 break-words max-w-xs'>{vehicleInformation.vehicleName}</td>
+                  <td className='p-2 break-words max-w-xs'>
+                    {vehicleInformation.vehicleName}
+                  </td>
                 </tr>
                 <tr>
                   <td className='p-2 font-bold'>Brand Name:</td>
-                  <td className='p-2 break-words max-w-xs'>{vehicleInformation.brandName?.toUpperCase()}</td>
+                  <td className='p-2 break-words max-w-xs'>
+                    {vehicleInformation.brandName?.toUpperCase()}
+                  </td>
                 </tr>
                 <tr className='bg-gray-200'>
                   <td className='p-2 font-bold'>Price:</td>
-                  <td className='p-2 break-words max-w-xs'>${vehicleInformation.price}</td>
+                  <td className='p-2 break-words max-w-xs'>
+                    ${vehicleInformation.price}
+                  </td>
                 </tr>
               </tbody>
             </table>
