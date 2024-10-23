@@ -9,7 +9,7 @@ export default function AccessorySuggests() {
       <div className='dark:text-white text-black text-4xl font-bold'>
         <p>ACCESSORIES</p>
       </div>
-      <div className='grid grid-cols-3 w-full h-full dark:text-white text-black gap-6'>
+      <div className='grid lg:grid-cols-3 grid-cols-1 w-full h-full dark:text-white text-black gap-6 pt-6'>
         <AccessoryCard
           description={accessories[0].description}
           imageLink={accessories[0].url}

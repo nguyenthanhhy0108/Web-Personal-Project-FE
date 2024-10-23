@@ -14,6 +14,7 @@ import AccessorySuggests from './AccessorySuggests';
 import CarDescription from './CarDescription';
 import CarImage from './CarImage';
 import CarInformation from './CarInformation';
+import CarIntroductionMobile from './CarIntroductionMobile';
 
 export default function CarPage() {
   const [vehicleData, setVehicleData] = useState<Vehicle>();
@@ -51,7 +52,7 @@ export default function CarPage() {
       <div className='w-screen -mt-9 mb-9'>
         <Options />
       </div>
-      <div className='flex gap-16 mt-20 justify-center items-center'>
+      <div className='lg:flex hidden gap-16 mt-20 justify-center items-center'>
         <CarImage
           carImage={
             vehicleData?.vehicleImageUrl
@@ -83,6 +84,31 @@ export default function CarPage() {
           vehicleImageUrl=''
         />
       </div>
+
+      <CarIntroductionMobile
+        brandName={
+          vehicleData?.brandName ? vehicleData?.brandName.toString() : ''
+        }
+        vehicleName={
+          vehicleData?.vehicleName ? vehicleData?.vehicleName.toString() : ''
+        }
+        vehiclePrice={
+          vehicleData?.vehiclePrice
+            ? priceNumberToString(parseInt(vehicleData.vehiclePrice))
+            : ''
+        }
+        numberOfRemaining={
+          vehicleData?.numberOfRemaining ? vehicleData?.numberOfRemaining : 0
+        }
+        vehicleDescription={
+          vehicleData?.vehicleDescription ? vehicleData?.vehicleDescription : ''
+        }
+        vehicleId=''
+        vehicleImageUrl={
+          vehicleData?.vehicleImageUrl ? vehicleData?.vehicleImageUrl : ''
+        }
+      />
+
       <div>
         <CarDescription
           carImage={

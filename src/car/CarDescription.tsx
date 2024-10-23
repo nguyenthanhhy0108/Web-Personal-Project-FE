@@ -8,8 +8,8 @@ export default function CarDescription({ carImage }: { carImage: string }) {
       <div className='dark:text-white text-black text-4xl font-bold'>
         <p>DESCRIPTION</p>
       </div>
-      <div className='flex dark:text-white text-black w-full gap-6'>
-        <div className='w-1/2 text-xl flex justify-center items-center'>
+      <div className='flex dark:text-white text-black w-full gap-6 pt-6'>
+        <div className='lg:w-1/2 w-full text-xl flex justify-center items-center'>
           <ul className='list-disc list-inside'>
             <li className='text-gray-400'>
               <strong className='text-red-500'>High-Performance Design:</strong>{' '}
@@ -41,7 +41,7 @@ export default function CarDescription({ carImage }: { carImage: string }) {
             </li>
           </ul>
         </div>
-        <div className='w-1/2 flex items-center justify-center'>
+        <div className='w-1/2 lg:flex hidden items-center justify-center'>
           <Image
             className='object-contain w-[810px] h-auto'
             alt='Car Image'

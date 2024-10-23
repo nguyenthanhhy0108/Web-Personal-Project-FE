@@ -30,7 +30,7 @@ export default function CarInformation({
           Choose smart, choose brave
         </h2>
       </div>
-      <div className='flex mx-auto mb-9 gap-3'>
+      <div className='flex lg:flex-row flex-col mx-auto mb-9 gap-3'>
         <div className='flex flex-col justify-center items-center mx-auto my-auto'>
           <Image
             className='object-contain w-auto h-[80px] justify-center flex items-center mx-auto my-auto'
@@ -76,6 +76,7 @@ export default function CarInformation({
       </div>
       <div className='flex justify-center gap-11'>
         <button
+          type='button'
           onClick={handleDepositeClick}
           title={`${numberOfRemaining == 0 ? 'Sold Out' : 'Deposite'}`}
           disabled={numberOfRemaining == 0}
@@ -84,7 +85,10 @@ export default function CarInformation({
           {numberOfRemaining == 0 ? 'Sold Out ' : 'Deposite'}{' '}
           {numberOfRemaining == 0 ? <NotInterested /> : <AttachMoneyIcon />}
         </button>
-        <button className='p-6 px-10 font-semibold bg-pink-400 rounded-2xl text-2xl flex justify-center items-center hover:scale-[1.02] hover:bg-pink-500 transition-all duration-75'>
+        <button
+          type='button'
+          className='p-6 px-10 font-semibold bg-pink-400 rounded-2xl text-2xl flex justify-center items-center hover:scale-[1.02] hover:bg-pink-500 transition-all duration-75'
+        >
           Add to favorites <FavoriteBorderIcon />
         </button>
       </div>
