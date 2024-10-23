@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 export default function IntroductionImage() {
   return (
-    <div className='w-screen lg:h-[450px] border-y-2 border-gray-300 dark:border-gray-700'>
+    <div className='w-screen lg:h-[450px] border-y-2 border-gray-300 dark:border-gray-700 flex'>
       <Image
         width={1920}
         height={450}

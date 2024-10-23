@@ -508,7 +508,7 @@ export default function SearchingArea({
                         <button
                           onClick={handleBrandClick}
                           type='button'
-                          className={`h-auto py-3 pl-3 hover:bg-blue-300 bg-white w-full items-center font-bold flex ${index == 0 ? 'rounded-t-lg' : ''} ${index == brandsRecommend.length - 1 || index == 3 ? 'rounded-b-lg' : ''} ${brandsRecommend.length == 1 ? 'rounded-lg' : ''}`}
+                          className={`h-auto py-3 pl-3 hover:bg-blue-300 bg-white text-black w-full items-center font-bold flex ${index == 0 ? 'rounded-t-lg' : ''} ${index == brandsRecommend.length - 1 || index == 3 ? 'rounded-b-lg' : ''} ${brandsRecommend.length == 1 ? 'rounded-lg' : ''}`}
                           key={index}
                         >
                           {brand.toUpperCase()}
@@ -554,7 +554,7 @@ export default function SearchingArea({
                       <button
                         onClick={handleVehicleClick}
                         type='button'
-                        className={`h-auto py-3 pl-3 hover:bg-blue-300 bg-white w-full items-center font-bold flex ${index == 0 ? 'rounded-t-lg' : ''} ${index == vehicleNameSearchRecommend.length - 1 || index == 3 ? 'rounded-b-lg' : ''} ${vehicleNameSearchRecommend.length == 1 ? 'rounded-lg' : ''}`}
+                        className={`h-auto py-3 pl-3 text-black hover:bg-blue-300 bg-white w-full items-center font-bold flex ${index == 0 ? 'rounded-t-lg' : ''} ${index == vehicleNameSearchRecommend.length - 1 || index == 3 ? 'rounded-b-lg' : ''} ${vehicleNameSearchRecommend.length == 1 ? 'rounded-lg' : ''}`}
                         key={index}
                       >
                         {vehicle.toUpperCase()}

@@ -12,37 +12,39 @@ export default function ScreenAlert({
   title,
   content,
   status,
+  handleClick,
 }: {
   isOpened: boolean;
   setIsOpened: React.Dispatch<React.SetStateAction<boolean>>;
   title: string;
-  content: string;
+  content: string | undefined;
   status: string;
+  handleClick: () => void;
 }) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
-  const handleClose = () => {
-    setIsOpened(false);
-  };
-
   return (
     <React.Fragment>
       <Dialog
-        onClick={handleClose}
+        onClick={handleClick}
         fullScreen={fullScreen}
         open={isOpened}
         aria-labelledby='responsive-dialog-title'
+        className='w-[1000px] h-auto mx-auto my-auto gap-12'
       >
-        <DialogTitle
-          id='responsive-dialog-title'
-          className={`justify-center mx-auto flex ${status == 'error' ? 'text-red-600' : ''} font-bold text-3xl`}
-        >
-          {title}
+        <DialogTitle id='responsive-dialog-title'>
+          <div
+            className={`justify-center text-5xl mx-auto flex ${status == 'error' ? 'text-red-600' : ''} ${status == 'success' ? 'text-green-600' : ''} font-bold text-3xl`}
+          >
+            {title}
+          </div>
         </DialogTitle>
         <DialogContent>
-          <DialogContentText className='justify-center mx-auto flex text-xl'>
-            {content}
+          <DialogContentText>
+            <div className='justify-center mx-auto flex text-3xl'>
+              {content}
+            </div>
           </DialogContentText>
         </DialogContent>
       </Dialog>

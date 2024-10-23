@@ -24,13 +24,14 @@ export default function ActualDeposite({
   setPaymentSuccess: Dispatch<SetStateAction<boolean>>;
 }) {
   const [currentTime, setCurrentTime] = useState('');
-  const [isError, setIsError] = useState(false);
+  const [isNotify, setIsNotify] = useState(false);
   const [vehicleInformation, setVehicleInformation] =
     useState<VehicleInformation>({
       brandName: null,
       vehicleName: null,
       price: null,
     });
+  const [message, setMessage] = useState<string | undefined>('');
 
   const router = useRouter();
 
@@ -83,59 +84,72 @@ export default function ActualDeposite({
     return blob;
   };
 
-  if (paymentSuccess) {
-    downloadPDF(true);
+  useEffect(() => {
+    if (paymentSuccess) {
+      downloadPDF(true);
+      let message;
 
-    const backgroundDownload = async () => {
-      const pdfBlob = await downloadPDF(false);
+      const backgroundDownload = async () => {
+        const pdfBlob = await downloadPDF(false);
 
-      const formData = new FormData();
-      if (pdfBlob != null) {
-        formData.append('contractPdf', pdfBlob, 'receipt.pdf');
-      }
-      if (vehicleInformation.brandName) {
-        formData.append('brandName', vehicleInformation.brandName);
-      }
-      if (vehicleInformation.vehicleName) {
-        formData.append('vehicleName', vehicleInformation.vehicleName);
-      }
-      if (vehicleInformation.price) {
-        formData.append('price', vehicleInformation.price);
-      }
-      formData.append('name', customerInformation.name);
-      formData.append('address', customerInformation.address);
-      formData.append('phoneNumber', customerInformation.phoneNumber);
-      formData.append('email', customerInformation.email);
-      formData.append('gender', customerInformation.gender);
-      formData.append('dateOfBirth', customerInformation.birthday);
-      formData.append('idCardNumber', customerInformation.idCard);
+        const formData = new FormData();
+        if (pdfBlob != null) {
+          formData.append('contractPdf', pdfBlob, 'receipt.pdf');
+        }
+        if (vehicleInformation.brandName) {
+          formData.append('brandName', vehicleInformation.brandName);
+        }
+        if (vehicleInformation.vehicleName) {
+          formData.append('vehicleName', vehicleInformation.vehicleName);
+        }
+        if (vehicleInformation.price) {
+          formData.append('price', vehicleInformation.price);
+        }
+        formData.append('name', customerInformation.name);
+        formData.append('address', customerInformation.address);
+        formData.append('phoneNumber', customerInformation.phoneNumber);
+        formData.append('email', customerInformation.email);
+        formData.append('gender', customerInformation.gender);
+        formData.append('dateOfBirth', customerInformation.birthday);
+        formData.append('idCardNumber', customerInformation.idCard);
 
-      formData.forEach((value, key) => {
-        console.log(key + ', ' + value);
-      });
-      saveContract(formData);
-    };
+        const messageData = (await saveContract(formData)) as string;
+        console.log(messageData);
 
-    backgroundDownload();
+        setMessage(messageData);
+      };
 
-    setPaymentSuccess(false);
-  }
+      backgroundDownload();
+      setPaymentSuccess(false);
+    }
+  }, [paymentSuccess]);
+
+  useEffect(() => {
+    if (message != '') {
+      setIsNotify(true);
+    }
+  }, [message]);
+
+  const handleScreenAlertClick = () => {
+    window.location.href = '/home';
+  };
 
   return (
     <div className='flex-grow flex-col lg:w-1/2 flex bg-gray-400 dark:bg-gray-700'>
-      {isError && (
+      {isNotify && message != '' ? (
         <ScreenAlert
-          status='error'
-          title='Error'
-          content='You have provided insufficient information!'
-          isOpened={isError}
-          setIsOpened={setIsError}
+          status={message != 'Deposite successfully' ? 'error' : 'success'}
+          title={message != 'Deposite successfully' ? 'Error' : 'Success'}
+          content={message}
+          isOpened={isNotify}
+          setIsOpened={setIsNotify}
+          handleClick={handleScreenAlertClick}
         />
-      )}
+      ) : null}
       <h1 className='text-5xl font-semibold flex mx-auto text-black dark:text-white mt-6'>
         Your Contract!
       </h1>
-      <p className='font-medium text-lg lg:flex hidden text-white flex mx-auto pt-3 italic'>
+      <p className='font-medium text-lg lg:flex hidden text-white mx-auto pt-3 italic'>
         Please fill out your informations and progress payment and contract will
         be sent for you.
       </p>
@@ -234,8 +248,8 @@ export default function ActualDeposite({
         <div className='gap-0'>
           <h2 className='font-semibold'>Confirmation</h2>
           <div className='italic'>
-            UR-WJH has received your deposit. Please proceed with the payment in
-            the next step to complete the process.
+            UR-WJH has received your deposit. Thank you for using our service.
+            We hope you have a cheery experience with us !
           </div>
         </div>
         <div className='flex flex-col ml-auto'>

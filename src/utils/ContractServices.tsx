@@ -17,18 +17,19 @@ export async function saveContract(formData: FormData) {
         body: formData,
       });
 
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
       const data = await response.json();
-      console.log(data.data);
-      return data.data;
+      console.log(data);
+      if (data.code == 9045) {
+        return data.message;
+      }
+      if (data.code == 1000) {
+        return 'Deposite successfully';
+      } else {
+        return 'Deposite fail, please try again later';
+      }
     } catch (error) {
       console.error('Error:', error);
-      return null;
+      return 'Deposite fail, please try again later';
     }
   }
-
-  return null;
 }

@@ -7,6 +7,7 @@ import { formatDateToString } from '@/utils/DateProcessing';
 import {
   getFromLocalStorage,
   removeFromLocalStorage,
+  saveToLocalStorage,
 } from '@/utils/LocalStorageServices';
 import { hashStringShort } from '@/utils/PasswordHashing';
 import { createUserAndFetchToken } from '@/utils/UserService';
@@ -116,6 +117,7 @@ export default function Protector() {
       // }
     } else {
       if (token === null) {
+        saveToLocalStorage('old-url', window.location.href);
         router.push('/auth');
       }
     }

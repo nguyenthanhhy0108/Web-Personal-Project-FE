@@ -50,6 +50,36 @@ export async function getBrandNameByVehicleName(vehicleName: string | null) {
   }
 }
 
+export async function getVehicleByBrandNameVehicleName(
+  brandName: string | null,
+  vehicleName: string | null,
+) {
+  if (brandName && vehicleName) {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_DOMAIN}/vehicle-inventory/vehicles/` +
+          brandName +
+          '/' +
+          vehicleName,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+
+      const data = await response.json();
+
+      if (data.code == 1000) {
+        return data.data;
+      }
+    } catch (ex) {
+      console.log(ex);
+    }
+  }
+}
+
 export const changeSearchStateValue = (key: string, value: string) => {
   const storedState = localStorage.getItem('searchState');
   const searchState = storedState ? JSON.parse(storedState) : {};

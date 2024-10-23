@@ -1,3 +1,4 @@
+import CardSpanDialog from '@/vehicles/CardSpanDialog';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -6,26 +7,23 @@ import Typography from '@mui/material/Typography';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import CardSpanDialog from './CardSpanDialog';
 
 interface CardProps {
   title: string;
   description: string;
   price: string;
   imageLink: string;
-  brandName: string;
 }
 
 const minimizeContent = (content: string) => {
   return content.split(' ').slice(0, 11).join(' ') + '...';
 };
 
-export default function CarCard({
+export default function AccessoryCard({
   title,
   description,
   imageLink,
   price,
-  brandName,
 }: CardProps) {
   const [openCardLearnMore, setOpenCardLearnMore] = useState(false);
 
@@ -35,14 +33,7 @@ export default function CarCard({
     setOpenCardLearnMore(!openCardLearnMore);
   };
 
-  const handleCardClick = () => {
-    router.push(
-      '/car?brandName=' +
-        brandName.toString() +
-        '&vehicleName=' +
-        title.toString(),
-    );
-  };
+  const handleCardClick = () => {};
 
   return (
     <Card className='w-auto flex-grow dark:bg-gray-800 dark:text-white rounded-lg border-2 border-gray-200 dark:border-gray-900 hover:scale-[1.03] ease-in-out transition-all'>

@@ -1,4 +1,4 @@
-export const legalAPI = ['/auth', '/home', '/forgot', '/vehicles'];
+export const legalAPI = ['/auth', '/home', '/forgot', '/vehicles', '/car'];
 
 export const errors = new Map([
   [9001, 'Username is missing'],
@@ -45,6 +45,7 @@ export const errors = new Map([
   [9042, 'Save contract fail'],
   [9043, 'Invalid contract id'],
   [9044, 'Get contract fail'],
+  [9045, 'Vehicle out of stock'],
   [9998, 'You do not have enough permission'],
   [9999, 'Uncategorized error'],
   [10000, 'Service unavailable, please try again later.'],
@@ -150,6 +151,33 @@ export const videoLinks = [
   },
 ];
 
+export const accessories = [
+  {
+    id: 0,
+    title: 'Anti Glare For Mirror',
+    url: '/images/accessories/anti-glare.jpg',
+    price: '1,000,000 VND',
+    description:
+      'Anti-glare mirrors for cars reduce headlight reflections, improving night driving visibility and safety.',
+  },
+  {
+    id: 1,
+    title: 'Dash Camera',
+    url: '/images/accessories/dash-cam.jpg',
+    description:
+      'High-definition dash cam with night vision, perfect for recording every trip and enhancing vehicle security.',
+    price: '2,000,000 VND',
+  },
+  {
+    id: 2,
+    title: 'Handpresso Auto Set',
+    url: '/images/accessories/handpresso-auto-set.jpg',
+    description:
+      'Portable espresso machine designed for cars, allowing you to brew fresh coffee on the go.',
+    price: '3,000,000 VND',
+  },
+];
+
 export const brandLogos = new Map([
   ['audi', '/images/car-logo/audi.png'],
   ['bmw', '/images/car-logo/bmw.png'],
@@ -174,6 +202,32 @@ export const brandLogos = new Map([
   ['vinfast', '/images/car-logo/vinfast.png'],
   ['volvo', '/images/car-logo/volvo.png'],
   ['volkswagen', '/images/car-logo/volkswagen.png'],
+]);
+
+export const brandCountries = new Map([
+  ['audi', 'Germany'],
+  ['bmw', 'Germany'],
+  ['ford', 'United States'],
+  ['honda', 'Japan'],
+  ['hyundai', 'South Korea'],
+  ['jaguar', 'United Kingdom'],
+  ['kia', 'South Korea'],
+  ['landrover', 'United Kingdom'],
+  ['lexus', 'Japan'],
+  ['mazda', 'Japan'],
+  ['mercedes', 'Germany'],
+  ['mg', 'China'],
+  ['mini-cooper', 'United Kingdom'],
+  ['mitsubishi', 'Japan'],
+  ['nissan', 'Japan'],
+  ['peugeot', 'France'],
+  ['porsche', 'Germany'],
+  ['subaru', 'Japan'],
+  ['suzuki', 'Japan'],
+  ['toyota', 'Japan'],
+  ['vinfast', 'Vietnam'],
+  ['volvo', 'Sweden'],
+  ['volkswagen', 'Germany'],
 ]);
 
 export const brandLogosList = Array.from(brandLogos);

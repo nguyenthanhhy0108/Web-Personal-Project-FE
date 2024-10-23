@@ -125,6 +125,7 @@ export default function SearchProducts({
                   price={
                     priceNumberToString(parseInt(carData.vehiclePrice)) + ' VND'
                   }
+                  brandName={carData.brandName}
                 />
               );
             })
