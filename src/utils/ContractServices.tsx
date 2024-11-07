@@ -22,6 +22,7 @@ export async function saveContract(formData: FormData) {
       if (data.code == 9045) {
         return data.message;
       }
+      console.log(data.code);
       if (data.code == 1000) {
         return 'Deposite successfully';
       } else {

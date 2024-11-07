@@ -179,6 +179,8 @@ export async function getProfileDetails() {
   if (token) {
     const userId = parseToken(token)?.sub;
 
+    console.log(userId);
+
     const url = process.env.NEXT_PUBLIC_DOMAIN + '/user/profiles/' + userId;
 
     try {

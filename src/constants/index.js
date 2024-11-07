@@ -1,4 +1,11 @@
-export const legalAPI = ['/auth', '/home', '/forgot', '/vehicles', '/car'];
+export const legalAPI = [
+  '/auth',
+  '/home',
+  '/forgot',
+  '/vehicles',
+  '/car',
+  '/chat',
+];
 
 export const errors = new Map([
   [9001, 'Username is missing'],

@@ -1,3 +1,4 @@
+import ChatWindow from '@/components/ChatWindow';
 import Footer from '@/components/Footer';
 import NavBar from '@/components/NavBar';
 import ScrollToTopButton from '@/components/ScrollToTopButton';
@@ -49,6 +50,7 @@ export default function RootLayout({
                 <NavBar />
                 <div className='flex-grow'>{children}</div>
                 <Footer />
+                <ChatWindow />
                 <ScrollToTopButton />
               </div>
             </body>

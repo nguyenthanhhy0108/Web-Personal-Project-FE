@@ -107,9 +107,6 @@ export default function Protector() {
     token = getCookie('access-token');
 
     if (legalAPI.includes(url.pathname)) {
-    }
-
-    if (legalAPI.includes(url.pathname)) {
       // if (token == null) {
       //   // pass
       // } else {

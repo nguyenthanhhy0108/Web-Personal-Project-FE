@@ -28,6 +28,7 @@ export default function FormDeposite({
   useEffect(() => {
     const fetchUserDetails = async () => {
       const data = await getProfileDetails();
+      console.log(data);
       if (data) {
         setCustomerInformation((prevState) => ({
           ...prevState,

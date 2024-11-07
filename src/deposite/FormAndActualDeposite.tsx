@@ -22,7 +22,6 @@ export default function FormAndActualDeposite() {
       if (vehicleName != null && brandName != null) {
         const checkCar = async () => {
           const data = await getRelevantCars(vehicleName, brandName);
-          console.log(data);
           if (data.code == 9999) {
             window.location.href = '/home';
           }
