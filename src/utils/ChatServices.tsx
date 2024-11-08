@@ -1,6 +1,6 @@
-export async function getChatBotResponse(listInput: string[] | undefined) {
+export async function getChatBotResponse(input: string | undefined) {
   const request = {
-    message: listInput,
+    message: input,
   };
 
   const url = process.env.NEXT_PUBLIC_DOMAIN + '/chat/gemini';

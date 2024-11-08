@@ -3,6 +3,7 @@ import { Avatar } from '@mui/material';
 import Image from 'next/image';
 import { useContext, useEffect, useRef } from 'react';
 import { ChatPageContext } from './ChatPage';
+import ResetChat from './ResetChat';
 import TypingIndicator from './TypingIndicator';
 
 export default function ChatDisplay() {
@@ -23,7 +24,7 @@ export default function ChatDisplay() {
   }, [chatPageProps?.userInputs, chatPageProps?.chatBotResponses]);
 
   return (
-    <div className='h-full w-full space-y-9 overflow-y-scroll pb-24 lg:p-24 md:p-24 pt-0'>
+    <div className='h-full w-full space-y-9 overflow-y-scroll pb-24 lg:p-24 md:p-24 pt-0 top-0 lg:-mt-14'>
       <div className='flex flex-col mx-auto dark:text-white text-black'>
         <h1 className='text-3xl font-bold flex mx-auto'>AI ASSISTANT</h1>
         <p className='text-sm italic text-gray-600 flex mx-auto'>
@@ -39,8 +40,11 @@ export default function ChatDisplay() {
               className='lg:mr-5 md:mr-5 flex gap-3'
               messageProps={chatPageProps?.userInputs[_]}
             >
-              <ChatMessage.Text className='dark:text-white ml-auto dark:bg-gray-800 bg-gray-300 text-black font-normal text-lg p-4 rounded-3xl max-w-[50%] break-words' />
-              <ChatMessage.Avatar className='justify-center items-start flex mt-2' />
+              <div className='ml-auto flex max-w-[50%] gap-3'>
+                <ResetChat className='ml-auto flex mt-2' />
+                <ChatMessage.Text className='dark:text-white dark:bg-gray-800 bg-gray-300 text-black font-normal text-lg p-4 rounded-3xl  break-words' />
+                <ChatMessage.Avatar className='justify-center items-start flex mt-2' />
+              </div>
             </ChatMessage>
             {chatPageProps?.chatBotResponses[_] ? (
               <ChatMessage
@@ -49,6 +53,7 @@ export default function ChatDisplay() {
               >
                 <ChatMessage.Avatar className='justify-center items-start flex mt-2' />
                 <ChatMessage.Text className='dark:text-white dark:bg-gray-600 bg-gray-100 text-black font-normal text-lg p-4 rounded-3xl max-w-[50%] break-words' />
+                <ResetChat className='mt-2' />
               </ChatMessage>
             ) : (
               <div className='flex mr-auto gap-6 ml-5'>

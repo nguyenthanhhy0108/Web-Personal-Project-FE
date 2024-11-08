@@ -1,5 +1,6 @@
 'use client';
 
+import { removeFromLocalStorage } from '@/utils/LocalStorageServices';
 import Image from 'next/image';
 
 interface ImageProps {
@@ -9,6 +10,7 @@ interface ImageProps {
 
 export default function Logo({ src, alt }: ImageProps) {
   const handleClick = () => {
+    removeFromLocalStorage('old-url');
     window.location.href = '/home';
   };
 

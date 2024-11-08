@@ -52,7 +52,7 @@ export default function TypingBox() {
         ];
       }
 
-      getChatBotResponse(newInputs.map((input) => input.text))
+      getChatBotResponse(newInputs[newInputs.length - 1].text)
         .then((response) => {
           console.log(response);
           chatPageProps?.setChatBotResponses([
@@ -96,6 +96,8 @@ export default function TypingBox() {
       <button
         onClick={handleSendMessage}
         disabled={chatPageProps?.isWaiting}
+        title='Send Message'
+        type='button'
         className={`ml-2 p-3 dark:bg-blue-700 bg-blue-500 ${chatPageProps?.isWaiting ? 'dark:bg-blue-800 bg-blue-600' : ''} text-white rounded-full dark:hover:bg-blue-800 hover:bg-blue-600`}
       >
         <ArrowUp />
