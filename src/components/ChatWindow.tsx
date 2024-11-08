@@ -25,7 +25,7 @@ export default function ChatWindow() {
   return (
     isDisplay && (
       <button
-        className='fixed lg:flex hidden bottom-4 left-4 z-10 bg-blue-800 text-white rounded-full hover:scale-[1.09] hover:opacity-100 p-5'
+        className='fixed lg:flex hidden bottom-24 right-4 z-10 bg-blue-800 text-white rounded-full hover:scale-[1.09] hover:opacity-100 p-6'
         title='Chat with AI assistant'
         onClick={handleChatClick}
       >
