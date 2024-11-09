@@ -4,7 +4,7 @@ import NavBar from '@/components/NavBar';
 import ScrollToTopButton from '@/components/ScrollToTopButton';
 import AuthenticationProvider from '@/contexts/AuthenticationContext';
 import { ThemeProvider } from '@/contexts/ThemeContext';
-import Protector from '@/protector/Protector';
+import Protector from '@/protect/Protector';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
