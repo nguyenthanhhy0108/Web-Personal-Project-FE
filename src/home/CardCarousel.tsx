@@ -52,6 +52,7 @@ const CardCarousel = ({ cards }: { cards: GivenCards }) => {
                 }`}
               >
                 <CarCard
+                  brandName={card.title}
                   price=''
                   title={card.title}
                   description={card.description}
