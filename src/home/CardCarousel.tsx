@@ -2,7 +2,6 @@
 
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { IconButton } from '@mui/material';
 import { useState } from 'react';
 import CarCard from '../vehicles/Card';
 
@@ -64,35 +63,19 @@ const CardCarousel = ({ cards }: { cards: GivenCards }) => {
         </div>
       </div>
 
-      <IconButton
-        className={`hidden lg:flex absolute top-1/2 left-0 transform -translate-y-1/2 dark:bg-gray-200 dark:text-black bg-transparent text-black hover:bg-gray-600`}
+      <button
+        className={`hidden p-3 rounded-full lg:flex absolute top-1/2 left-0 transform -translate-y-1/2 dark:bg-gray-200 dark:text-black bg-transparent text-black hover:bg-gray-600`}
         onClick={handlePrev}
-        sx={{
-          backgroundColor: 'rgba(0, 0, 0, 0.6)', // Transparent background
-          color: 'white',
-          '&:hover': {
-            backgroundColor: 'rgba(0, 0, 0, 0.8)', // Darker on hover
-          },
-          borderRadius: '50%', // Circular button
-        }}
       >
         <ArrowBackIosIcon />
-      </IconButton>
+      </button>
 
-      <IconButton
-        className='hidden lg:flex absolute top-1/2 right-0 transform -translate-y-1/2 dark:bg-gray-200 dark:text-black bg-transparent text-black hover:bg-gray-600'
+      <button
+        className='hidden p-3 rounded-full lg:flex absolute top-1/2 right-0 transform -translate-y-1/2 dark:bg-gray-200 dark:text-black bg-transparent text-black hover:bg-gray-600'
         onClick={handleNext}
-        sx={{
-          backgroundColor: 'rgba(0, 0, 0, 0.6)',
-          color: 'white',
-          '&:hover': {
-            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-          },
-          borderRadius: '50%',
-        }}
       >
         <ArrowForwardIosIcon />
-      </IconButton>
+      </button>
 
       <div className='lg:flex justify-center mt-4 space-x-2 hidden'>
         {cards
