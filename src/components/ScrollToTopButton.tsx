@@ -51,7 +51,7 @@ const ScrollToTopButton: React.FC = () => {
       {showButton && (
         <button
           onClick={scrollToTop}
-          className='fixed lg:flex hidden bottom-4 right-4 z-50 bg-gray-800 text-white rounded-full opacity-45 hover:opacity-100 p-6'
+          className='fixed lg:flex hidden bottom-24 right-4 z-50 bg-gray-800 text-white rounded-full opacity-45 hover:opacity-100 p-6'
           title='Go to top'
         >
           <ArrowUp className='bg-transparent' />
