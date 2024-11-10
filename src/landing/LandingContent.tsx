@@ -13,7 +13,7 @@ export default function LandingContent() {
         title='Explore'
         type='button'
         onClick={handleExplore}
-        className='bg-white text-black flex items-center justify-between rounded-r-full rounded-l-full gap-6 p-2'
+        className='bg-white text-black flex items-center justify-between rounded-r-full rounded-l-full gap-6 p-2 hover:scale-[1.05] duration-100 transition-all'
       >
         <p className='lg:text-3xl text-xl justify-center flex lg:pl-3 pl-1'>
           Explore the features
