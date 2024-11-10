@@ -16,6 +16,10 @@ export default function ChatWindow() {
     if (pathName == '/chat') {
       setIsDisplay(false);
     }
+
+    if (pathName == '/') {
+      setIsDisplay(false);
+    }
   }, []);
 
   const handleChatClick = () => {
@@ -25,7 +29,7 @@ export default function ChatWindow() {
   return (
     isDisplay && (
       <button
-        className='fixed lg:flex hidden bottom-4 right-4 z-10 bg-blue-800 text-white rounded-full hover:scale-[1.09] hover:opacity-100 p-6'
+        className='fixed lg:flex hidden bottom-4 right-4 z-10 bg-blue-800 text-white opacity-45 rounded-full hover:scale-[1.09] hover:opacity-100 p-6'
         title='Chat with AI assistant'
         onClick={handleChatClick}
       >

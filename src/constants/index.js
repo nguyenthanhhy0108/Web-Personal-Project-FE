@@ -1,4 +1,5 @@
 export const legalAPI = [
+  '/',
   '/auth',
   '/home',
   '/forgot',
@@ -185,29 +186,86 @@ export const accessories = [
   },
 ];
 export const brandLogos = new Map([
-  ['audi', 'https://pluspng.com/img-png/audi-logo-png-audi-logo-eps-pdf-500.png'],
-  ['bmw', 'https://cdn.freebiesupply.com/logos/large/2x/bmw-01-logo-png-transparent.png'],
-  ['ford', 'https://uploads-ssl.webflow.com/60354ef0fd8c3eec37bbd984/6064e6a2e2ca67a95014a126_ford-logo-512x512.png'],
-  ['honda', 'https://www.freeiconspng.com/thumbs/honda-logo-png/honda-logo-png-picture-20.png'],
-  ['hyundai', 'https://www.tsikot.com/assets/frontend/images/make-brands/hyundai-logo.png'],
-  ['jaguar', 'https://logos-world.net/wp-content/uploads/2021/03/Jaguar-Logo-2012-present.png'],
+  [
+    'audi',
+    'https://pluspng.com/img-png/audi-logo-png-audi-logo-eps-pdf-500.png',
+  ],
+  [
+    'bmw',
+    'https://cdn.freebiesupply.com/logos/large/2x/bmw-01-logo-png-transparent.png',
+  ],
+  [
+    'ford',
+    'https://uploads-ssl.webflow.com/60354ef0fd8c3eec37bbd984/6064e6a2e2ca67a95014a126_ford-logo-512x512.png',
+  ],
+  [
+    'honda',
+    'https://www.freeiconspng.com/thumbs/honda-logo-png/honda-logo-png-picture-20.png',
+  ],
+  [
+    'hyundai',
+    'https://www.tsikot.com/assets/frontend/images/make-brands/hyundai-logo.png',
+  ],
+  [
+    'jaguar',
+    'https://logos-world.net/wp-content/uploads/2021/03/Jaguar-Logo-2012-present.png',
+  ],
   ['kia', 'https://logos-world.net/wp-content/uploads/2021/03/Kia-Logo.png'],
-  ['landrover', 'https://i0.wp.com/cruzeauto.com/wp-content/uploads/2018/10/fdd7768ec16652d1f8438fa95f23e96c.png'],
+  [
+    'landrover',
+    'https://i0.wp.com/cruzeauto.com/wp-content/uploads/2018/10/fdd7768ec16652d1f8438fa95f23e96c.png',
+  ],
   ['lexus', 'https://www.pngmart.com/files/22/Lexus-Logo-PNG-HD.png'],
-  ['mazda', 'https://logos-world.net/wp-content/uploads/2020/05/Mazda-Logo.png'],
-  ['mercedes', 'https://thebrakereport.com/wp-content/uploads/2017/07/Mercedes-Benz-Logo-PNG-File.png'],
-  ['mg', 'https://cdn.freebiesupply.com/logos/large/2x/mg-1-logo-png-transparent.png'],
-  ['mini-cooper', 'https://www.tommysautomotive.com/wp-content/uploads/2015/11/Mini-Cooper-Logo.png'],
-  ['mitsubishi', 'https://purepng.com/public/uploads/medium/purepng.com-mitsubishi-logomitsubishimitsubishi-groupmitsubishi-automobilesmitsubishi-logo-1701527515641yceqq.png'],
-  ['nissan', 'https://brandlogos.net/wp-content/uploads/2014/10/nissan-logo-preview.png'],
-  ['peugeot', 'https://www.autobotsrentacar.com/assets/images/gateway/643c7ddf5a6321681685983.png'],
-  ['porsche', 'https://logos-world.net/wp-content/uploads/2021/04/Porsche-Logo.png'],
-  ['subaru', 'https://cdn.officialpsds.com/imageview/72/6n/726nk3_large.png?1235307187'],
+  [
+    'mazda',
+    'https://logos-world.net/wp-content/uploads/2020/05/Mazda-Logo.png',
+  ],
+  [
+    'mercedes',
+    'https://thebrakereport.com/wp-content/uploads/2017/07/Mercedes-Benz-Logo-PNG-File.png',
+  ],
+  [
+    'mg',
+    'https://cdn.freebiesupply.com/logos/large/2x/mg-1-logo-png-transparent.png',
+  ],
+  [
+    'mini-cooper',
+    'https://www.tommysautomotive.com/wp-content/uploads/2015/11/Mini-Cooper-Logo.png',
+  ],
+  [
+    'mitsubishi',
+    'https://purepng.com/public/uploads/medium/purepng.com-mitsubishi-logomitsubishimitsubishi-groupmitsubishi-automobilesmitsubishi-logo-1701527515641yceqq.png',
+  ],
+  [
+    'nissan',
+    'https://brandlogos.net/wp-content/uploads/2014/10/nissan-logo-preview.png',
+  ],
+  [
+    'peugeot',
+    'https://www.autobotsrentacar.com/assets/images/gateway/643c7ddf5a6321681685983.png',
+  ],
+  [
+    'porsche',
+    'https://logos-world.net/wp-content/uploads/2021/04/Porsche-Logo.png',
+  ],
+  [
+    'subaru',
+    'https://cdn.officialpsds.com/imageview/72/6n/726nk3_large.png?1235307187',
+  ],
   ['suzuki', 'https://logospng.org/download/suzuki/logo-suzuki-4096.png'],
   ['toyota', 'https://clipground.com/images/toyota-logo-png-9.png'],
-  ['vinfast', 'https://th.bing.com/th/id/R.6b933f45972d615d6cdfb461493858c9?rik=OhMtQ2%2faqevnSA&riu=http%3a%2f%2fcarlogos.org%2fcar-logos%2fvinfast-logo.png&ehk=0U7ut31%2fd93QmJJErpeWvPGKlCz%2bxftyPoWOtZI%2bITY%3d&risl=&pid=ImgRaw&r=0'],
-  ['volvo', 'https://purepng.com/public/uploads/medium/purepng.com-volvo-logovolvovolvo-carsvolvo-automobilevolvo-stylish-carvolvo-logo-1701527683337qlqmk.png'],
-  ['volkswagen', 'https://logospng.org/download/volkswagen/logo-volkswagen-4096.png'],
+  [
+    'vinfast',
+    'https://th.bing.com/th/id/R.6b933f45972d615d6cdfb461493858c9?rik=OhMtQ2%2faqevnSA&riu=http%3a%2f%2fcarlogos.org%2fcar-logos%2fvinfast-logo.png&ehk=0U7ut31%2fd93QmJJErpeWvPGKlCz%2bxftyPoWOtZI%2bITY%3d&risl=&pid=ImgRaw&r=0',
+  ],
+  [
+    'volvo',
+    'https://purepng.com/public/uploads/medium/purepng.com-volvo-logovolvovolvo-carsvolvo-automobilevolvo-stylish-carvolvo-logo-1701527683337qlqmk.png',
+  ],
+  [
+    'volkswagen',
+    'https://logospng.org/download/volkswagen/logo-volkswagen-4096.png',
+  ],
 ]);
 
 export const brandCountries = new Map([

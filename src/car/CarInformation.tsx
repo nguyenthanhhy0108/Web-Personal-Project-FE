@@ -3,7 +3,11 @@
 import CustomableSnackbar from '@/components/CustomableSnackbar';
 import { brandCountries, brandLogos } from '@/constants';
 import { Vehicle } from '@/constants/interface';
-import { getFromLocalStorage, removeFromLocalStorage, saveToLocalStorage } from '@/utils/LocalStorageServices';
+import {
+  getFromLocalStorage,
+  removeFromLocalStorage,
+  saveToLocalStorage,
+} from '@/utils/LocalStorageServices';
 import { NotInterested } from '@mui/icons-material';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -22,7 +26,6 @@ export default function CarInformation({
   numberOfRemaining,
   vehicleDescription,
 }: Vehicle) {
-
   const [isSnackbarOpened, setIsSnackbarOpened] = useState<boolean>(false);
 
   const handleDepositeClick = () => {
@@ -34,59 +37,67 @@ export default function CarInformation({
   const handleAdd2Favourite = () => {
     setIsSnackbarOpened(true);
 
-    const favouriteList: FavouriteItem[] = getFromLocalStorage("favourite-list");
-    console.log(favouriteList)
+    const favouriteList: FavouriteItem[] =
+      getFromLocalStorage('favourite-list');
+    console.log(favouriteList);
 
     if (!favouriteList) {
-      saveToLocalStorage("favourite-list", [
-        {vehicleName: vehicleName, brandName: brandName}
-      ])
+      saveToLocalStorage('favourite-list', [
+        { vehicleName: vehicleName, brandName: brandName },
+      ]);
     } else {
-      if (favouriteList.some((item: FavouriteItem) => item.vehicleName === vehicleName)) {
-        console.log("Vehicle is already in the favourite list.");
+      if (
+        favouriteList.some(
+          (item: FavouriteItem) => item.vehicleName === vehicleName,
+        )
+      ) {
+        console.log('Vehicle is already in the favourite list.');
         return;
       }
-      const newList = [{vehicleName: vehicleName, brandName: brandName}, ...favouriteList]
-      saveToLocalStorage("favourite-list", newList)
+      const newList = [
+        { vehicleName: vehicleName, brandName: brandName },
+        ...favouriteList,
+      ];
+      saveToLocalStorage('favourite-list', newList);
     }
-  }
+  };
 
   const handleAdd2FavouriteUndo = () => {
     setIsSnackbarOpened(false);
 
-    const favouriteList: FavouriteItem[] = getFromLocalStorage("favourite-list");
-    console.log(favouriteList)
+    const favouriteList: FavouriteItem[] =
+      getFromLocalStorage('favourite-list');
+    console.log(favouriteList);
 
     const newList = favouriteList.map((car) => {
       if (car.vehicleName != vehicleName) {
-        return {vehicleName: car.vehicleName, brandName: car.brandName};
+        return { vehicleName: car.vehicleName, brandName: car.brandName };
       }
-    })
+    });
 
-    console.log(newList)
-    console.log(newList[0])
+    console.log(newList);
+    console.log(newList[0]);
 
     if (newList[0] == undefined) {
-      removeFromLocalStorage("favourite-list");
+      removeFromLocalStorage('favourite-list');
     } else {
-      saveToLocalStorage("favourite-list", newList);
+      saveToLocalStorage('favourite-list', newList);
     }
-  }
+  };
 
   return (
     <div className='dark:text-white text-black w-1/2 pr-16 flex flex-col gap-9 mb-9'>
-      {
-        isSnackbarOpened && 
+      {isSnackbarOpened && (
         <div>
           <CustomableSnackbar
-          isOpened={isSnackbarOpened}
-          mainText='Added to Favourite'
-          setIsOpened={setIsSnackbarOpened}
-          buttonColor='text-red-500'
-          handleUndo={handleAdd2FavouriteUndo}
+            isOpened={isSnackbarOpened}
+            mainText='Added to Favourite'
+            setIsOpened={setIsSnackbarOpened}
+            buttonColor='text-red-500'
+            handleUndo={handleAdd2FavouriteUndo}
           />
         </div>
-      }
+      )}
       <div className='flex flex-col mx-auto gap-3'>
         <h1 className='mx-auto flex text-6xl font-bold text-center'>
           {vehicleName.toUpperCase().toString()}

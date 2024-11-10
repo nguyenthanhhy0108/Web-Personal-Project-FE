@@ -11,7 +11,7 @@ interface ImageProps {
 export default function Logo({ src, alt }: ImageProps) {
   const handleClick = () => {
     removeFromLocalStorage('old-url');
-    window.location.href = '/home';
+    window.location.href = '/';
   };
 
   return (

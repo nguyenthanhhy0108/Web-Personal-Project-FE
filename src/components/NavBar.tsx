@@ -5,7 +5,7 @@ import { ThemeContext } from '@/contexts/ThemeContext';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import ModeNightIcon from '@mui/icons-material/ModeNight';
 import { Menu, X } from 'lucide-react';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import AccountMenu from './AccountMenu';
 import Loading from './Loading';
 import Logo from './Logo';
@@ -18,6 +18,20 @@ export default function NavBar() {
 
   const [isOpen, setIsOpen] = useState(false);
 
+  const [isLandingPage, setIsLandingPage] = useState(false);
+
+  useEffect(() => {
+    const urlString = window.location.toString();
+
+    const url = new URL(urlString);
+
+    console.log(url.pathname);
+
+    if (url.pathname == '/') {
+      setIsLandingPage(true);
+    }
+  }, []);
+
   const toggleNavbar = () => {
     setIsOpen(!isOpen);
   };
@@ -29,12 +43,14 @@ export default function NavBar() {
   }
 
   return (
-    <header className='bg-light-mode text-black dark:bg-dark-mode dark:text-white top-0 flex-wrap z-50 mx-auto flex w-full items-center justify-between dark:border-0 lg:border-2 pb-0'>
+    <header
+      className={`text-black dark:text-white top-0 flex-wrap z-50 mx-auto flex w-full items-center justify-between dark:border-0 lg:border-2 pb-0 ${isLandingPage ? 'bg-transparent absolute top-0 text-white' : 'dark:bg-dark-mode bg-light-mode'}`}
+    >
       <Logo
         src={
-          themeValues.themeMode === 'dark'
-            ? '/images/white-logo.png'
-            : '/images/black-logo.png'
+          themeValues.themeMode === 'white' && isLandingPage == false
+            ? '/images/black-logo.png'
+            : '/images/white-logo.png'
         }
         alt='logo'
       />
@@ -43,10 +59,13 @@ export default function NavBar() {
           <div className='flex gap-6'>
             <NavBarItem title='About' toLink='#' />
             <NavBarItem title='Vehicles' toLink='/vehicles' />
-            <NavBarItem title='Parts' toLink='/parts' />
+            <NavBarItem title='Parts' toLink='#' />
             <NavBarItem title='Contact' toLink='#' />
             {authenticationValues?.isLogin == 'logged-in' && <AccountMenu />}
-            <button onClick={themeValues.toggleThemeButton}>
+            <button
+              className={`${isLandingPage ? 'hidden' : ''}`}
+              onClick={themeValues.toggleThemeButton}
+            >
               {themeValues.themeMode === 'dark' ? (
                 <div className='px-3'>
                   <LightModeIcon />
@@ -60,18 +79,22 @@ export default function NavBar() {
           </div>
         </div>
         <div>
-          <button onClick={toggleNavbar} className='lg:hidden ml-auto'>
+          <button
+            onClick={toggleNavbar}
+            className={`lg:hidden ml-auto ${isLandingPage ? 'hidden' : ''}`}
+          >
             {isOpen ? <X /> : <Menu />}
           </button>
         </div>
       </nav>
       {isOpen && (
-        <div className='flex flex-wrap flex-col items-center justify-center bg-white dark:bg-black dark:text-white w-screen'>
+        <div
+          className={`flex flex-wrap flex-col items-center justify-center bg-white dark:bg-black dark:text-white w-screen ${isLandingPage ? 'hidden' : ''}`}
+        >
           <NavBarItem title='About' toLink='#' />
-          <NavBarItem title='Cars' toLink='#' />
+          <NavBarItem title='Vehicles' toLink='/vehicles' />
           <NavBarItem title='Services' toLink='#' />
           <NavBarItem title='Contact' toLink='#' />
-          <NavBarItem title='News' toLink='#' />
           {authenticationValues?.isLogin == 'logged-in' && <AccountMenu />}
           <button
             className='mb-3 hover:text-blue-900'
