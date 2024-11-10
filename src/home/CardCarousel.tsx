@@ -66,6 +66,7 @@ const CardCarousel = ({ cards }: { cards: GivenCards }) => {
       <button
         className={`hidden p-3 rounded-full lg:flex absolute top-1/2 left-0 transform -translate-y-1/2 dark:bg-gray-200 dark:text-black bg-transparent text-black hover:bg-gray-600`}
         onClick={handlePrev}
+        title='Previous'
       >
         <ArrowBackIosIcon />
       </button>
@@ -73,6 +74,7 @@ const CardCarousel = ({ cards }: { cards: GivenCards }) => {
       <button
         className='hidden p-3 rounded-full lg:flex absolute top-1/2 right-0 transform -translate-y-1/2 dark:bg-gray-200 dark:text-black bg-transparent text-black hover:bg-gray-600'
         onClick={handleNext}
+        title='Next'
       >
         <ArrowForwardIosIcon />
       </button>
